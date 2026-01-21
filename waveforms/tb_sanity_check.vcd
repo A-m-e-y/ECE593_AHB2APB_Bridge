@@ -1,0 +1,375 @@
+$date
+	Wed Jan 21 12:14:51 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_sanity_check $end
+$var wire 2 ! Hresp [1:0] $end
+$var wire 1 " Pwrite $end
+$var wire 32 # Pwdata [31:0] $end
+$var wire 3 $ Pselx [2:0] $end
+$var wire 1 % Penable $end
+$var wire 32 & Paddr [31:0] $end
+$var wire 1 ' Hreadyout $end
+$var wire 32 ( Hrdata [31:0] $end
+$var reg 32 ) Haddr [31:0] $end
+$var reg 1 * Hclk $end
+$var reg 1 + Hreadyin $end
+$var reg 1 , Hresetn $end
+$var reg 2 - Htrans [1:0] $end
+$var reg 32 . Hwdata [31:0] $end
+$var reg 1 / Hwrite $end
+$var reg 32 0 Prdata [31:0] $end
+$scope module dut $end
+$var wire 32 1 Haddr [31:0] $end
+$var wire 1 * Hclk $end
+$var wire 1 + Hreadyin $end
+$var wire 1 , Hresetn $end
+$var wire 2 2 Hresp [1:0] $end
+$var wire 2 3 Htrans [1:0] $end
+$var wire 32 4 Hwdata [31:0] $end
+$var wire 1 / Hwrite $end
+$var wire 32 5 Prdata [31:0] $end
+$var wire 1 6 valid $end
+$var wire 3 7 tempselx [2:0] $end
+$var wire 1 " Pwrite $end
+$var wire 32 8 Pwdata [31:0] $end
+$var wire 3 9 Pselx [2:0] $end
+$var wire 1 % Penable $end
+$var wire 32 : Paddr [31:0] $end
+$var wire 1 ; Hwritereg $end
+$var wire 32 < Hwdata2 [31:0] $end
+$var wire 32 = Hwdata1 [31:0] $end
+$var wire 1 ' Hreadyout $end
+$var wire 32 > Hrdata [31:0] $end
+$var wire 32 ? Haddr2 [31:0] $end
+$var wire 32 @ Haddr1 [31:0] $end
+$scope module AHBSlave $end
+$var wire 32 A Haddr [31:0] $end
+$var wire 1 * Hclk $end
+$var wire 32 B Hrdata [31:0] $end
+$var wire 1 + Hreadyin $end
+$var wire 1 , Hresetn $end
+$var wire 2 C Hresp [1:0] $end
+$var wire 2 D Htrans [1:0] $end
+$var wire 32 E Hwdata [31:0] $end
+$var wire 1 / Hwrite $end
+$var wire 32 F Prdata [31:0] $end
+$var reg 32 G Haddr1 [31:0] $end
+$var reg 32 H Haddr2 [31:0] $end
+$var reg 32 I Hwdata1 [31:0] $end
+$var reg 32 J Hwdata2 [31:0] $end
+$var reg 1 ; Hwritereg $end
+$var reg 3 K tempselx [2:0] $end
+$var reg 1 6 valid $end
+$upscope $end
+$scope module APBControl $end
+$var wire 32 L Haddr [31:0] $end
+$var wire 32 M Haddr1 [31:0] $end
+$var wire 32 N Haddr2 [31:0] $end
+$var wire 1 * Hclk $end
+$var wire 1 , Hresetn $end
+$var wire 32 O Hwdata [31:0] $end
+$var wire 32 P Hwdata1 [31:0] $end
+$var wire 32 Q Hwdata2 [31:0] $end
+$var wire 1 / Hwrite $end
+$var wire 1 ; Hwritereg $end
+$var wire 32 R Prdata [31:0] $end
+$var wire 3 S tempselx [2:0] $end
+$var wire 1 6 valid $end
+$var parameter 3 T ST_IDLE $end
+$var parameter 3 U ST_READ $end
+$var parameter 3 V ST_RENABLE $end
+$var parameter 3 W ST_WENABLE $end
+$var parameter 3 X ST_WENABLEP $end
+$var parameter 3 Y ST_WRITE $end
+$var parameter 3 Z ST_WRITEP $end
+$var parameter 3 [ ST_WWAIT $end
+$var reg 1 ' Hreadyout $end
+$var reg 1 \ Hreadyout_temp $end
+$var reg 3 ] NEXT_STATE [2:0] $end
+$var reg 3 ^ PRESENT_STATE [2:0] $end
+$var reg 32 _ Paddr [31:0] $end
+$var reg 32 ` Paddr_temp [31:0] $end
+$var reg 1 % Penable $end
+$var reg 1 a Penable_temp $end
+$var reg 3 b Pselx [2:0] $end
+$var reg 3 c Pselx_temp [2:0] $end
+$var reg 32 d Pwdata [31:0] $end
+$var reg 32 e Pwdata_temp [31:0] $end
+$var reg 1 " Pwrite $end
+$var reg 1 f Pwrite_temp $end
+$scope begin NEXT_STATE_LOGIC $end
+$upscope $end
+$scope begin OUTPUT_COMBINATIONAL_LOGIC $end
+$scope begin IDLE_TO_IDLE $end
+$upscope $end
+$scope begin IDLE_TO_READ $end
+$upscope $end
+$scope begin IDLE_TO_WWAIT $end
+$upscope $end
+$scope begin READ_TO_RENABLE $end
+$upscope $end
+$scope begin RENABLE_TO_IDLE $end
+$upscope $end
+$scope begin RENABLE_TO_READ $end
+$upscope $end
+$scope begin RENABLE_TO_WWAIT $end
+$upscope $end
+$scope begin WAIT_TO_WRITE $end
+$upscope $end
+$scope begin WAIT_TO_WRITEP $end
+$upscope $end
+$scope begin WENABLEP_TO_WRITEP $end
+$upscope $end
+$scope begin WENABLEP_TO_WRITE_OR_READ $end
+$upscope $end
+$scope begin WENABLE_TO_IDLE $end
+$upscope $end
+$scope begin WENABLE_TO_WAIT_OR_READ $end
+$upscope $end
+$scope begin WRITEP_TO_WENABLEP $end
+$upscope $end
+$scope begin WRITE_TO_WENABLE $end
+$upscope $end
+$scope begin WRITE_TO_WENABLEP $end
+$upscope $end
+$upscope $end
+$scope begin PRESENT_STATE_LOGIC $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1 [
+b100 Z
+b11 Y
+b111 X
+b110 W
+b101 V
+b10 U
+b0 T
+$end
+#0
+$dumpvars
+xf
+bx e
+bx d
+bx c
+bx b
+xa
+bx `
+bx _
+bx ^
+b0 ]
+x\
+b0 S
+bx R
+bx Q
+bx P
+b0 O
+bx N
+bx M
+b0 L
+b0 K
+bx J
+bx I
+bx H
+bx G
+bx F
+b0 E
+b0 D
+b0 C
+bx B
+b0 A
+bx @
+bx ?
+bx >
+bx =
+bx <
+x;
+bx :
+bx 9
+bx 8
+b0 7
+06
+bx 5
+b0 4
+b0 3
+b0 2
+b0 1
+bx 0
+0/
+b0 .
+b0 -
+0,
+1+
+0*
+b0 )
+bx (
+x'
+bx &
+x%
+bx $
+bx #
+x"
+b0 !
+$end
+#5000
+1\
+0a
+b0 c
+b0 ^
+b0 ?
+b0 H
+b0 N
+b0 @
+b0 G
+b0 M
+b0 <
+b0 J
+b0 Q
+b0 =
+b0 I
+b0 P
+0;
+0'
+0%
+b0 #
+b0 8
+b0 d
+b0 $
+b0 9
+b0 b
+0"
+b0 &
+b0 :
+b0 _
+1*
+#10000
+0*
+#15000
+1*
+#16000
+1,
+#20000
+0*
+#25000
+1'
+bx #
+bx 8
+bx d
+x"
+bx &
+bx :
+bx _
+1*
+#26000
+b1 ]
+b1 7
+b1 K
+b1 S
+16
+b10000000000000000000000000000100 )
+b10000000000000000000000000000100 1
+b10000000000000000000000000000100 A
+b10000000000000000000000000000100 L
+b10 -
+b10 3
+b10 D
+1/
+#30000
+0*
+#35000
+b100 ]
+0\
+b0 e
+b1 c
+1f
+b10000000000000000000000000000100 `
+b1 ^
+1;
+b10000000000000000000000000000100 @
+b10000000000000000000000000000100 G
+b10000000000000000000000000000100 M
+1*
+#36000
+b11 ]
+b10100101101001010101101001011010 e
+06
+b10100101101001010101101001011010 .
+b10100101101001010101101001011010 4
+b10100101101001010101101001011010 E
+b10100101101001010101101001011010 O
+b0 -
+b0 3
+b0 D
+#40000
+0*
+#45000
+b110 ]
+1\
+1a
+b11 ^
+b10000000000000000000000000000100 ?
+b10000000000000000000000000000100 H
+b10000000000000000000000000000100 N
+b10100101101001010101101001011010 =
+b10100101101001010101101001011010 I
+b10100101101001010101101001011010 P
+0'
+b10100101101001010101101001011010 #
+b10100101101001010101101001011010 8
+b10100101101001010101101001011010 d
+b1 $
+b1 9
+b1 b
+1"
+b10000000000000000000000000000100 &
+b10000000000000000000000000000100 :
+b10000000000000000000000000000100 _
+1*
+#50000
+0*
+#55000
+0\
+0a
+b0 c
+b0 ]
+b110 ^
+1'
+1%
+b10100101101001010101101001011010 <
+b10100101101001010101101001011010 J
+b10100101101001010101101001011010 Q
+1*
+#60000
+0*
+#65000
+1\
+b0 ^
+0'
+0%
+b0 $
+b0 9
+b0 b
+1*
+#70000
+0*
+#75000
+1'
+1*
+#80000
+0*
+#85000
+1*
+#90000
+0*
+#95000
+1*

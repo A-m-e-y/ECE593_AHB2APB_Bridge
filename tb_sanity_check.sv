@@ -11,6 +11,7 @@ module tb_sanity_check;
   reg [31:0] Haddr;
   reg [31:0] Prdata;
 
+  //APB signals
   wire       Penable;
   wire       Pwrite;
   wire       Hreadyout;

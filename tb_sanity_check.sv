@@ -73,8 +73,14 @@ module tb_sanity_check;
 
     @(posedge Hclk);
     #1;
-    Htrans = 2'b00; // IDLE
+    Htrans = 2'b10; // IDLE
     Hwdata = 32'hA5A5_5A5A;
+    Haddr    = 32'h8000_00FF; // valid range: 0x8000_0000 - 0x83FF_FFFF
+
+    @(posedge Hclk);
+    #1;
+    Htrans = 2'b00; // IDLE
+    Hwdata = 32'hDEAD_DEAD;
 
     // allow APB side to complete
     repeat (6) @(posedge Hclk);

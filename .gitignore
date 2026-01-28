@@ -1,6 +1,10 @@
 # Prerequisites
 *.d
 
+# Amey Added
+copilot.md
+waveforms/
+
 # Object files
 *.o
 *.ko

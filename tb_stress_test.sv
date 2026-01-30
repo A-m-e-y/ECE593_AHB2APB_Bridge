@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module tb_sanity_check;
+module tb_stress_test;
   // Clock signals
   reg        Hclk;
   reg        Pclk;
@@ -53,8 +53,8 @@ module tb_sanity_check;
   always #10 Pclk = ~Pclk;
 
   initial begin
-    $dumpfile("waveforms/tb_sanity_check.vcd");
-    $dumpvars(0, tb_sanity_check);
+    $dumpfile("waveforms/tb_stress_test.vcd");
+    $dumpvars(0, tb_stress_test);
   end
 
   initial begin
@@ -72,48 +72,106 @@ module tb_sanity_check;
     repeat (2) @(posedge Hclk);
     #1 Hresetn = 1'b1;
 
-    // Write transactions
+    // One AHB write transaction to valid APB slave 0 range
     wait (Hreadyout == 1'b1);
     @(posedge Hclk);
     #1;
     Hwrite   = 1'b1;
-    Htrans = 2'b10; // NONSEQ
-    Haddr    = 32'h8000_0054; // addr1
-    wait (Hreadyout == 1'b1);
-    @(posedge Hclk);
-    #1;
-    Hwdata = 32'h8000_0054; // data1
-        
-    wait (Hreadyout == 1'b1);
-    @(posedge Hclk);
-    #1;
-    Htrans = 2'b10; // NONSEQ
-    Haddr    = 32'h8000_0058; // addr2
-    wait (Hreadyout == 1'b1);
-    @(posedge Hclk);
-    #1;
-    Hwdata = 32'h8000_0058; // data2
-        
+    Htrans   = 2'b10; // NONSEQ
+    Haddr    = 32'h8000_0011; // addr1
+    Hreadyin = 1'b1;
+
     wait (Hreadyout == 1'b1);
     @(posedge Hclk);
     #1;
     Htrans = 2'b10; // NONSEQ
-    Haddr    = 32'h8000_005C; // addr3
+    Hwdata = 32'h8000_0011; // data1
+    Haddr    = 32'h8000_0022; // addr2
+
     wait (Hreadyout == 1'b1);
     @(posedge Hclk);
     #1;
-    Hwdata = 32'h8000_005C; // data3
+    Htrans = 2'b10; // NONSEQ
+    Hwdata = 32'h8000_0022; // data2
+    Haddr    = 32'h8000_0033; // addr3
+
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Htrans = 2'b10; // NONSEQ
+    Hwdata = 32'h8000_0033; // data3
+    Haddr    = 32'h8000_0044; // addr4
+
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Htrans = 2'b10; // NONSEQ
+    Hwdata = 32'h8000_0044; // data4
+    Haddr    = 32'h8000_0055; // addr5
+
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Htrans = 2'b00; // IDLE
+    Hwdata = 32'hDEAD_DEAD;
+
+    wait (Hreadyout == 1'b1);
+    repeat (6) @(posedge Hclk);
+
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Htrans = 2'b10; // NONSEQ
+    Haddr    = 32'h8000_0050; // addr6
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Hwdata = 32'h8000_0077; // data6
     
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Htrans = 2'b11; // SEQ
+    Haddr    = 32'h8000_0054; // addr7
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Hwdata = 32'h8000_0088; // data7
+        
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Htrans = 2'b11; // SEQ
+    Haddr    = 32'h8000_0058; // addr8
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Hwdata = 32'h8000_0099; // data8
+        
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Htrans = 2'b11; // SEQ
+    Haddr    = 32'h8000_005C; // addr9
+    wait (Hreadyout == 1'b1);
+    @(posedge Hclk);
+    #1;
+    Hwdata = 32'h8000_00AA; // data9
+    
+    // wait (Hreadyout == 1'b1);
+    // @(posedge Hclk);
+    // #1;
+    // Htrans = 2'b00; // IDLE
+    // Hwdata = 32'hDEAD_DEAD; // data10
     
     wait (Hreadyout == 1'b1);
     repeat (6) @(posedge Hclk);
 
-    // Read transaction
     wait (Hreadyout == 1'b1);
     @(posedge Hclk);
     #1;
     Htrans = 2'b10; // NONSEQ
-    Haddr    = 32'h8000_00AA; // addr4
+    Haddr    = 32'h8000_00AA; // addr11
     Hwrite   = 1'b0;
     wait (Paddr == Haddr && Pwrite == 1'b0);
     Prdata  = 32'h1234_5678; // read data

@@ -4,6 +4,11 @@
 # Amey Added
 copilot.md
 waveforms/
+simv.daidir/
+simv
+ucli.key
+csrc/
+*.docx
 
 # Object files
 *.o

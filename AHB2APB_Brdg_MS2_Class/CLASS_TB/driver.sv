@@ -20,35 +20,34 @@ class driver;
             $display("[%0t] DRIVER: Driving transaction - Haddr=0x%0h Hwrite=%0b Htrans=%0b", 
                      $time, txn.Haddr, txn.Hwrite, txn.Htrans);
             
-            // Wait for DUT ready before driving address phase
+            // EXACT pattern from traditional TB
+            // Address Phase
             wait(vif.Hreadyout == 1'b1);
             @(posedge vif.clk);
-            #1;  // Small delta delay after clock edge
-            
-            vif.Haddr = txn.Haddr;
+            #1;
             vif.Hwrite = txn.Hwrite;
             vif.Htrans = txn.Htrans;
+            vif.Haddr = txn.Haddr;
             vif.Hreadyin = 1'b1;
             
+            // Data Phase
+            wait(vif.Hreadyout == 1'b1);
+            @(posedge vif.clk);
+            #1;
             if (txn.Hwrite) begin
-                // Write operation: drive data phase
+                vif.Hwdata = txn.Hwdata;
+                // Wait for APB transaction to complete  
                 wait(vif.Hreadyout == 1'b1);
                 @(posedge vif.clk);
                 #1;
-                vif.Hwdata = txn.Hwdata;
+                // De-assert Htrans to IDLE to allow FSM to cycle
+                vif.Htrans = 2'b00;
             end else begin
-                // Read operation: simulate APB slave response
-                // Wait for APB side to initiate read
+                // For reads, wait for APB transaction and provide Prdata
                 wait(vif.Paddr == txn.Haddr && vif.Pwrite == 1'b0);
-                #1;
-                // Drive Prdata to simulate APB slave returning data
-                vif.Prdata = $urandom();  // Random data for now
-                $display("[%0t] DRIVER: Simulating APB slave - Prdata=0x%0h", $time, vif.Prdata);
+                vif.Prdata = $urandom();
+                $display("[%0t] DRIVER: Providing Prdata=0x%0h for read", $time, vif.Prdata);
             end
-            
-            // Wait for transaction to complete
-            wait(vif.Hreadyout == 1'b1);
-            @(posedge vif.clk);
         end
     endtask
 

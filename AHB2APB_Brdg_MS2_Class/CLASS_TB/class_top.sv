@@ -49,6 +49,12 @@ module ahb_apb_top;
 
   // Test instantiation and execution
   test main_test;
+  
+  // Debug: Monitor FSM state and Penable in Hclk domain
+  always @(posedge Hclk) begin
+    if (dut.APBControl.Penable_temp)
+      $display("[%0t] FSM_DEBUG: state=%0d Penable_temp=1", $time, dut.APBControl.PRESENT_STATE);
+  end
 
   initial begin
     $dumpfile("tb_class_top.vcd");
@@ -78,6 +84,14 @@ module ahb_apb_top;
     wait(bfm.Hreadyout == 1'b1);
     repeat(2) @(posedge Hclk);
     
+    // **CRITICAL FIX**: Synchronize with Pclk to ensure CDC timing alignment
+    // The CDC synchronizer needs Penable_hclk pulses to align with Pclk edges
+    // Wait for Pclk negedge, then posedge to ensure we start at a known Pclk phase
+    @(negedge Pclk);
+    @(posedge Pclk);
+    @(posedge Hclk);  // Then sync to Hclk
+    $display("[%0t] Synchronized with both clocks", $time);
+    
     // Create and run test
     main_test = new(bfm);
     main_test.run();
@@ -98,6 +112,14 @@ module ahb_apb_top;
     $display("   TIMEOUT: Simulation exceeded 100us");
     $display("========================================\n");
     $finish;
+  end
+
+  // APB Signal Monitor (for debugging) - Monitor on Hclk to match traditional TB
+  always @(posedge Hclk) begin
+    if (bfm.Pselx != 3'b000) begin
+      $display("[%0t] APB: sel=%b addr=%h write=%b enable=%b wdata=%h rdata=%h", 
+               $time, bfm.Pselx, bfm.Paddr, bfm.Pwrite, bfm.Penable, bfm.Pwdata, bfm.Prdata);
+    end
   end
 
 endmodule

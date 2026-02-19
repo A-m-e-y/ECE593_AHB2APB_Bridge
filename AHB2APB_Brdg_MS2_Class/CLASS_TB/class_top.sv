@@ -66,11 +66,15 @@ module ahb_apb_top;
     bfm.Hwrite = 0;
     bfm.Hreadyin = 1;
     bfm.Htrans = 2'b00;
+    bfm.Hsize = 3'b010;
+    bfm.Hburst = 3'b000;
     bfm.Hwdata = 0;
     bfm.Haddr = 0;
     bfm.Prdata = 0;  // Initialize APB read data
     
     // Initialize reset (using pattern from traditional TB)
+    resetn = 1;
+    @(posedge Hclk);
     resetn = 0;
     repeat(2) @(posedge Hclk);
     #1 resetn = 1;
@@ -88,7 +92,7 @@ module ahb_apb_top;
     @(posedge Hclk);  // Then sync to Hclk
     $display("[%0t] Synchronized with both clocks", $time);
     
-    // Create and run test
+    // Create and run all tests
     main_test = new(bfm);
     main_test.run();
     
@@ -104,12 +108,13 @@ module ahb_apb_top;
     $finish;
   end
 
-  // Watchdog timer
+  // Watchdog timer - increase for all tests running
   initial begin
-    #100000;
+    #500000;  // 500us timeout for all tests
     $display("\n========================================");
-    $display("   TIMEOUT: Simulation exceeded 100us");
+    $display("   TIMEOUT: Simulation exceeded 500us");
     $display("========================================\n");
+    dut.cov_inst.display_coverage();  // Show coverage even on timeout
     $finish;
   end
 

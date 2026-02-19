@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Author" content="<username>"> <meta name="GENERATOR" content="urg/version [en] (platform name) [urg]">
+<title>Unified Coverage Report :: Group :: ahb_apb_top.dut.cov_inst::cg_cdc</title>
+<link type="text/css" rel="stylesheet" href="css/.urg.css">
+<link type="text/css" rel="stylesheet" href="css/.layout.css">
+<link type="text/css" rel="stylesheet" href="css/.breadcrumb.css">
+<script type="text/javascript" src="js/.jquery.js"></script>
+<script type="text/javascript" src="js/.jquery-ui.js"></script>
+<script type="text/javascript" src="js/.sortable.js"></script>
+<script type="text/javascript" src="js/.layout.js"></script>
+<script type="text/javascript" src="js/.breadcrumb.js"></script>
+<script type="text/javascript">
+var layout, westLayout, centerLayout;
+$(document).ready(function () {
+  if ($("#north-bread-crumb")) {
+    $("#north-bread-crumb").jBreadCrumb({easing:'swing'})
+  }
+  layout = $("body").layout({ 
+    resizable: true,
+    spacing_open: 4,
+    spacing_closed: 4,
+    north: {
+      size: 76
+    },
+    south: {
+      size: 45,
+      initClosed: true
+    },
+    west: {
+      size: 500,
+      resizable: true,
+      initClosed: false
+    }
+  });
+  centerLayout = $('div.ui-layout-center').layout({
+    north__paneSelector: ".ui-layout-center-inner-north",
+    center__paneSelector: ".ui-layout-center-inner-center", 
+    north__size: 50,
+    spacing_open: 4,
+    spacing_closed: 4
+  });
+});
+</script>
+</head>
+<body onLoad="initPage();"><div class="ui-layout-north">
+<div class="logo"></div>
+<center class="pagetitle">Group : ahb_apb_top.dut.cov_inst::cg_cdc</center>
+<div align="center"><a href="dashboard.html" ><b>dashboard</b></a> | <a href="hierarchy.html" ><b>hierarchy</b></a> | <a href="modlist.html" ><b>modlist</b></a> | <a href="groups.html" ><b>groups</b></a> | <a href="tests.html" ><b>tests</b></a> | asserts</div>
+
+</div>
+<div class="ui-layout-west">
+<div>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Group : <a href="#"  onclick="showContent('ahb_apb_top.dut.cov_inst::cg_cdc')">ahb_apb_top.dut.cov_inst::cg_cdc</a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td><b>SCORE</b></td><td>INSTANCES</td><td>WEIGHT</td><td>GOAL</td><td>AT LEAST</td><td>PER INSTANCE</td><td>AUTO BIN MAX</td><td>PRINT MISSING</td></tr><tr>
+<td class="s10 cl rt">100.00</td>
+<td class="s10 cl rt">100.00</td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">100   </td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">64    </td>
+<td class="wht cl rt">64    </td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Source File(s) : </span>
+<br clear=all>
+<a href="file:///u/ameyk/ECE593_Codes/ECE593_AHB2APB_Bridge/AHB2APB_Brdg_MS2_Class/coverage.sv" >/u/ameyk/ECE593_Codes/ECE593_AHB2APB_Bridge/AHB2APB_Brdg_MS2_Class/coverage.sv</a><br clear=all>
+<br clear=all>
+<span class=repname>1 Instances:</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td><b>SCORE</b></td><td>WEIGHT</td><td>GOAL</td><td>AT LEAST</td><td>AUTO BIN MAX</td><td>PRINT MISSING</td></tr><tr>
+<td class="wht cl wordwrap"><a href="grp7.html#inst_tag_cdc_coverage"  onclick="showContent('cdc_coverage')">cdc_coverage</a></td>
+<td class="s10 cl rt">100.00</td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">100   </td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">64    </td>
+<td class="wht cl rt">64    </td>
+</tr></table><br clear=all>
+<br clear=all>
+</div>
+<hr>
+<br clear=all>
+<span class=repname>Summary for Group   ahb_apb_top.dut.cov_inst::cg_cdc
+</span>
+<br clear=all>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td><a href="#var_tbl_ahb_apb_top.dut.cov_inst::cg_cdc" >Variables</a></td>
+<td class="rt">11</td>
+<td class="rt">0</td>
+<td class="rt">11</td>
+<td class="rt">100.00</td>
+</tr><tr class="s10">
+<td><a href="#crs_tbl_ahb_apb_top.dut.cov_inst::cg_cdc" >Crosses</a></td>
+<td class="rt">8</td>
+<td class="rt">0</td>
+<td class="rt">8</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class="repname" id="var_tbl_ahb_apb_top.dut.cov_inst::cg_cdc">Variables for Group  ahb_apb_top.dut.cov_inst::cg_cdc
+</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">VARIABLE</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>GOAL</td><td>WEIGHT</td><td>AT LEAST</td><td>AUTO BIN MAX</td><td>COMMENT</td></tr><tr class="s10">
+<td><a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cp_penable_trans"  onclick="checkLink(this)" target="detailFrame">cp_penable_trans</a></td>
+<td class="rt">4</td>
+<td class="rt">0</td>
+<td class="rt">4</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cp_pselx_change"  onclick="checkLink(this)" target="detailFrame">cp_pselx_change</a></td>
+<td class="rt">5</td>
+<td class="rt">0</td>
+<td class="rt">5</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.Pwrite"  onclick="checkLink(this)" target="detailFrame">Pwrite</a></td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">2</td>
+<td></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class="repname" id="crs_tbl_ahb_apb_top.dut.cov_inst::cg_cdc">Crosses for Group  ahb_apb_top.dut.cov_inst::cg_cdc
+</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CROSS</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>GOAL</td><td>WEIGHT</td><td>AT LEAST</td><td>PRINT MISSING</td><td>COMMENT</td></tr><tr class="s10">
+<td><a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cx_penable_pwrite"  onclick="checkLink(this)" target="detailFrame">cx_penable_pwrite</a></td>
+<td class="rt">8</td>
+<td class="rt">0</td>
+<td class="rt">8</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr></table><br clear=all>
+</div>
+<div name='cdc_coverage'>
+<a name="inst_tag_cdc_coverage"></a>
+<hr>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Group Instance : <a href="groups.html#tag_cdc_coverage" >cdc_coverage</a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td><b>SCORE</b></td><td>WEIGHT</td><td>GOAL</td><td>AT LEAST</td><td>AUTO BIN MAX</td><td>PRINT MISSING</td></tr><tr>
+<td class="s10 cl rt">100.00</td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">100   </td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">64    </td>
+<td class="wht cl rt">64    </td>
+</tr></table><br clear=all>
+<br clear=all>
+</div>
+<hr>
+<br clear=all>
+<span class=repname>Summary for Group Instance   cdc_coverage
+</span>
+<br clear=all>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td><a href="#var_tbl_cdc_coverage" >Variables</a></td>
+<td class="rt">11</td>
+<td class="rt">0</td>
+<td class="rt">11</td>
+<td class="rt">100.00</td>
+</tr><tr class="s10">
+<td><a href="#crs_tbl_cdc_coverage" >Crosses</a></td>
+<td class="rt">8</td>
+<td class="rt">0</td>
+<td class="rt">8</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class="repname" id="var_tbl_cdc_coverage">Variables for Group Instance  cdc_coverage
+</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">VARIABLE</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>GOAL</td><td>WEIGHT</td><td>AT LEAST</td><td>AUTO BIN MAX</td><td>COMMENT</td></tr><tr class="s10">
+<td><a href="#inst_tag_cdc_coverage.cp_penable_trans"  onclick="checkLink(this)" target="detailFrame">cp_penable_trans</a></td>
+<td class="rt">4</td>
+<td class="rt">0</td>
+<td class="rt">4</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_cdc_coverage.cp_pselx_change"  onclick="checkLink(this)" target="detailFrame">cp_pselx_change</a></td>
+<td class="rt">5</td>
+<td class="rt">0</td>
+<td class="rt">5</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_cdc_coverage.Pwrite"  onclick="checkLink(this)" target="detailFrame">Pwrite</a></td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">2</td>
+<td></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class="repname" id="crs_tbl_cdc_coverage">Crosses for Group Instance  cdc_coverage
+</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CROSS</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>GOAL</td><td>WEIGHT</td><td>AT LEAST</td><td>PRINT MISSING</td><td>COMMENT</td></tr><tr class="s10">
+<td><a href="#inst_tag_cdc_coverage.cx_penable_pwrite"  onclick="checkLink(this)" target="detailFrame">cx_penable_pwrite</a></td>
+<td class="rt">8</td>
+<td class="rt">0</td>
+<td class="rt">8</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr></table><br clear=all>
+</div>
+</div>
+<div class="ui-layout-center">
+<div class="ui-layout-center-inner-center">
+<div name='ahb_apb_top.dut.cov_inst::cg_cdc'>
+<br clear=all>
+<a name="inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cp_penable_trans"></a><span class="repname" id="inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cp_penable_trans">Summary for Variable cp_penable_trans</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">4</td>
+<td class="rt">0</td>
+<td class="rt">4</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_penable_trans</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>stay_low</td>
+<td class="rt">19244</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>stay_high</td>
+<td class="rt">1679</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>high_to_low</td>
+<td class="rt">534</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>low_to_high</td>
+<td class="rt">534</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cp_pselx_change"></a><span class="repname" id="inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cp_pselx_change">Summary for Variable cp_pselx_change</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">5</td>
+<td class="rt">0</td>
+<td class="rt">5</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_pselx_change</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>slave_change</td>
+<td class="rt">429</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave_to_none</td>
+<td class="rt">797</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>none_to_slave2</td>
+<td class="rt">256</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>none_to_slave1</td>
+<td class="rt">269</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>none_to_slave0</td>
+<td class="rt">272</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.Pwrite"></a><span class="repname" id="inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.Pwrite">Summary for Variable Pwrite</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>Automatically Generated Bins</td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Automatically Generated Bins for Pwrite</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>auto[0]</td>
+<td class="rt">15576</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>auto[1]</td>
+<td class="rt">6410</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cx_penable_pwrite"></a><span class="repname" id="inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cx_penable_pwrite">Summary for Cross cx_penable_pwrite</span>
+<br clear=all>
+<br clear=all>
+Samples crossed: cp_penable_trans Pwrite<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>MISSING</td></tr><tr class="s10">
+<td>Automatically Generated Cross Bins</td>
+<td class="rt">8</td>
+<td class="rt">0</td>
+<td class="rt">8</td>
+<td class="rt">100.00</td>
+<td></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Automatically Generated Cross Bins for cx_penable_pwrite</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">cp_penable_trans</td><td class="alfsrt">Pwrite</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>stay_high</td>
+<td>auto[0]</td>
+<td class="rt">704</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>stay_high</td>
+<td>auto[1]</td>
+<td class="rt">975</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>low_to_high</td>
+<td>auto[0]</td>
+<td class="rt">318</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>low_to_high</td>
+<td>auto[1]</td>
+<td class="rt">216</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>stay_low</td>
+<td>auto[0]</td>
+<td class="rt">14042</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>stay_low</td>
+<td>auto[1]</td>
+<td class="rt">5196</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>high_to_low</td>
+<td>auto[0]</td>
+<td class="rt">511</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>high_to_low</td>
+<td>auto[1]</td>
+<td class="rt">23</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+</div>
+<div name='cdc_coverage'>
+<br clear=all>
+<a name="inst_tag_cdc_coverage.cp_penable_trans"></a><span class="repname" id="inst_tag_cdc_coverage.cp_penable_trans">Summary for Variable cp_penable_trans</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">4</td>
+<td class="rt">0</td>
+<td class="rt">4</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_penable_trans</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>stay_low</td>
+<td class="rt">19244</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>stay_high</td>
+<td class="rt">1679</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>high_to_low</td>
+<td class="rt">534</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>low_to_high</td>
+<td class="rt">534</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_cdc_coverage.cp_pselx_change"></a><span class="repname" id="inst_tag_cdc_coverage.cp_pselx_change">Summary for Variable cp_pselx_change</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">5</td>
+<td class="rt">0</td>
+<td class="rt">5</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_pselx_change</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>slave_change</td>
+<td class="rt">429</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave_to_none</td>
+<td class="rt">797</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>none_to_slave2</td>
+<td class="rt">256</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>none_to_slave1</td>
+<td class="rt">269</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>none_to_slave0</td>
+<td class="rt">272</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_cdc_coverage.Pwrite"></a><span class="repname" id="inst_tag_cdc_coverage.Pwrite">Summary for Variable Pwrite</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>Automatically Generated Bins</td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Automatically Generated Bins for Pwrite</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>auto[0]</td>
+<td class="rt">15576</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>auto[1]</td>
+<td class="rt">6410</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_cdc_coverage.cx_penable_pwrite"></a><span class="repname" id="inst_tag_cdc_coverage.cx_penable_pwrite">Summary for Cross cx_penable_pwrite</span>
+<br clear=all>
+<br clear=all>
+Samples crossed: cp_penable_trans Pwrite<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>MISSING</td></tr><tr class="s10">
+<td>Automatically Generated Cross Bins</td>
+<td class="rt">8</td>
+<td class="rt">0</td>
+<td class="rt">8</td>
+<td class="rt">100.00</td>
+<td></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Automatically Generated Cross Bins for cx_penable_pwrite</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">cp_penable_trans</td><td class="alfsrt">Pwrite</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>stay_high</td>
+<td>auto[0]</td>
+<td class="rt">704</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>stay_high</td>
+<td>auto[1]</td>
+<td class="rt">975</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>low_to_high</td>
+<td>auto[0]</td>
+<td class="rt">318</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>low_to_high</td>
+<td>auto[1]</td>
+<td class="rt">216</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>stay_low</td>
+<td>auto[0]</td>
+<td class="rt">14042</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>stay_low</td>
+<td>auto[1]</td>
+<td class="rt">5196</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>high_to_low</td>
+<td>auto[0]</td>
+<td class="rt">511</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>high_to_low</td>
+<td>auto[1]</td>
+<td class="rt">23</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<div class="ui-layout-center-inner-north">
+<div id="center-bread-crumb" class="breadCrumb module urg-margin-bottom">
+  <ul name="ahb_apb_top.dut.cov_inst::cg_cdc">
+    <li>
+      <a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cp_penable_trans">Variable : cp_penable_trans</a>    </li>
+    <li>
+      <a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cp_pselx_change">Variable : cp_pselx_change</a>    </li>
+    <li>
+      <a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.Pwrite">Variable : Pwrite</a>    </li>
+    <li>
+      <a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_cdc.cx_penable_pwrite">Cross : cx_penable_pwrite</a>    </li>
+  </ul>
+  <ul name="cdc_coverage">
+    <li>
+      <a href="#inst_tag_cdc_coverage.cp_penable_trans">Variable : cp_penable_trans</a>    </li>
+    <li>
+      <a href="#inst_tag_cdc_coverage.cp_pselx_change">Variable : cp_pselx_change</a>    </li>
+    <li>
+      <a href="#inst_tag_cdc_coverage.Pwrite">Variable : Pwrite</a>    </li>
+    <li>
+      <a href="#inst_tag_cdc_coverage.cx_penable_pwrite">Cross : cx_penable_pwrite</a>    </li>
+  </ul>
+</div>
+</div>
+</div>
+<div class="ui-layout-south">
+<table align=center><tr><td class="s0 cl">0%</td>
+<td class="s1 cl">10%</td>
+<td class="s2 cl">20%</td>
+<td class="s3 cl">30%</td>
+<td class="s4 cl">40%</td>
+<td class="s5 cl">50%</td>
+<td class="s6 cl">60%</td>
+<td class="s7 cl">70%</td>
+<td class="s8 cl">80%</td>
+<td class="s9 cl">90%</td>
+<td class="s10 cl">100%</td></tr></table></div>
+</body>
+</html>

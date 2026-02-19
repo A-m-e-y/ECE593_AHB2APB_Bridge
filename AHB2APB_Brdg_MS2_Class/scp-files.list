@@ -3,3 +3,5 @@
 run_vcs.sh
 Makefile
 filelist.f
+coverage_exclude.cfg
+exclusions.el

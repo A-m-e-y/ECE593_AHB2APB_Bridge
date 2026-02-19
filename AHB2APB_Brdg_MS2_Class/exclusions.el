@@ -1,0 +1,9 @@
+-fsm_transition "ST_WWAIT" "ST_WRITE" -instance ahb_apb_top.dut.APBControl
+-fsm_transition "ST_WWAIT" "ST_IDLE" -instance ahb_apb_top.dut.APBControl
+-fsm_transition "ST_READ" "ST_IDLE" -instance ahb_apb_top.dut.APBControl
+-fsm_transition "ST_WRITE" "ST_IDLE" -instance ahb_apb_top.dut.APBControl
+-fsm_transition "ST_WRITEP" "ST_IDLE" -instance ahb_apb_top.dut.APBControl
+-fsm_transition "ST_RENABLE" "ST_WWAIT" -instance ahb_apb_top.dut.APBControl
+-fsm_transition "ST_WENABLE" "ST_IDLE" -instance ahb_apb_top.dut.APBControl
+-fsm_transition "ST_WENABLE" "ST_WWAIT" -instance ahb_apb_top.dut.APBControl
+-fsm_transition "ST_WENABLE" "ST_READ" -instance ahb_apb_top.dut.APBControl

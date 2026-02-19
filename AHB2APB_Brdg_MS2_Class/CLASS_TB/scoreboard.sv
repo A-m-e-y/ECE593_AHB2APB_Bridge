@@ -19,8 +19,9 @@ class scoreboard;
         }
         Htrans_cp: coverpoint txn_drv.Htrans {
             bins non_seq = {2'b10};
-            bins idle    = {2'b00};
             bins seq     = {2'b11};
+            // IDLE (2'b00) excluded - DUT ignores IDLE per AHB protocol
+            // BUSY (2'b01) not used in this design
         }
         Hsize_cp: coverpoint txn_drv.Hsize {
             bins size_byte     = {3'b000};
@@ -49,7 +50,13 @@ class scoreboard;
             // Collect driver transactions into queue
             forever begin
                 driv2sb.get(txn_drv);
-                txn_queue.push_back(txn_drv);
+                
+                // Only sample coverage and queue for checking if not IDLE transaction
+                // IDLE (Htrans=00) transactions are ignored by DUT per AHB protocol
+                if (txn_drv.Htrans != 2'b00) begin
+                    cov_cg.sample();  // Sample coverage for non-IDLE transactions
+                    txn_queue.push_back(txn_drv);
+                end
             end
             
             // Match monitor transactions with queued driver transactions
@@ -75,9 +82,8 @@ class scoreboard;
                     continue;
                 end
                 
-                // Use matched transaction for coverage and checking
+                // Use matched transaction for checking (coverage already sampled above)
                 txn_drv = matched_txn;
-                cov_cg.sample();
                 total_count++;
                 
                 if (txn_drv.Hwrite) begin

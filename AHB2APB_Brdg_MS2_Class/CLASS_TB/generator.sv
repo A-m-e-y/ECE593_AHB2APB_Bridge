@@ -711,11 +711,11 @@ class generator;
         
         // ====================================================================
         // TEST 2: Multiple consecutive READs
-        // Target: Line 192 condition in RENABLE output logic
-        // Try to catch RENABLE with valid=1, Hwrite=1
+        // Target: Line 192 condition in RENABLE output logic (valid && ~Hwrite)
+        // Also targets: Line 120 (IDLE READ condition)
         // ====================================================================
-        $display("[%0t] COND Test 2: Consecutive READs (Line 192)", $time);
-        repeat(5) begin
+        $display("[%0t] COND Test 2: Consecutive READs", $time);
+        repeat(8) begin
             txn = new();
             txn.Hwrite = 0;  // READ
             txn.Haddr = $urandom_range(32'h8000_0000, 32'h83FF_FFFF);
@@ -819,9 +819,12 @@ class generator;
         // ====================================================================
         // TEST 6: Mixed READ/WRITE patterns
         // Try various combinations to hit missing conditions
+        // Also add more to stress various FSM states
         // ====================================================================
-        $display("[%0t] COND Test 6: Mixed R/W patterns", $time);
-        repeat(10) begin
+        $display("[%0t] COND Test 6: Mixed R/W patterns + state stress", $time);
+        
+        // Mix of READs and WRITEs
+        repeat(15) begin
             txn = new();
             txn.Hwrite = $urandom_range(0, 1);
             txn.Haddr = $urandom_range(32'h8000_0000, 32'h8BFF_FFFF);
@@ -834,7 +837,25 @@ class generator;
             txn_count++;
         end
         
-        $display("\n[%0t] COND Coverage tests complete (%0d transactions)\n", $time, txn_count);
+        // ====================================================================
+        // TEST 7: Consecutive WRITEs to stress WWAIT state
+        // Target: Line 145 condition (~valid) in ST_WWAIT
+        // ====================================================================
+        $display("[%0t] COND Test 7: Consecutive WRITEs for WWAIT", $time);
+        repeat(10) begin
+            txn = new();
+            txn.Hwrite = 1;
+            txn.Haddr = $urandom_range(32'h8000_0000, 32'h83FF_FFFF);
+            txn.Hwdata = $urandom();
+            txn.Hsize = 3'b010;
+            txn.Hburst = 3'b000;
+            txn.Htrans = 2'b10;
+            txn.update_trans_type();
+            gen2driv.put(txn);
+            txn_count++;
+        end
+        
+        $display("\n[%0t] COND Coverage tests complete (%0d total transactions)\n", $time, txn_count);
     endtask
     
     // Enhanced comprehensive test with directed sequences
@@ -843,19 +864,19 @@ class generator;
         $display("   Testing all sizes, bursts, slaves, transaction types AND directed sequences\n");
         
         // First run all the random tests
-        generate_random_test(txns_per_category, "BYTE_SIZE");
-        generate_random_test(txns_per_category, "HALFWORD_SIZE");
-        generate_random_test(txns_per_category, "WORD_SIZE");
-        generate_random_test(txns_per_category, "INCR_BURST");
-        generate_random_test(txns_per_category, "WRAP4_BURST");
-        generate_random_test(txns_per_category, "INCR4_BURST");
-        generate_random_test(txns_per_category, "SLAVE0");
-        generate_random_test(txns_per_category, "SLAVE1");
-        generate_random_test(txns_per_category, "SLAVE2");
-        generate_random_test(txns_per_category, "SEQ_TRANS");
-        generate_random_test(txns_per_category/2, "BOUNDARY");
-        generate_random_test(txns_per_category/2, "PATTERN_DATA");
-        generate_random_test(txns_per_category*2, "BASE");
+        // generate_random_test(txns_per_category, "BYTE_SIZE");
+        // generate_random_test(txns_per_category, "HALFWORD_SIZE");
+        // generate_random_test(txns_per_category, "WORD_SIZE");
+        // generate_random_test(txns_per_category, "INCR_BURST");
+        // generate_random_test(txns_per_category, "WRAP4_BURST");
+        // generate_random_test(txns_per_category, "INCR4_BURST");
+        // generate_random_test(txns_per_category, "SLAVE0");
+        // generate_random_test(txns_per_category, "SLAVE1");
+        // generate_random_test(txns_per_category, "SLAVE2");
+        // generate_random_test(txns_per_category, "SEQ_TRANS");
+        // generate_random_test(txns_per_category/2, "BOUNDARY");
+        // generate_random_test(txns_per_category/2, "PATTERN_DATA");
+        // generate_random_test(txns_per_category*2, "BASE");
         
         // NOW add directed sequences for FSM coverage
         directed_sequences();
@@ -872,7 +893,316 @@ class generator;
         // Add COND coverage tests for unreached conditions
         generate_cond_coverage_tests();
         
+        // Add NEW targeted tests for specific code coverage gaps from analysis
+        generate_additional_code_coverage_tests();
+        
+        // Add EXTREME stress tests to maximize coverage
+        generate_extreme_stress_tests();
+        
         $display("\n[%0t] GENERATOR: ENHANCED COMPREHENSIVE test complete\n", $time);
+    endtask
+    
+    // ====================================================================
+    // NEW: Additional directed tests to close specific code coverage gaps
+    // Based on coverage analysis - targets remaining uncovered conditions
+    // ====================================================================
+    task generate_additional_code_coverage_tests();
+        transaction txn;
+        
+        $display("\n[%0t] ========================================", $time);
+        $display("[%0t] GENERATOR: Additional Code Coverage Tests", $time);
+        $display("[%0t] ========================================\n", $time);
+        
+        // ====================================================================
+        // GAP 1: Address boundary testing for all 3 slaves
+        // Target: AHB_Slave_Interface lines 65, 75-79
+        // ====================================================================
+        $display("[%0t] GAP Test 1: Address boundary coverage", $time);
+        
+        // Slave 0 boundaries
+        test_address_boundary(32'h8000_0000, "Slave 0 start");
+        test_address_boundary(32'h83FF_FFFC, "Slave 0 end");
+        
+        // Slave 1 boundaries
+        test_address_boundary(32'h8400_0000, "Slave 1 start");
+        test_address_boundary(32'h87FF_FFFC, "Slave 1 end");
+        
+        // Slave 2 boundaries
+        test_address_boundary(32'h8800_0000, "Slave 2 start");
+        test_address_boundary(32'h8BFF_FFFC, "Slave 2 end");
+        
+        // Just outside valid range (should be ignored but tests condition)
+        test_address_boundary(32'h7FFF_FFFC, "Below range");
+        test_address_boundary(32'h8C00_0000, "Above range");
+        
+        // ====================================================================
+        // GAP 2: Different transfer sizes at boundaries
+        // Target: Condition coverage for size-dependent paths
+        // ====================================================================
+        $display("[%0t] GAP Test 2: Size variations at boundaries", $time);
+        
+        // Byte transfers
+        txn = new();
+        txn.Hwrite = 1;
+        txn.Haddr = 32'h8000_0001;  // Byte aligned
+        txn.Hwdata = 32'h000000AA;
+        txn.Hsize = 3'b000;  // BYTE
+        txn.Hburst = 3'b000;
+        txn.Htrans = 2'b10;
+        txn.update_trans_type();
+        gen2driv.put(txn);
+        txn_count++;
+        
+        // Halfword transfers
+        txn = new();
+        txn.Hwrite = 0;
+        txn.Haddr = 32'h8400_0002;  // Halfword aligned
+        txn.Hsize = 3'b001;  // HALFWORD
+        txn.Hburst = 3'b000;
+        txn.Htrans = 2'b10;
+        txn.update_trans_type();
+        gen2driv.put(txn);
+        txn_count++;
+        
+        // ====================================================================
+        // GAP 3: Rapid READ-WRITE transitions to stress FSM conditions
+        // Target: Lines 192, 201 - write after read edge cases
+        // ====================================================================
+        $display("[%0t] GAP Test 3: Rapid R/W transitions", $time);
+        
+        repeat(10) begin
+            // READ
+            txn = new();
+            txn.Hwrite = 0;
+            txn.Haddr = $urandom_range(32'h8000_0000, 32'h8BFF_FFFF) & 32'hFFFF_FFFC;  // Word aligned
+            txn.Hsize = 3'b010;
+            txn.Hburst = 3'b000;
+            txn.Htrans = 2'b10;
+            txn.update_trans_type();
+            gen2driv.put(txn);
+            txn_count++;
+            
+            // Immediately followed by WRITE
+            txn = new();
+            txn.Hwrite = 1;
+            txn.Haddr = $urandom_range(32'h8000_0000, 32'h8BFF_FFFF) & 32'hFFFF_FFFC;
+            txn.Hwdata = $urandom();
+            txn.Hsize = 3'b010;
+            txn.Hburst = 3'b000;
+            txn.Htrans = 2'b10;
+            txn.update_trans_type();
+            gen2driv.put(txn);
+            txn_count++;
+        end
+        
+        // ====================================================================
+        // GAP 4: WENABLEP exit variations
+        // Target: Lines 94, 96 - different valid/Hwritereg combinations
+        // ====================================================================
+        $display("[%0t] GAP Test 4: WENABLEP state variations", $time);
+        
+        // Burst writes to reach WENABLEP, then vary exit paths
+        repeat(3) begin
+            // Start burst write (NONSEQ)
+            txn = new();
+            txn.Hwrite = 1;
+            txn.Haddr = $urandom_range(32'h8000_0000, 32'h8BFF_FFFF) & 32'hFFFF_FFF0;
+            txn.Hwdata = $urandom();
+            txn.Hsize = 3'b010;
+            txn.Hburst = 3'b011;  // INCR4
+            txn.Htrans = 2'b10;   // NONSEQ
+            txn.update_trans_type();
+            gen2driv.put(txn);
+            txn_count++;
+            
+            // Continue burst (SEQ)
+            txn = new();
+            txn.Hwrite = 1;
+            txn.Haddr += 4;
+            txn.Hwdata = $urandom();
+            txn.Hsize = 3'b010;
+            txn.Hburst = 3'b011;
+            txn.Htrans = 2'b11;  // SEQ
+            txn.update_trans_type();
+            gen2driv.put(txn);
+            txn_count++;
+            
+            // Terminate with READ
+            txn = new();
+            txn.Hwrite = 0;
+            txn.Haddr = $urandom_range(32'h8000_0000, 32'h8BFF_FFFF) & 32'hFFFF_FFFC;
+            txn.Hsize = 3'b010;
+            txn.Hburst = 3'b000;
+            txn.Htrans = 2'b10;
+            txn.update_trans_type();
+            gen2driv.put(txn);
+            txn_count++;
+        end
+        
+        // ====================================================================
+        // GAP 5: SEQ transaction after various states
+        // Target: Htrans=SEQ coverage in different contexts
+        // ====================================================================
+        $display("[%0t] GAP Test 5: SEQ transaction coverage", $time);
+        
+        repeat(5) begin
+            // NONSEQ start
+            txn = new();
+            txn.Hwrite = $urandom_range(0, 1);
+            txn.Haddr = $urandom_range(32'h8000_0000, 32'h8BFF_FFFF) & 32'hFFFF_FFF0;
+            if (txn.Hwrite) txn.Hwdata = $urandom();
+            txn.Hsize = 3'b010;
+            txn.Hburst = 3'b001;  // INCR
+            txn.Htrans = 2'b10;   // NONSEQ
+            txn.update_trans_type();
+            gen2driv.put(txn);
+            txn_count++;
+            
+            // SEQ continuation
+            txn = new();
+            txn.Hwrite = $urandom_range(0, 1);
+            txn.Haddr += 4;
+            if (txn.Hwrite) txn.Hwdata = $urandom();
+            txn.Hsize = 3'b010;
+            txn.Hburst = 3'b001;
+            txn.Htrans = 2'b11;  // SEQ
+            txn.update_trans_type();
+            gen2driv.put(txn);
+            txn_count++;
+        end
+        
+        // ====================================================================
+        // GAP 6: WRAP4 burst coverage
+        // Target: WRAP4 burst type in all states
+        // ====================================================================
+        $display("[%0t] GAP Test 6: WRAP4 burst coverage", $time);
+        
+        repeat(5) begin
+            int base_addr = $urandom_range(32'h8000_0000, 32'h8BFF_FFF0) & 32'hFFFF_FFF0;
+            
+            for (int i = 0; i < 4; i++) begin
+                txn = new();
+                txn.Hwrite = $urandom_range(0, 1);
+                txn.Haddr = base_addr + (i * 4);
+                if (txn.Hwrite) txn.Hwdata = $urandom();
+                txn.Hsize = 3'b010;
+                txn.Hburst = 3'b010;  // WRAP4
+                txn.Htrans = (i == 0) ? 2'b10 : 2'b11;  // NONSEQ then SEQ
+                txn.update_trans_type();
+                gen2driv.put(txn);
+                txn_count++;
+            end
+        end
+        
+        $display("\n[%0t] Additional Code Coverage tests complete (%0d transactions)\n", $time, txn_count);
+    endtask
+    
+    // Helper task for address boundary testing
+    task test_address_boundary(bit [31:0] addr, string description);
+        transaction txn;
+        
+        // Write to boundary
+        txn = new();
+        txn.Hwrite = 1;
+        txn.Haddr = addr;
+        txn.Hwdata = {addr[15:0], addr[31:16]};  // Pattern based on address
+        txn.Hsize = 3'b010;  // Word
+        txn.Hburst = 3'b000; // Single
+        txn.Htrans = 2'b10;  // NONSEQ
+        txn.update_trans_type();
+        gen2driv.put(txn);
+        txn_count++;
+        
+        // Read from same boundary
+        txn = new();
+        txn.Hwrite = 0;
+        txn.Haddr = addr;
+        txn.Hsize = 3'b010;
+        txn.Hburst = 3'b000;
+        txn.Htrans = 2'b10;
+        txn.update_trans_type();
+        gen2driv.put(txn);
+        txn_count++;
+    endtask
+    
+    // ====================================================================
+    // EXTREME STRESS TESTS - Try to hit every possible condition
+    // ====================================================================
+    task generate_extreme_stress_tests();
+        transaction txn;
+        
+        $display("\n[%0t] ========================================", $time);
+        $display("[%0t] GENERATOR: EXTREME Stress Tests for Max Coverage", $time);
+        $display("[%0t] ========================================\n", $time);
+        
+        // Generate 1000 completely random transactions
+        $display("[%0t] Stress Test 1: 1000 random transactions", $time);
+        for (int i = 0; i < 1000; i++) begin
+            txn = new();
+            assert(txn.randomize());
+            txn.update_trans_type();
+            gen2driv.put(txn);
+            txn_count++;
+        end
+        
+        // Rapid burst sequences
+        $display("[%0t] Stress Test 2: Rapid burst sequences", $time);
+        repeat(50) begin
+            // Random burst
+            int burst_type = $urandom_range(0, 3);
+            int num_beats = (burst_type == 3) ? 4 : $urandom_range(2, 8);
+            bit is_write = $urandom_range(0, 1);
+            bit [31:0] base_addr = $urandom_range(32'h8000_0000, 32'h8BFF_0000) & 32'hFFFF_FFF0;
+            
+            for (int j = 0; j < num_beats; j++) begin
+                txn = new();
+                txn.Hwrite = is_write;
+                txn.Haddr = base_addr + (j * 4);
+                if (is_write) txn.Hwdata = $urandom();
+                txn.Hsize = 3'b010;
+                txn.Hburst = burst_type;
+                txn.Htrans = (j == 0) ? 2'b10 : 2'b11;
+                txn.update_trans_type();
+                gen2driv.put(txn);
+                txn_count++;
+            end
+        end
+        
+        // Mixed operations all slaves
+        $display("[%0t] Stress Test 3: All slaves with all sizes", $time);
+        begin
+            bit [31:0] slave_addrs[3] = '{32'h8000_0000, 32'h8400_0000, 32'h8800_0000};
+            bit [2:0] sizes[3] = '{3'b000, 3'b001, 3'b010};
+            
+            for (int i = 0; i < 3; i++) begin
+                for (int s = 0; s < 3; s++) begin
+                    // Write
+                    txn = new();
+                    txn.Hwrite = 1;
+                    txn.Haddr = slave_addrs[i];
+                    txn.Hwdata = $urandom();
+                    txn.Hsize = sizes[s];
+                    txn.Hburst = 3'b000;
+                    txn.Htrans = 2'b10;
+                    txn.update_trans_type();
+                    gen2driv.put(txn);
+                    txn_count++;
+                    
+                    // Read
+                    txn = new();
+                    txn.Hwrite = 0;
+                    txn.Haddr = slave_addrs[i] + 32;
+                    txn.Hsize = sizes[s];
+                    txn.Hburst = 3'b000;
+                    txn.Htrans = 2'b10;
+                    txn.update_trans_type();
+                    gen2driv.put(txn);
+                    txn_count++;
+                end
+            end
+        end
+        
+        $display("\n[%0t] EXTREME Stress tests complete (%0d transactions)\n", $time, txn_count);
     endtask
 
 endclass

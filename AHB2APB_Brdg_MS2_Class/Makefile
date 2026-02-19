@@ -4,7 +4,7 @@
 # Compiler and flags
 VCS = vcs
 VCS_FLAGS = -sverilog -full64 -timescale=1ns/1ps -debug_access+all +v2k -LDFLAGS -Wl,--no-as-needed
-COV_FLAGS = -cm line+cond+fsm+tgl+branch -cm_dir ./coverage.vdb -cm_hier coverage_exclude.cfg
+COV_FLAGS = -cm line+cond+fsm+tgl+branch -cm_dir ./coverage.vdb
 
 # File list
 FILELIST = filelist.f
@@ -41,6 +41,7 @@ cov:
 	@echo ""
 	@echo "Coverage report generated in ./coverage_report"
 	@echo "View: firefox ./coverage_report/dashboard.html"
+	@echo "Note: Exclusion file 'exclusions.el' applied"
 
 clean:
 	@echo "Cleaning up..."

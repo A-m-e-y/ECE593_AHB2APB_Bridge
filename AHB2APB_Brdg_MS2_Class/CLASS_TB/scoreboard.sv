@@ -3,7 +3,7 @@ class scoreboard;
 
     transaction txn_drv;
     transaction txn_mon;
-    transaction txn_queue[$];  // Queue to hold driver transactions
+    transaction txn_queue[$];
     mailbox #(transaction) driv2sb;
     mailbox #(transaction) mon2sb;
     
@@ -11,7 +11,7 @@ class scoreboard;
     int read_count = 0;
     int total_count = 0;
 
-    // Coverage group for functional coverage
+    // functional coverage
     covergroup cov_cg;
         Hwrite_cp: coverpoint txn_drv.Hwrite {
             bins read  = {1'b0};
@@ -20,8 +20,6 @@ class scoreboard;
         Htrans_cp: coverpoint txn_drv.Htrans {
             bins non_seq = {2'b10};
             bins seq     = {2'b11};
-            // IDLE (2'b00) excluded - DUT ignores IDLE per AHB protocol
-            // BUSY (2'b01) not used in this design
         }
         Hsize_cp: coverpoint txn_drv.Hsize {
             bins size_byte     = {3'b000};
@@ -47,26 +45,25 @@ class scoreboard;
 
     task check_data();
         fork
-            // Collect driver transactions into queue
+            // collect driver txns
             forever begin
                 driv2sb.get(txn_drv);
                 
-                // Only sample coverage and queue for checking if not IDLE transaction
-                // IDLE (Htrans=00) transactions are ignored by DUT per AHB protocol
+                // skip IDLE - DUT ignores them
                 if (txn_drv.Htrans != 2'b00) begin
-                    cov_cg.sample();  // Sample coverage for non-IDLE transactions
+                    cov_cg.sample();
                     txn_queue.push_back(txn_drv);
                 end
             end
             
-            // Match monitor transactions with queued driver transactions
+            // match with monitor
             forever begin
                 transaction matched_txn;
                 int found = 0;
                 
                 mon2sb.get(txn_mon);
                 
-                // Find matching transaction in queue by address
+                // find matching addr
                 for (int i = 0; i < txn_queue.size(); i++) begin
                     if (txn_queue[i].Haddr == txn_mon.Paddr) begin
                         matched_txn = txn_queue[i];
@@ -77,34 +74,31 @@ class scoreboard;
                 end
                 
                 if (!found) begin
-                    $display("[%0t]   ✗ Checker ERROR: No matching AHB transaction for APB addr(0x%0h)", 
+                    $display("[%0t]   FAIL - Checker ERROR: No matching AHB transaction for APB addr(0x%0h)", 
                              $time, txn_mon.Paddr);
                     continue;
                 end
                 
-                // Use matched transaction for checking (coverage already sampled above)
                 txn_drv = matched_txn;
                 total_count++;
                 
                 if (txn_drv.Hwrite) begin
                     write_count++;
                     
-                    // Check address and data translation
                     if (txn_drv.Haddr == txn_mon.Paddr && txn_drv.Hwdata == txn_mon.Pwdata) begin
-                        $display("[%0t]   ✓ Checker: AHB→APB translation OK", $time);
+                        $display("[%0t]   PASS - Checker: AHB→APB translation OK", $time);
                     end else begin
-                        $display("[%0t]   ✗ Checker ERROR: AHB(0x%0h/0x%0h) != APB(0x%0h/0x%0h)", 
+                        $display("[%0t]   FAIL - Checker ERROR: AHB(0x%0h/0x%0h) != APB(0x%0h/0x%0h)", 
                                  $time, txn_drv.Haddr, txn_drv.Hwdata, txn_mon.Paddr, txn_mon.Pwdata);
                     end
                 end else begin
                     read_count++;
                     
-                    // Check address translation and show APB read data
                     if (txn_drv.Haddr == txn_mon.Paddr) begin
-                        $display("[%0t]   ✓ Checker: AHB→APB addr OK, APB Read Data=0x%0h", 
+                        $display("[%0t]   PASS - Checker: AHB→APB addr OK, APB Read Data=0x%0h", 
                                  $time, txn_mon.Prdata);
                     end else begin
-                        $display("[%0t]   ✗ Checker ERROR: AHB addr(0x%0h) != APB addr(0x%0h)", 
+                        $display("[%0t]   FAIL - Checker ERROR: AHB addr(0x%0h) != APB addr(0x%0h)", 
                                  $time, txn_drv.Haddr, txn_mon.Paddr);
                     end
                 end

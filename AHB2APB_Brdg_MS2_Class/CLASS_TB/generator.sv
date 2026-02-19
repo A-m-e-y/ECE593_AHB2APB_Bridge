@@ -4,22 +4,20 @@ class generator;
     transaction txn;             
     mailbox #(transaction) gen2driv;
     
-    int txn_count = 0;  // Track number of transactions generated
+    int txn_count = 0;
 
     function new(mailbox #(transaction) gen2driv);
         this.gen2driv = gen2driv;
     endfunction
     
-    // ========== DIRECTED TESTS (Original Sanity) ==========
-    
-    // Simple write transaction
+    // simple write
     task write_single(bit [31:0] addr, bit [31:0] data);
         txn = new();
         txn.Haddr = addr;
         txn.Hwrite = 1;
-        txn.Hsize = 3'b010;  // Word
-        txn.Hburst = 3'b000; // Single
-        txn.Htrans = 2'b10;  // NONSEQ
+        txn.Hsize = 3'b010;
+        txn.Hburst = 3'b000;
+        txn.Htrans = 2'b10;
         txn.Hwdata = data;
         txn.Hreadyin = 1;
         txn.update_trans_type();
@@ -27,40 +25,35 @@ class generator;
         txn_count++;
     endtask
 
-    // Simple read transaction
+    // simple read
     task read_single(bit [31:0] addr);
         txn = new();
         txn.Haddr = addr;
         txn.Hwrite = 0;
-        txn.Hsize = 3'b010;  // Word
-        txn.Hburst = 3'b000; // Single
-        txn.Htrans = 2'b10;  // NONSEQ
+        txn.Hsize = 3'b010;
+        txn.Hburst = 3'b000;
+        txn.Htrans = 2'b10;
         txn.Hreadyin = 1;
-        txn.Prdata  = 32'h1234_5678; // read data
+        txn.Prdata  = 32'h1234_5678;
         txn.update_trans_type();
         gen2driv.put(txn);
         txn_count++;
     endtask
 
-    // Sanity test - matches traditional TB (keep for regression)
+    // sanity test
     task sanity_test();
         $display("[%0t] GENERATOR: Starting sanity test (4 transactions)\n", $time);
         txn_count = 0;
         
-        // Three writes
         write_single(32'h8000_0054, 32'h8000_0054);
         write_single(32'h8000_0058, 32'h8000_0058);
         write_single(32'h8000_005C, 32'h8000_005C);
-        
-        // One read
         read_single(32'h8000_00AA);
         
         $display("\n[%0t] GENERATOR: Stimulus generation complete (%0d transactions)", $time, txn_count);
     endtask
     
-    // ========== RANDOMIZED TESTS WITH CONSTRAINTS ==========
-    
-    // Generate N random transactions with specific constraint class
+    // random test generator
     task generate_random_test(int num_txns, string test_type = "BASE");
         transaction rand_txn;
         
@@ -68,38 +61,24 @@ class generator;
         txn_count = 0;
         
         for (int i = 0; i < num_txns; i++) begin
-            // Create transaction based on test type (polymorphism/upcasting)
+            // Create transaction based on test type
             case (test_type)
                 "WRITE_ONLY":    rand_txn = write_txn::new();
                 "READ_ONLY":     rand_txn = read_txn::new();
-                "BYTE_SIZE":     rand_txn = byte_txn::new();
-                "HALFWORD_SIZE": rand_txn = halfword_txn::new();
-                "WORD_SIZE":     rand_txn = word_txn::new();
-                "INCR_BURST":    rand_txn = incr_burst_txn::new();
-                "WRAP4_BURST":   rand_txn = wrap4_burst_txn::new();
-                "INCR4_BURST":   rand_txn = incr4_burst_txn::new();
-                "SLAVE0":        rand_txn = slave0_txn::new();
-                "SLAVE1":        rand_txn = slave1_txn::new();
-                "SLAVE2":        rand_txn = slave2_txn::new();
                 "SEQ_TRANS":     rand_txn = seq_txn::new();
                 "NONSEQ_TRANS":  rand_txn = nonseq_txn::new();
-                "BOUNDARY":      rand_txn = boundary_addr_txn::new();
-                "PATTERN_DATA":  rand_txn = pattern_data_txn::new();
-                default:         rand_txn = transaction::new();  // Base random
+                default:         rand_txn = transaction::new();
             endcase
             
-            // Randomize the transaction
             if (!rand_txn.randomize()) begin
                 $error("[%0t] GENERATOR: Randomization failed for transaction %0d!", $time, i);
                 continue;
             end
             
-            // Update transaction type and send
             rand_txn.update_trans_type();
             gen2driv.put(rand_txn);
             txn_count++;
             
-            // Debug: Print occasional transactions
             if (i < 3 || i == num_txns-1) begin
                 $display("[%0t]   Gen txn[%0d]: %s addr=0x%h size=%0d burst=%0d trans=%0d", 
                          $time, i, rand_txn.trans_type.name(), rand_txn.Haddr, 
@@ -111,7 +90,7 @@ class generator;
                  $time, test_type, txn_count);
     endtask
     
-    // Mixed random test with all slaves
+    // multi-slave test
     task generate_multi_slave_test(int num_txns);
         transaction rand_txn;
         slave0_txn s0_txn;
@@ -122,7 +101,7 @@ class generator;
         txn_count = 0;
         
         for (int i = 0; i < num_txns; i++) begin
-            // Distribute evenly across 3 slaves
+            // round-robin across slaves
             case (i % 3)
                 0: begin
                     s0_txn = slave0_txn::new();
@@ -149,14 +128,14 @@ class generator;
         $display("\n[%0t] GENERATOR: MULTI-SLAVE test complete (%0d transactions)\n", $time, txn_count);
     endtask
     
-    // Directed sequence tests for FSM transition coverage
+    // directed FSM tests
     task directed_sequences();
         transaction txn;
         
         $display("[%0t] GENERATOR: Starting directed sequences for FSM coverage\n", $time);
         txn_count = 0;
         
-        // === Sequence 1: Complete WRITE sequence (IDLE→WWAIT→WRITE→WENABLE→IDLE) ===
+        // write seq
         $display("[%0t]   Directed: WRITE sequence", $time);
         txn = new();
         txn.Haddr = 32'h8000_1000;
@@ -170,7 +149,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Sequence 2: Complete READ sequence (IDLE→READ→RENABLE→IDLE) ===
+        // read seq
         $display("[%0t]   Directed: READ sequence", $time);
         txn = new();
         txn.Haddr = 32'h8000_1004;
@@ -183,7 +162,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Sequence 3: WRITE then READ (wenable_to_read) ===
+        // WRITE then READ (wenable_to_read) ===
         $display("[%0t]   Directed: WRITE→READ sequence", $time);
         txn = new();
         txn.Haddr = 32'h8000_2000;
@@ -197,7 +176,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Immediately follow with READ
+        
         txn = new();
         txn.Haddr = 32'h8000_2004;
         txn.Hwrite = 0;
@@ -209,7 +188,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Sequence 4: READ then WRITE (renable_to_wwait) ===
+        // READ then WRITE (renable_to_wwait) ===
         $display("[%0t]   Directed: READ→WRITE sequence", $time);
         txn = new();
         txn.Haddr = 32'h8000_3000;
@@ -222,7 +201,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Immediately follow with WRITE
+        
         txn = new();
         txn.Haddr = 32'h8000_3004;
         txn.Hwrite = 1;
@@ -235,7 +214,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Sequence 5: WRITE after WRITE (wenable_to_wwait) ===
+        // WRITE after WRITE (wenable_to_wwait) ===
         $display("[%0t]   Directed: WRITE→WRITE sequence", $time);
         txn = new();
         txn.Haddr = 32'h8000_4000;
@@ -249,7 +228,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Another WRITE
+        
         txn = new();
         txn.Haddr = 32'h8000_4004;
         txn.Hwrite = 1;
@@ -262,7 +241,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Sequence 6: Non-pipelined single WRITE (wwait_to_write) ===
+        // Non-pipelined single WRITE (wwait_to_write) ===
         $display("[%0t]   Directed: Simple WRITE (non-pipelined)", $time);
         txn = new();
         txn.Haddr = 32'h8000_5000;
@@ -286,7 +265,7 @@ class generator;
         $display("[%0t] GENERATOR: Starting FSM GAP tests (with IDLE cycles)\n", $time);
         txn_count = 0;
         
-        // === Test 1: WWAIT→WRITE (requires valid=0 after WWAIT) ===
+        // WWAIT→WRITE (requires valid=0 after WWAIT) ===
         $display("[%0t]   Gap Test: WWAIT→WRITE transition", $time);
         txn = new();
         txn.Haddr = 32'h8000_A000;
@@ -300,7 +279,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Insert IDLE to force valid=0
+        
         txn = new();
         txn.Htrans = 2'b00;  // IDLE
         txn.Hreadyin = 1;
@@ -308,7 +287,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Test 2: WRITE→WENABLE (requires valid=0) ===
+        // WRITE→WENABLE (requires valid=0) ===
         $display("[%0t]   Gap Test: WRITE→WENABLE transition", $time);
         txn = new();
         txn.Haddr = 32'h8000_B000;
@@ -322,7 +301,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Insert IDLE
+        
         txn = new();
         txn.Htrans = 2'b00;
         txn.Hreadyin = 1;
@@ -330,7 +309,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Test 3: WENABLE→IDLE (requires valid=0 after write completes) ===
+        // WENABLE→IDLE (requires valid=0 after write completes) ===
         $display("[%0t]   Gap Test: WENABLE→IDLE transition", $time);
         txn = new();
         txn.Haddr = 32'h8000_C000;
@@ -344,13 +323,6 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Insert multiple IDLEs to ensure WENABLE→IDLE
-        txn = new();
-        txn.Htrans = 2'b00;
-        txn.Hreadyin = 1;
-        txn.update_trans_type();
-        gen2driv.put(txn);
-        txn_count++;
         
         txn = new();
         txn.Htrans = 2'b00;
@@ -359,7 +331,14 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Test 4: RENABLE→IDLE (requires valid=0 after read completes) ===
+        txn = new();
+        txn.Htrans = 2'b00;
+        txn.Hreadyin = 1;
+        txn.update_trans_type();
+        gen2driv.put(txn);
+        txn_count++;
+        
+        // RENABLE→IDLE (requires valid=0 after read completes) ===
         $display("[%0t]   Gap Test: RENABLE→IDLE transition", $time);
         txn = new();
         txn.Haddr = 32'h8000_D000;
@@ -372,7 +351,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Insert IDLE
+        
         txn = new();
         txn.Htrans = 2'b00;
         txn.Hreadyin = 1;
@@ -380,9 +359,9 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Test 5: WENABLEP→WRITE (valid=0 && Hwritereg) ===
+        // WENABLEP→WRITE (valid=0 && Hwritereg) ===
         $display("[%0t]   Gap Test: WENABLEP→WRITE transition", $time);
-        // First do a pipelined write to get to WENABLEP
+        
         txn = new();
         txn.Haddr = 32'h8000_E000;
         txn.Hwrite = 1;
@@ -395,7 +374,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Follow with another WRITE (creates WENABLEP)
+        
         txn = new();
         txn.Haddr = 32'h8000_E004;
         txn.Hwrite = 1;
@@ -408,7 +387,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Insert IDLE to force WENABLEP→WRITE
+        
         txn = new();
         txn.Htrans = 2'b00;
         txn.Hreadyin = 1;
@@ -416,9 +395,9 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Test 6: WENABLEP→READ (requires !Hwritereg) ===
+        // WENABLEP→READ (requires !Hwritereg) ===
         $display("[%0t]   Gap Test: WENABLEP→READ transition", $time);
-        // First do a pipelined write
+        
         txn = new();
         txn.Haddr = 32'h8000_F000;
         txn.Hwrite = 1;
@@ -431,7 +410,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Follow with READ (creates WENABLEP, then should go to READ)
+        
         txn = new();
         txn.Haddr = 32'h8000_F004;
         txn.Hwrite = 0;  // READ
@@ -453,7 +432,7 @@ class generator;
         $display("[%0t] GENERATOR: Starting MISSING TRANSITION tests\n", $time);
         txn_count = 0;
         
-        // === Test 1: WENABLE→WWAIT (write completes, immediate new write) ===
+        // WENABLE→WWAIT (write completes, immediate new write) ===
         $display("[%0t]   Target: WENABLE→WWAIT (write then write)", $time);
         txn = new();
         txn.Haddr = 32'h8000_1000;
@@ -480,7 +459,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Test 2: WENABLE→READ (write completes, immediate read) ===
+        // WENABLE→READ (write completes, immediate read) ===
         $display("[%0t]   Target: WENABLE→READ (write then read)", $time);
         txn = new();
         txn.Haddr = 32'h8000_2000;
@@ -506,7 +485,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Test 3: RENABLE→WWAIT (read completes, immediate write) ===
+        // RENABLE→WWAIT (read completes, immediate write) ===
         $display("[%0t]   Target: RENABLE→WWAIT (read then write)", $time);
         txn = new();
         txn.Haddr = 32'h8000_3000;
@@ -532,7 +511,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Test 4: WWAIT→WRITE with BUSY ===
+        // WWAIT→WRITE with BUSY ===
         $display("[%0t]   Target: WWAIT→WRITE (write with BUSY)", $time);
         txn = new();
         txn.Haddr = 32'h8000_4000;
@@ -554,7 +533,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Continue with SEQ
+        
         txn = new();
         txn.Haddr = 32'h8000_4004;
         txn.Hwrite = 1;
@@ -577,31 +556,31 @@ class generator;
         $display("[%0t] GENERATOR: Starting CORNER CASE tests\n", $time);
         txn_count = 0;
         
-        // === Test 1: All zeros data ===
+        // All zeros data ===
         $display("[%0t]   Corner: All zeros data", $time);
         write_single(32'h8000_1000, 32'h0000_0000);
         
-        // === Test 2: All ones data ===
+        // All ones data ===
         $display("[%0t]   Corner: All ones data", $time);
         write_single(32'h8000_2000, 32'hFFFF_FFFF);
         
-        // === Test 3: Boundary address - Slave 0 min ===
+        // Boundary address - Slave 0 min ===
         $display("[%0t]   Corner: Slave 0 minimum address", $time);
         write_single(32'h8000_0000, 32'hAAAA_AAAA);
         
-        // === Test 4: Boundary address - Slave 0 max ===
+        // Boundary address - Slave 0 max ===
         $display("[%0t]   Corner: Slave 0 maximum address", $time);
         write_single(32'h83FF_FFFF, 32'hBBBB_BBBB);
         
-        // === Test 5: Boundary address - Slave 1 min ===
+        // Boundary address - Slave 1 min ===
         $display("[%0t]   Corner: Slave 1 minimum address", $time);
         write_single(32'h8400_0000, 32'hCCCC_CCCC);
         
-        // === Test 6: Boundary address - Slave 2 min ===
+        // Boundary address - Slave 2 min ===
         $display("[%0t]   Corner: Slave 2 minimum address", $time);
         write_single(32'h8800_0000, 32'hDDDD_DDDD);
         
-        // === Test 7: SEQ→SEQ sequence (burst continuation) ===
+        // SEQ→SEQ sequence (burst continuation) ===
         $display("[%0t]   Corner: SEQ→SEQ sequence", $time);
         txn = new();
         txn.Haddr = 32'h8000_3000;
@@ -641,7 +620,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // === Test 8: SEQ→IDLE sequence ===
+        // SEQ→IDLE sequence ===
         $display("[%0t]   Corner: SEQ→IDLE sequence", $time);
         txn = new();
         txn.Haddr = 32'h8000_4000;
@@ -668,7 +647,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // IDLE (creates SEQ→IDLE)
+        // (creates SEQ→IDLE)
         txn = new();
         txn.Htrans = 2'b00;   // IDLE
         txn.Hreadyin = 1;
@@ -679,13 +658,10 @@ class generator;
         $display("\n[%0t] GENERATOR: CORNER CASE tests complete (%0d transactions)\n", $time, txn_count);
     endtask
     
-    // ========================================================================
-    // DEDICATED CONDITIONAL COVERAGE TESTS
-    // ========================================================================
-    // These tests target specific unreachable conditions in RTL
-    // to improve COND coverage from 54% to 75%+
-    // ========================================================================
     
+    // conditional coverage tests
+
+
     task generate_cond_coverage_tests();
         transaction txn;
         
@@ -693,11 +669,11 @@ class generator;
         $display("[%0t] GENERATOR: Starting COND Coverage Tests", $time);
         $display("[%0t] ========================================\n", $time);
         
-        // ====================================================================
-        // TEST 1: Simple READ from IDLE
-        // Target: Line 129 condition (valid=1, Hwrite=0)
-        // This is IDLE→READ transition, should be easy
-        // ====================================================================
+        
+        // Simple READ from IDLE
+        
+        
+        
         $display("[%0t] COND Test 1: READ from IDLE (Line 129)", $time);
         txn = new();
         txn.Hwrite = 0;  // READ
@@ -709,11 +685,11 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // ====================================================================
-        // TEST 2: Multiple consecutive READs
-        // Target: Line 192 condition in RENABLE output logic (valid && ~Hwrite)
-        // Also targets: Line 120 (IDLE READ condition)
-        // ====================================================================
+        
+        // Multiple consecutive READs
+        
+        
+        
         $display("[%0t] COND Test 2: Consecutive READs", $time);
         repeat(8) begin
             txn = new();
@@ -727,10 +703,10 @@ class generator;
             txn_count++;
         end
         
-        // ====================================================================
-        // TEST 3: READ followed by WRITE
-        // Target: Line 192 - try to get valid=1 Hwrite=1 during RENABLE
-        // ====================================================================
+        
+        // READ followed by WRITE
+        
+        
         $display("[%0t] COND Test 3: READ→WRITE sequence (Line 192)", $time);
         // READ
         txn = new();
@@ -743,7 +719,7 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // Immediately followed by WRITE
+        // followed by WRITE
         txn = new();
         txn.Hwrite = 1;  // WRITE
         txn.Haddr = 32'h8000_2004;
@@ -755,11 +731,11 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // ====================================================================
-        // TEST 4: WENABLEP state variations
-        // Target: Lines 94, 96, 218 - various valid/Hwritereg combinations
-        // Need pipelined writes to get to WENABLEP
-        // ====================================================================
+        
+        // WENABLEP state variations
+        // Lines 94, 96, 218 - various valid/Hwritereg combinations
+        
+        
         $display("[%0t] COND Test 4: WENABLEP variations (Lines 94,96,218)", $time);
         
         // Pipelined WRITE sequence to reach WENABLEP
@@ -799,11 +775,11 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // ====================================================================
-        // TEST 5: WENABLE state variations
-        // Target: Line 241 - (~valid && Hwritereg) condition
+        
+        // WENABLE state variations
+        
         // Single write followed by idle
-        // ====================================================================
+        
         $display("[%0t] COND Test 5: WENABLE variations (Line 241)", $time);
         txn = new();
         txn.Hwrite = 1;
@@ -816,11 +792,11 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // ====================================================================
-        // TEST 6: Mixed READ/WRITE patterns
+        
+        // Mixed READ/WRITE patterns
         // Try various combinations to hit missing conditions
         // Also add more to stress various FSM states
-        // ====================================================================
+        
         $display("[%0t] COND Test 6: Mixed R/W patterns + state stress", $time);
         
         // Mix of READs and WRITEs
@@ -837,10 +813,10 @@ class generator;
             txn_count++;
         end
         
-        // ====================================================================
-        // TEST 7: Consecutive WRITEs to stress WWAIT state
-        // Target: Line 145 condition (~valid) in ST_WWAIT
-        // ====================================================================
+        
+        // Consecutive WRITEs to stress WWAIT state
+        
+        
         $display("[%0t] COND Test 7: Consecutive WRITEs for WWAIT", $time);
         repeat(10) begin
             txn = new();
@@ -861,24 +837,9 @@ class generator;
     // Enhanced comprehensive test with directed sequences
     task generate_comprehensive_test_with_sequences(int txns_per_category);
         $display("[%0t] GENERATOR: Starting ENHANCED COMPREHENSIVE coverage test", $time);
-        $display("   Testing all sizes, bursts, slaves, transaction types AND directed sequences\n");
+        $display("   Testing directed sequences, FSM gaps, and stress tests\n");
         
-        // First run all the random tests
-        // generate_random_test(txns_per_category, "BYTE_SIZE");
-        // generate_random_test(txns_per_category, "HALFWORD_SIZE");
-        // generate_random_test(txns_per_category, "WORD_SIZE");
-        // generate_random_test(txns_per_category, "INCR_BURST");
-        // generate_random_test(txns_per_category, "WRAP4_BURST");
-        // generate_random_test(txns_per_category, "INCR4_BURST");
-        // generate_random_test(txns_per_category, "SLAVE0");
-        // generate_random_test(txns_per_category, "SLAVE1");
-        // generate_random_test(txns_per_category, "SLAVE2");
-        // generate_random_test(txns_per_category, "SEQ_TRANS");
-        // generate_random_test(txns_per_category/2, "BOUNDARY");
-        // generate_random_test(txns_per_category/2, "PATTERN_DATA");
-        // generate_random_test(txns_per_category*2, "BASE");
-        
-        // NOW add directed sequences for FSM coverage
+        // Add directed sequences for FSM coverage
         directed_sequences();
         
         // Add FSM gap tests for missing transitions
@@ -893,19 +854,18 @@ class generator;
         // Add COND coverage tests for unreached conditions
         generate_cond_coverage_tests();
         
-        // Add NEW targeted tests for specific code coverage gaps from analysis
+        // Add targeted tests for specific code coverage gaps
         generate_additional_code_coverage_tests();
         
-        // Add EXTREME stress tests to maximize coverage
+        // Add extreme stress tests to maximize coverage
         generate_extreme_stress_tests();
         
         $display("\n[%0t] GENERATOR: ENHANCED COMPREHENSIVE test complete\n", $time);
     endtask
     
-    // ====================================================================
-    // NEW: Additional directed tests to close specific code coverage gaps
-    // Based on coverage analysis - targets remaining uncovered conditions
-    // ====================================================================
+    
+    // more directed tests for code coverage
+
     task generate_additional_code_coverage_tests();
         transaction txn;
         
@@ -913,10 +873,10 @@ class generator;
         $display("[%0t] GENERATOR: Additional Code Coverage Tests", $time);
         $display("[%0t] ========================================\n", $time);
         
-        // ====================================================================
-        // GAP 1: Address boundary testing for all 3 slaves
-        // Target: AHB_Slave_Interface lines 65, 75-79
-        // ====================================================================
+        
+        // Address boundary testing for all 3 slaves
+        // AHB_Slave_Interface lines 65, 75-79
+        
         $display("[%0t] GAP Test 1: Address boundary coverage", $time);
         
         // Slave 0 boundaries
@@ -935,10 +895,10 @@ class generator;
         test_address_boundary(32'h7FFF_FFFC, "Below range");
         test_address_boundary(32'h8C00_0000, "Above range");
         
-        // ====================================================================
-        // GAP 2: Different transfer sizes at boundaries
-        // Target: Condition coverage for size-dependent paths
-        // ====================================================================
+        
+        // Different transfer sizes at boundaries
+        // Condition coverage for size-dependent paths
+        
         $display("[%0t] GAP Test 2: Size variations at boundaries", $time);
         
         // Byte transfers
@@ -964,10 +924,10 @@ class generator;
         gen2driv.put(txn);
         txn_count++;
         
-        // ====================================================================
-        // GAP 3: Rapid READ-WRITE transitions to stress FSM conditions
-        // Target: Lines 192, 201 - write after read edge cases
-        // ====================================================================
+        
+        // Rapid READ-WRITE transitions to stress FSM conditions
+        // Lines 192, 201 - write after read edge cases
+        
         $display("[%0t] GAP Test 3: Rapid R/W transitions", $time);
         
         repeat(10) begin
@@ -982,7 +942,7 @@ class generator;
             gen2driv.put(txn);
             txn_count++;
             
-            // Immediately followed by WRITE
+            // followed by WRITE
             txn = new();
             txn.Hwrite = 1;
             txn.Haddr = $urandom_range(32'h8000_0000, 32'h8BFF_FFFF) & 32'hFFFF_FFFC;
@@ -995,10 +955,10 @@ class generator;
             txn_count++;
         end
         
-        // ====================================================================
-        // GAP 4: WENABLEP exit variations
-        // Target: Lines 94, 96 - different valid/Hwritereg combinations
-        // ====================================================================
+        
+        // WENABLEP exit variations
+        // Lines 94, 96 - different valid/Hwritereg combinations
+        
         $display("[%0t] GAP Test 4: WENABLEP state variations", $time);
         
         // Burst writes to reach WENABLEP, then vary exit paths
@@ -1015,7 +975,7 @@ class generator;
             gen2driv.put(txn);
             txn_count++;
             
-            // Continue burst (SEQ)
+            
             txn = new();
             txn.Hwrite = 1;
             txn.Haddr += 4;
@@ -1027,7 +987,7 @@ class generator;
             gen2driv.put(txn);
             txn_count++;
             
-            // Terminate with READ
+            
             txn = new();
             txn.Hwrite = 0;
             txn.Haddr = $urandom_range(32'h8000_0000, 32'h8BFF_FFFF) & 32'hFFFF_FFFC;
@@ -1039,10 +999,10 @@ class generator;
             txn_count++;
         end
         
-        // ====================================================================
-        // GAP 5: SEQ transaction after various states
-        // Target: Htrans=SEQ coverage in different contexts
-        // ====================================================================
+        
+        // SEQ transaction after various states
+        // Htrans=SEQ coverage in different contexts
+        
         $display("[%0t] GAP Test 5: SEQ transaction coverage", $time);
         
         repeat(5) begin
@@ -1071,10 +1031,10 @@ class generator;
             txn_count++;
         end
         
-        // ====================================================================
-        // GAP 6: WRAP4 burst coverage
-        // Target: WRAP4 burst type in all states
-        // ====================================================================
+        
+        // WRAP4 burst coverage
+        // WRAP4 burst type in all states
+        
         $display("[%0t] GAP Test 6: WRAP4 burst coverage", $time);
         
         repeat(5) begin
@@ -1125,9 +1085,7 @@ class generator;
         txn_count++;
     endtask
     
-    // ====================================================================
-    // EXTREME STRESS TESTS - Try to hit every possible condition
-    // ====================================================================
+    // stress tests
     task generate_extreme_stress_tests();
         transaction txn;
         
@@ -1206,3 +1164,5 @@ class generator;
     endtask
 
 endclass
+
+

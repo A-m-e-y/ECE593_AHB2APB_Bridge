@@ -18,21 +18,17 @@ class monitor;
         forever begin
             @(posedge vif.Pclk);
             
-            // Detect new APB transaction when:
-            // 1. PENABLE is high and PSEL is active, AND
-            // 2. Either PENABLE just went high (0→1), OR address changed
+            // new APB txn when PENABLE high and PSEL active
             if (vif.Pselx != 3'b000 && vif.Penable) begin
-                // New transaction if PENABLE rising edge OR address changed
                 if (!last_penable || (vif.Paddr != last_paddr)) begin
                     
-                    // Skip write→read transitions at same address (spurious glitch)
+                    // skip glitches from write->read at same addr
                     if (!(vif.Paddr == last_paddr && last_pwrite == 1'b1 && vif.Pwrite == 1'b0)) begin
-                        // Wait one more Pclk for signals to stabilize
-                        @(posedge vif.Pclk);
+                        @(posedge vif.Pclk);  //let signals stabilize
                         
                         txn = new();
                         
-                        // Capture APB side signals during ACCESS phase
+                        // capture APB signals
                         txn.Paddr = vif.Paddr;
                         txn.Pwdata = vif.Pwdata;
                         txn.Pwrite = vif.Pwrite;
@@ -40,7 +36,7 @@ class monitor;
                         txn.Penable = vif.Penable;
                         txn.Prdata = vif.Prdata;
                         
-                        // Capture corresponding AHB signals
+                        // capture AHB signals
                         txn.Haddr = vif.Haddr;
                         txn.Hwdata = vif.Hwdata;
                         txn.Hwrite = vif.Hwrite;

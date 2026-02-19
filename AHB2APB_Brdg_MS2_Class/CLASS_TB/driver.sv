@@ -5,7 +5,7 @@ class driver;
     mailbox #(transaction) gen2driv;
     mailbox #(transaction) driv2sb;
     virtual ahb_apb_if.master vif;
-    int txn_count = 0;  // Transaction counter
+    int txn_count = 0;
 
     function new(mailbox #(transaction) gen2driv, mailbox #(transaction) driv2sb, virtual ahb_apb_if.master vif);
         this.gen2driv = gen2driv;  
@@ -24,8 +24,7 @@ class driver;
                      $time, txn.Hwrite ? "WRITE" : "READ ", txn.Haddr, 
                      txn.Hwrite ? txn.Hwdata : 32'hXXXXXXXX);
             
-            // EXACT pattern from traditional TB
-            // Address Phase
+            // address phase
             wait(vif.Hreadyout == 1'b1);
             @(posedge vif.clk);
             #1;
@@ -36,7 +35,7 @@ class driver;
             vif.Haddr = txn.Haddr;
             vif.Hreadyin = 1'b1;
             
-            // Data Phase
+            // data phase
             wait(vif.Hreadyout == 1'b1);
             @(posedge vif.clk);
             #1;
@@ -44,13 +43,12 @@ class driver;
                 vif.Hwdata = txn.Hwdata;
             end
             
-            // Wait for transaction to complete (both reads and writes)
+            // wait for completion
             wait(vif.Hreadyout == 1'b1);
             @(posedge vif.clk);
             #1;
             
-            // De-assert Htrans to IDLE to allow FSM to cycle back
-            vif.Htrans = 2'b00;
+            vif.Htrans = 2'b00;  //back to IDLE
         end
     endtask
 

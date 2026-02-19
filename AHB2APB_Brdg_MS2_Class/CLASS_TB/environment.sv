@@ -5,7 +5,7 @@ class environment;
     driver drv;
     monitor mon;
     scoreboard sb;
-    apb_slave apb_slv;  // APB slave behavioral model
+    apb_slave apb_slv;
     
     mailbox #(transaction) gen2driv;
     mailbox #(transaction) driv2sb;
@@ -26,12 +26,11 @@ class environment;
         drv = new(gen2driv, driv2sb, vif.master);
         mon = new(mon2sb, vif.slave);
         sb = new(driv2sb, mon2sb);
-        apb_slv = new(vif.master);  // APB slave uses master modport to drive Prdata
+        apb_slv = new(vif.master);
         
         $display("[%0t] ENVIRONMENT: Build phase completed", $time);
     endtask
 
-    // ========== DIRECTED TEST - Sanity (For Regression) ==========
     task run_sanity_test();
         $display("[%0t] ENVIRONMENT: Starting sanity test", $time);
         
@@ -52,9 +51,6 @@ class environment;
         $display("\n[%0t] ENVIRONMENT: Sanity test completed\n", $time);
     endtask
     
-    // ========== RANDOMIZED TESTS ==========
-    
-    // Run randomized test with specific constraint type
     task run_random_test(int num_txns, string test_type = "BASE");
         $display("[%0t] ENVIRONMENT: Starting %s random test (%0d transactions)", 
                  $time, test_type, num_txns);
@@ -67,7 +63,6 @@ class environment;
             apb_slv.run();
         join_any
         
-        // Wait for transactions to complete (more time for larger tests)
         repeat(num_txns * 10 + 50) @(posedge vif.Pclk);
         disable fork;
         
@@ -76,7 +71,6 @@ class environment;
         apb_slv.display_stats();
     endtask
     
-    // Run multi-slave test
     task run_multi_slave_test(int num_txns);
         $display("[%0t] ENVIRONMENT: Starting MULTI-SLAVE test (%0d transactions)", 
                  $time, num_txns);
@@ -97,7 +91,7 @@ class environment;
         apb_slv.display_stats();
     endtask
     
-    // Run comprehensive test suite
+    // comprehensive test
     task run_comprehensive_test(int txns_per_category);
         $display("\n");
         $display("========================================================================");
@@ -115,7 +109,6 @@ class environment;
             apb_slv.run();
         join_any
         
-        // Wait for all transactions to drain
         repeat(txns_per_category * 150) @(posedge vif.Pclk);
         disable fork;
         

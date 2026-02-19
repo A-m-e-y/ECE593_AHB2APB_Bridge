@@ -112,10 +112,10 @@ $(document).ready(function () {
 <table align=left>
 <tr class="sortablehead">
 <td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
-<td class="s7 cl rt"> 78.68</td>
+<td class="s8 cl rt"> 80.13</td>
 <td class="s9 cl rt"> 92.09</td>
-<td class="s5 cl rt"> 57.41</td>
-<td class="s9 cl rt"> 95.53</td>
+<td class="s6 cl rt"> 62.96</td>
+<td class="s9 cl rt"> 97.23</td>
 <td class="s5 cl rt"> 59.09</td>
 <td class="s8 cl rt"> 89.29</td>
 </tr></table><br clear=all>
@@ -131,18 +131,18 @@ $(document).ready(function () {
 <tr class="sortablehead">
 <td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
 <td class="wht cl wordwrap"><a href="mod6.html#inst_tag_6" id="tag_urg_inst_6">bfm</a></td>
-<td class="s9 cl rt"> 94.60</td>
+<td class="s9 cl rt"> 96.01</td>
 <td class="wht cl rt"></td>
 <td class="wht cl rt"></td>
-<td class="s9 cl rt"> 94.60</td>
+<td class="s9 cl rt"> 96.01</td>
 <td class="wht cl rt"></td>
 <td class="wht cl rt"></td>
 </tr><tr>
 <td class="wht cl wordwrap"><a href="mod4.html#inst_tag_4" id="tag_urg_inst_4">dut</a></td>
-<td class="s7 cl rt"> 78.83</td>
+<td class="s8 cl rt"> 80.29</td>
 <td class="s9 cl rt"> 92.75</td>
-<td class="s5 cl rt"> 57.41</td>
-<td class="s9 cl rt"> 95.63</td>
+<td class="s6 cl rt"> 62.96</td>
+<td class="s9 cl rt"> 97.38</td>
 <td class="s5 cl rt"> 59.09</td>
 <td class="s8 cl rt"> 89.29</td>
 </tr></table><br clear=all>
@@ -161,10 +161,10 @@ Line Coverage for Module : <a href="mod3.html" >ahb_apb_top</a><br clear=all>
 <tr><th></th><th>Line No.</th><th>Total</th><th>Covered</th><th>Percent</th></tr>
 <tr class="s9"><td class="lf">TOTAL</td><td></td><td>60</td><td>54</td><td>90.00</td></tr>
 <tr class="s10"><td class="lf">INITIAL</td><td>16</td><td>4</td><td>4</td><td>100.00</td></tr>
-<tr class="s10"><td class="lf">INITIAL</td><td>22</td><td>4</td><td>4</td><td>100.00</td></tr>
-<tr class="s10"><td class="lf">INITIAL</td><td>56</td><td>2</td><td>2</td><td>100.00</td></tr>
-<tr class="s10"><td class="lf">INITIAL</td><td>61</td><td>43</td><td>43</td><td>100.00</td></tr>
-<tr class="s1"><td class="lf">INITIAL</td><td>113</td><td>7</td><td>1</td><td>14.29</td></tr>
+<tr class="s10"><td class="lf">INITIAL</td><td>21</td><td>4</td><td>4</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">INITIAL</td><td>53</td><td>2</td><td>2</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">INITIAL</td><td>58</td><td>43</td><td>43</td><td>100.00</td></tr>
+<tr class="s1"><td class="lf">INITIAL</td><td>103</td><td>7</td><td>1</td><td>14.29</td></tr>
 </table>
 <pre class="code"><br clear=all>
 15                        initial begin
@@ -172,108 +172,98 @@ Line Coverage for Module : <a href="mod3.html" >ahb_apb_top</a><br clear=all>
 17         3/3              forever #5 Hclk = ~Hclk;
 18                        end
 19                      
-20                        // Generate Pclk with 20ns period (50MHz) - slower APB clock for CDC
-21                        initial begin
-22         1/1              Pclk = 0;
-23         3/3              forever #10 Pclk = ~Pclk;
-24                        end
-25                      
-26                        // Interface instantiation
-27                        ahb_apb_if bfm(Hclk, resetn, Pclk);
-28                      
-29                        // DUT instantiation
-30                        Bridge_Top dut(
-31                          .Hclk(Hclk),
-32                          .Pclk(Pclk),
-33                          .Hresetn(resetn),
-34                          .Hwrite(bfm.Hwrite),
-35                          .Hreadyin(bfm.Hreadyin),
-36                          .Htrans(bfm.Htrans),
-37                          .Hsize(bfm.Hsize),
-38                          .Hburst(bfm.Hburst),
-39                          .Hwdata(bfm.Hwdata),
-40                          .Haddr(bfm.Haddr),
-41                          .Hrdata(bfm.Hrdata),
-42                          .Hresp(bfm.Hresp),
-43                          .Hreadyout(bfm.Hreadyout),
-44                          .Prdata(bfm.Prdata),
-45                          .Pwdata(bfm.Pwdata),
-46                          .Paddr(bfm.Paddr),
-47                          .Pselx(bfm.Pselx),
-48                          .Pwrite(bfm.Pwrite),
-49                          .Penable(bfm.Penable)
-50                        );
-51                      
-52                        // Test instantiation and execution
-53                        test main_test;
-54                        
-55                        initial begin
-56         1/1              $dumpfile(&quot;tb_class_top.vcd&quot;);
-57         1/1              $dumpvars(0, ahb_apb_top);
-58                        end
-59                      
-60                        initial begin
-61         1/1              $display(&quot;\n========================================&quot;);
-62         1/1              $display(&quot;   Simulation Started&quot;);
-63         1/1              $display(&quot;========================================\n&quot;);
-64                          
-65                          // Initialize signals
-66         1/1              bfm.Hwrite = 0;
-67         1/1              bfm.Hreadyin = 1;
-68         1/1              bfm.Htrans = 2'b00;
-69         1/1              bfm.Hsize = 3'b010;
-70         1/1              bfm.Hburst = 3'b000;
-71         1/1              bfm.Hwdata = 0;
-72         1/1              bfm.Haddr = 0;
-73         1/1              bfm.Prdata = 0;  // Initialize APB read data
-74                          
-75                          // Initialize reset (using pattern from traditional TB)
-76         1/1              resetn = 1;
-77         2/2              @(posedge Hclk);
-78         1/1              resetn = 0;
-79         3/3              repeat(2) @(posedge Hclk);
+20                        initial begin
+21         1/1              Pclk = 0;
+22         3/3              forever #10 Pclk = ~Pclk;  //slower for CDC
+23                        end
+24                      
+25                        ahb_apb_if bfm(Hclk, resetn, Pclk);
+26                      
+27                        // DUT
+28                        Bridge_Top dut(
+29                          .Hclk(Hclk),
+30                          .Pclk(Pclk),
+31                          .Hresetn(resetn),
+32                          .Hwrite(bfm.Hwrite),
+33                          .Hreadyin(bfm.Hreadyin),
+34                          .Htrans(bfm.Htrans),
+35                          .Hsize(bfm.Hsize),
+36                          .Hburst(bfm.Hburst),
+37                          .Hwdata(bfm.Hwdata),
+38                          .Haddr(bfm.Haddr),
+39                          .Hrdata(bfm.Hrdata),
+40                          .Hresp(bfm.Hresp),
+41                          .Hreadyout(bfm.Hreadyout),
+42                          .Prdata(bfm.Prdata),
+43                          .Pwdata(bfm.Pwdata),
+44                          .Paddr(bfm.Paddr),
+45                          .Pselx(bfm.Pselx),
+46                          .Pwrite(bfm.Pwrite),
+47                          .Penable(bfm.Penable)
+48                        );
+49                      
+50                        test main_test;
+51                        
+52                        initial begin
+53         1/1              $dumpfile(&quot;tb_class_top.vcd&quot;);
+54         1/1              $dumpvars(0, ahb_apb_top);
+55                        end
+56                      
+57                        initial begin
+58         1/1              $display(&quot;\n========================================&quot;);
+59         1/1              $display(&quot;   Simulation Started&quot;);
+60         1/1              $display(&quot;========================================\n&quot;);
+61                          
+62         1/1              bfm.Hwrite = 0;
+63         1/1              bfm.Hreadyin = 1;
+64         1/1              bfm.Htrans = 2'b00;
+65         1/1              bfm.Hsize = 3'b010;
+66         1/1              bfm.Hburst = 3'b000;
+67         1/1              bfm.Hwdata = 0;
+68         1/1              bfm.Haddr = 0;
+69         1/1              bfm.Prdata = 0;
+70                          
+71                          // reset
+72         1/1              resetn = 1;
+73         2/2              @(posedge Hclk);
+74         1/1              resetn = 0;
+75         3/3              repeat(2) @(posedge Hclk);
                         REPEAT_FALSE
-80         2/2              #1 resetn = 1;
-81         1/1              $display(&quot;[%0t] Reset released&quot;, $time);
-82                          
-83                          // Wait for DUT ready
-84         2/2              wait(bfm.Hreadyout == 1'b1);
-85         3/3              repeat(2) @(posedge Hclk);
+76         2/2              #1 resetn = 1;
+77         1/1              $display(&quot;[%0t] Reset released&quot;, $time);
+78                          
+79         2/2              wait(bfm.Hreadyout == 1'b1);
+80         3/3              repeat(2) @(posedge Hclk);
                         REPEAT_FALSE
-86                          
-87                          // **CRITICAL FIX**: Synchronize with Pclk to ensure CDC timing alignment
-88                          // The CDC synchronizer needs Penable_hclk pulses to align with Pclk edges
-89                          // Wait for Pclk negedge, then posedge to ensure we start at a known Pclk phase
-90         2/2              @(negedge Pclk);
-91         2/2              @(posedge Pclk);
-92         2/2              @(posedge Hclk);  // Then sync to Hclk
-93         1/1              $display(&quot;[%0t] Synchronized with both clocks&quot;, $time);
+81                          
+82                          // sync with both clks for CDC
+83         2/2              @(negedge Pclk);
+84         2/2              @(posedge Pclk);
+85         2/2              @(posedge Hclk);
+86         1/1              $display(&quot;[%0t] Synchronized with both clocks&quot;, $time);
+87                          
+88         1/1              main_test = new(bfm);
+89         1/1              main_test.run();
+90                          
+91         3/3              repeat(10) @(posedge Hclk);
+                        REPEAT_FALSE
+92                          
+93         1/1              dut.cov_inst.display_coverage();
 94                          
-95                          // Create and run all tests
-96         1/1              main_test = new(bfm);
-97         1/1              main_test.run();
-98                          
-99                          // Wait for test completion
-100        3/3              repeat(10) @(posedge Hclk);
-                        REPEAT_FALSE
-101                         
-102                         // Display comprehensive coverage report
-103        1/1              dut.cov_inst.display_coverage();
-104                         
-105        1/1              $display(&quot;\n========================================&quot;);
-106        1/1              $display(&quot;   Simulation Completed&quot;);
-107        1/1              $display(&quot;========================================\n&quot;);
-108        1/1              $finish;
-109                       end
-110                     
-111                       // Watchdog timer - increase for all tests running
-112                       initial begin
-113        <font color = "red">1/2     ==>      #500000;  // 500us timeout for all tests</font>
-114        <font color = "red">0/1     ==>      $display(&quot;\n========================================&quot;);</font>
-115        <font color = "red">0/1     ==>      $display(&quot;   TIMEOUT: Simulation exceeded 500us&quot;);</font>
-116        <font color = "red">0/1     ==>      $display(&quot;========================================\n&quot;);</font>
-117        <font color = "red">0/1     ==>      dut.cov_inst.display_coverage();  // Show coverage even on timeout</font>
-118        <font color = "red">0/1     ==>      $finish;</font>
+95         1/1              $display(&quot;\n========================================&quot;);
+96         1/1              $display(&quot;   Simulation Completed&quot;);
+97         1/1              $display(&quot;========================================\n&quot;);
+98         1/1              $finish;
+99                        end
+100                     
+101                       // watchdog
+102                       initial begin
+103        <font color = "red">1/2     ==>      #500000;</font>
+104        <font color = "red">0/1     ==>      $display(&quot;\n========================================&quot;);</font>
+105        <font color = "red">0/1     ==>      $display(&quot;   TIMEOUT: Simulation exceeded 500us&quot;);</font>
+106        <font color = "red">0/1     ==>      $display(&quot;========================================\n&quot;);</font>
+107        <font color = "red">0/1     ==>      dut.cov_inst.display_coverage();</font>
+108        <font color = "red">0/1     ==>      $finish;</font>
 </pre>
 <hr>
 <a name="Toggle"></a>

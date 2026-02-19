@@ -5,6 +5,7 @@ class driver;
     mailbox #(transaction) gen2driv;
     mailbox #(transaction) driv2sb;
     virtual ahb_apb_if.master vif;
+    int txn_count = 0;  // Transaction counter
 
     function new(mailbox #(transaction) gen2driv, mailbox #(transaction) driv2sb, virtual ahb_apb_if.master vif);
         this.gen2driv = gen2driv;  
@@ -16,9 +17,12 @@ class driver;
         forever begin
             gen2driv.get(txn);
             driv2sb.put(txn);
+            txn_count++;
             
-            $display("[%0t] DRIVER: Driving transaction - Haddr=0x%0h Hwrite=%0b Htrans=%0b", 
-                     $time, txn.Haddr, txn.Hwrite, txn.Htrans);
+            $display("\n[%0t] ========== AHB Transaction #%0d ==========", $time, txn_count);
+            $display("[%0t] AHB: %s  Addr=0x%0h  Data=0x%0h", 
+                     $time, txn.Hwrite ? "WRITE" : "READ ", txn.Haddr, 
+                     txn.Hwrite ? txn.Hwdata : 32'hXXXXXXXX);
             
             // EXACT pattern from traditional TB
             // Address Phase
@@ -27,6 +31,8 @@ class driver;
             #1;
             vif.Hwrite = txn.Hwrite;
             vif.Htrans = txn.Htrans;
+            vif.Hsize  = txn.Hsize;
+            vif.Hburst = txn.Hburst;
             vif.Haddr = txn.Haddr;
             vif.Hreadyin = 1'b1;
             
@@ -36,37 +42,15 @@ class driver;
             #1;
             if (txn.Hwrite) begin
                 vif.Hwdata = txn.Hwdata;
-                // Wait for APB transaction to complete  
-                wait(vif.Hreadyout == 1'b1);
-                @(posedge vif.clk);
-                #1;
-                // De-assert Htrans to IDLE to allow FSM to cycle
-                vif.Htrans = 2'b00;
-                // Extra Hclk cycles for CDC - ensures Penable_hclk stays low long enough
-                // (80ns) to accommodate 3-FF synchronizer delay (60ns) for pipelined transactions
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-            end else begin
-                // For reads, wait for APB transaction and provide Prdata
-                wait(vif.Paddr == txn.Haddr && vif.Pwrite == 1'b0);
-                vif.Prdata = $urandom();
-                $display("[%0t] DRIVER: Providing Prdata=0x%0h for read", $time, vif.Prdata);
-                // Extra Hclk cycles for CDC after read (80ns for 3-FF synchronizer)
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
-                @(posedge vif.clk);
             end
+            
+            // Wait for transaction to complete (both reads and writes)
+            wait(vif.Hreadyout == 1'b1);
+            @(posedge vif.clk);
+            #1;
+            
+            // De-assert Htrans to IDLE to allow FSM to cycle back
+            vif.Htrans = 2'b00;
         end
     endtask
 

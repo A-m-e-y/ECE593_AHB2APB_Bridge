@@ -21,8 +21,7 @@ module CDC_Handler(
 );
 
 // 2-FF Synchronizers: HCLK -> PCLK (APB control/data signals)
-// PENABLE uses 3-FF to create SETUP phase (delayed 1 Pclk cycle vs other signals)
-reg Penable_sync1, Penable_sync2, Penable_sync3;
+reg Penable_sync1, Penable_sync2;
 reg Pwrite_sync1, Pwrite_sync2;
 reg [2:0] Pselx_sync1, Pselx_sync2;
 reg [31:0] Paddr_sync1, Paddr_sync2;
@@ -47,9 +46,6 @@ always @(posedge Pclk) begin
         Pselx_sync2 <= 0;
         Paddr_sync2 <= 0;
         Pwdata_sync2 <= 0;
-        
-        // Third stage (PENABLE only - for APB SETUP phase)
-        Penable_sync3 <= 0;
     end
     else begin
         // First stage
@@ -65,16 +61,11 @@ always @(posedge Pclk) begin
         Pselx_sync2 <= Pselx_sync1;
         Paddr_sync2 <= Paddr_sync1;
         Pwdata_sync2 <= Pwdata_sync1;
-        
-        // Third stage (PENABLE only - creates 1 Pclk cycle delay)
-        // This ensures PSEL/PWRITE/PADDR appear 1 cycle before PENABLE
-        Penable_sync3 <= Penable_sync2;
     end
 end
 
 // Output to PCLK domain (APB bus)
-// PENABLE uses sync3 (extra delay) to create APB SETUP phase
-assign Penable_pclk = Penable_sync3;
+assign Penable_pclk = Penable_sync2;
 assign Pwrite_pclk = Pwrite_sync2;
 assign Pselx_pclk = Pselx_sync2;
 assign Paddr_pclk = Paddr_sync2;

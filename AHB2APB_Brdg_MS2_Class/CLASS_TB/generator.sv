@@ -10,7 +10,6 @@ class generator;
     
     // Simple write transaction
     task write_single(bit [31:0] addr, bit [31:0] data);
-        $display("[%0t] GENERATOR: Write addr=0x%0h data=0x%0h", $time, addr, data);
         txn = new();
         txn.Haddr = addr;
         txn.Hwrite = 1;
@@ -25,7 +24,6 @@ class generator;
 
     // Simple read transaction
     task read_single(bit [31:0] addr);
-        $display("[%0t] GENERATOR: Read addr=0x%0h", $time, addr);
         txn = new();
         txn.Haddr = addr;
         txn.Hwrite = 0;
@@ -40,7 +38,7 @@ class generator;
 
     // Sanity test - matches traditional TB
     task sanity_test();
-        $display("[%0t] GENERATOR: Running sanity test", $time);
+        $display("[%0t] GENERATOR: Starting sanity test (4 transactions)\n", $time);
         
         // Three writes
         write_single(32'h8000_0054, 32'h8000_0054);
@@ -50,7 +48,7 @@ class generator;
         // One read
         read_single(32'h8000_00AA);
         
-        $display("[%0t] GENERATOR: Sanity test stimulus complete", $time);
+        $display("\n[%0t] GENERATOR: Stimulus generation complete", $time);
     endtask
 
 endclass

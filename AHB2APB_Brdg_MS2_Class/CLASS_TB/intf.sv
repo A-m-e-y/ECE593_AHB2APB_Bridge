@@ -1,10 +1,12 @@
 
-interface ahb_apb_if(input wire clk, input wire resetn);
+interface ahb_apb_if(input wire clk, input wire resetn, input wire Pclk);
 
   // AHB signals (testbench drives these as master)
   logic Hwrite;
   logic Hreadyin;
   logic [1:0] Htrans;
+  logic [2:0] Hsize;   // For coverage
+  logic [2:0] Hburst;  // For coverage
   logic [31:0] Hwdata;
   logic [31:0] Haddr;
   
@@ -25,15 +27,15 @@ interface ahb_apb_if(input wire clk, input wire resetn);
 
   // Modports
   modport master(
-    input clk, resetn, Hreadyout, Hrdata, Hresp,
+    input clk, resetn, Pclk, Hreadyout, Hrdata, Hresp,
     input Penable, Pwrite, Pselx, Pwdata, Paddr,  // Driver needs to monitor APB outputs
-    output Hwrite, Hreadyin, Htrans, Hwdata, Haddr,
+    output Hwrite, Hreadyin, Htrans, Hsize, Hburst, Hwdata, Haddr,
     output Prdata  // Testbench drives this to simulate APB slave
   );
   
   modport slave(
-    input clk, resetn,
-    input Hwrite, Hreadyin, Htrans, Hwdata, Haddr, Hrdata, Hresp, Hreadyout,
+    input clk, resetn, Pclk,
+    input Hwrite, Hreadyin, Htrans, Hsize, Hburst, Hwdata, Haddr, Hrdata, Hresp, Hreadyout,
     input Penable, Pwrite, Pselx, Pwdata, Paddr, Prdata
   );
 

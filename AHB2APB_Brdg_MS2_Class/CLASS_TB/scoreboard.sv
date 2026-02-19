@@ -3,6 +3,7 @@ class scoreboard;
 
     transaction txn_drv;
     transaction txn_mon;
+    transaction txn_queue[$];  // Queue to hold driver transactions
     mailbox #(transaction) driv2sb;
     mailbox #(transaction) mon2sb;
     
@@ -44,25 +45,65 @@ class scoreboard;
     endfunction
 
     task check_data();
-        forever begin
-            driv2sb.get(txn_drv);
-            mon2sb.get(txn_mon);
-            
-            // Sample coverage
-            cov_cg.sample();
-            
-            total_count++;
-            
-            if (txn_drv.Hwrite) begin
-                write_count++;
-                $display("[%0t] SCOREBOARD: Write - Haddr=0x%0h Hwdata=0x%0h | Paddr=0x%0h Pwdata=0x%0h", 
-                         $time, txn_drv.Haddr, txn_drv.Hwdata, txn_mon.Paddr, txn_mon.Pwdata);
-            end else begin
-                read_count++;
-                $display("[%0t] SCOREBOARD: Read  - Haddr=0x%0h | Paddr=0x%0h Prdata=0x%0h Hrdata=0x%0h", 
-                         $time, txn_drv.Haddr, txn_mon.Paddr, txn_mon.Prdata, txn_mon.Hrdata);
+        fork
+            // Collect driver transactions into queue
+            forever begin
+                driv2sb.get(txn_drv);
+                txn_queue.push_back(txn_drv);
             end
-        end
+            
+            // Match monitor transactions with queued driver transactions
+            forever begin
+                transaction matched_txn;
+                int found = 0;
+                
+                mon2sb.get(txn_mon);
+                
+                // Find matching transaction in queue by address
+                for (int i = 0; i < txn_queue.size(); i++) begin
+                    if (txn_queue[i].Haddr == txn_mon.Paddr) begin
+                        matched_txn = txn_queue[i];
+                        txn_queue.delete(i);
+                        found = 1;
+                        break;
+                    end
+                end
+                
+                if (!found) begin
+                    $display("[%0t]   ✗ Checker ERROR: No matching AHB transaction for APB addr(0x%0h)", 
+                             $time, txn_mon.Paddr);
+                    continue;
+                end
+                
+                // Use matched transaction for coverage and checking
+                txn_drv = matched_txn;
+                cov_cg.sample();
+                total_count++;
+                
+                if (txn_drv.Hwrite) begin
+                    write_count++;
+                    
+                    // Check address and data translation
+                    if (txn_drv.Haddr == txn_mon.Paddr && txn_drv.Hwdata == txn_mon.Pwdata) begin
+                        $display("[%0t]   ✓ Checker: AHB→APB translation OK", $time);
+                    end else begin
+                        $display("[%0t]   ✗ Checker ERROR: AHB(0x%0h/0x%0h) != APB(0x%0h/0x%0h)", 
+                                 $time, txn_drv.Haddr, txn_drv.Hwdata, txn_mon.Paddr, txn_mon.Pwdata);
+                    end
+                end else begin
+                    read_count++;
+                    
+                    // Check address translation and show APB read data
+                    if (txn_drv.Haddr == txn_mon.Paddr) begin
+                        $display("[%0t]   ✓ Checker: AHB→APB addr OK, APB Read Data=0x%0h", 
+                                 $time, txn_mon.Prdata);
+                    end else begin
+                        $display("[%0t]   ✗ Checker ERROR: AHB addr(0x%0h) != APB addr(0x%0h)", 
+                                 $time, txn_drv.Haddr, txn_mon.Paddr);
+                    end
+                end
+            end
+        join_none
     endtask
 
     function void report();

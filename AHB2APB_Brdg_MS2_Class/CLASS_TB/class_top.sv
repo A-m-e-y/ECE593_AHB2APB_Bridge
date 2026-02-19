@@ -24,7 +24,7 @@ module ahb_apb_top;
   end
 
   // Interface instantiation
-  ahb_apb_if bfm(Hclk, resetn);
+  ahb_apb_if bfm(Hclk, resetn, Pclk);
 
   // DUT instantiation
   Bridge_Top dut(
@@ -34,6 +34,8 @@ module ahb_apb_top;
     .Hwrite(bfm.Hwrite),
     .Hreadyin(bfm.Hreadyin),
     .Htrans(bfm.Htrans),
+    .Hsize(bfm.Hsize),
+    .Hburst(bfm.Hburst),
     .Hwdata(bfm.Hwdata),
     .Haddr(bfm.Haddr),
     .Hrdata(bfm.Hrdata),
@@ -50,12 +52,6 @@ module ahb_apb_top;
   // Test instantiation and execution
   test main_test;
   
-  // Debug: Monitor FSM state and Penable in Hclk domain
-  always @(posedge Hclk) begin
-    if (dut.APBControl.Penable_temp)
-      $display("[%0t] FSM_DEBUG: state=%0d Penable_temp=1", $time, dut.APBControl.PRESENT_STATE);
-  end
-
   initial begin
     $dumpfile("tb_class_top.vcd");
     $dumpvars(0, ahb_apb_top);
@@ -99,6 +95,9 @@ module ahb_apb_top;
     // Wait for test completion
     repeat(10) @(posedge Hclk);
     
+    // Display comprehensive coverage report
+    dut.cov_inst.display_coverage();
+    
     $display("\n========================================");
     $display("   Simulation Completed");
     $display("========================================\n");
@@ -112,14 +111,6 @@ module ahb_apb_top;
     $display("   TIMEOUT: Simulation exceeded 100us");
     $display("========================================\n");
     $finish;
-  end
-
-  // APB Signal Monitor (for debugging) - Monitor on Hclk to match traditional TB
-  always @(posedge Hclk) begin
-    if (bfm.Pselx != 3'b000) begin
-      $display("[%0t] APB: sel=%b addr=%h write=%b enable=%b wdata=%h rdata=%h", 
-               $time, bfm.Pselx, bfm.Paddr, bfm.Pwrite, bfm.Penable, bfm.Pwdata, bfm.Prdata);
-    end
   end
 
 endmodule

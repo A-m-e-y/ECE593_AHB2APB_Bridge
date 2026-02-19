@@ -12,7 +12,14 @@ txn.sv
 generator.sv
 driver.sv
 monitor.sv
+apb_slave.sv
 scoreboard.sv
 environment.sv
 test.sv
+
+# Coverage Files
+coverage.sv
+coverage_bind.sv
+
+# Top-level
 class_top.sv

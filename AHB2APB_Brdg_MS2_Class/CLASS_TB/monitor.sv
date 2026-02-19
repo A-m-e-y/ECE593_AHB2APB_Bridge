@@ -11,34 +11,53 @@ class monitor;
     endfunction
 
     task monitor_ahb_apb();
+        bit [31:0] last_paddr = 32'hFFFFFFFF;
+        bit last_pwrite = 1'bx;
+        bit last_penable = 0;
+        
         forever begin
-            txn = new();
+            @(posedge vif.Pclk);
             
-            @(posedge vif.clk);
-            
-            // Capture AHB side signals
-            txn.Haddr = vif.Haddr;
-            txn.Hwdata = vif.Hwdata;
-            txn.Hwrite = vif.Hwrite;
-            txn.Htrans = vif.Htrans;
-            txn.Hrdata = vif.Hrdata;
-            txn.Hreadyout = vif.Hreadyout;
-            txn.Hresp = vif.Hresp;
-            
-            // Capture APB side signals
-            txn.Paddr = vif.Paddr;
-            txn.Pwdata = vif.Pwdata;
-            txn.Pwrite = vif.Pwrite;
-            txn.Pselx = vif.Pselx;
-            txn.Penable = vif.Penable;
-            txn.Prdata = vif.Prdata;
-            
-            // Only send to scoreboard when valid transaction occurs
-            if (txn.Htrans == 2'b10 || txn.Htrans == 2'b11) begin
-                $display("[%0t] MONITOR: Haddr=0x%0h Hwrite=%0b Paddr=0x%0h Pwrite=%0b Pselx=%0b Penable=%0b", 
-                         $time, txn.Haddr, txn.Hwrite, txn.Paddr, txn.Pwrite, txn.Pselx, txn.Penable);
-                mon2sb.put(txn);
+            // Detect new APB transaction when:
+            // 1. PENABLE is high and PSEL is active, AND
+            // 2. Either PENABLE just went high (0→1), OR address changed
+            if (vif.Pselx != 3'b000 && vif.Penable) begin
+                // New transaction if PENABLE rising edge OR address changed
+                if (!last_penable || (vif.Paddr != last_paddr)) begin
+                    
+                    // Skip write→read transitions at same address (spurious glitch)
+                    if (!(vif.Paddr == last_paddr && last_pwrite == 1'b1 && vif.Pwrite == 1'b0)) begin
+                        // Wait one more Pclk for signals to stabilize
+                        @(posedge vif.Pclk);
+                        
+                        txn = new();
+                        
+                        // Capture APB side signals during ACCESS phase
+                        txn.Paddr = vif.Paddr;
+                        txn.Pwdata = vif.Pwdata;
+                        txn.Pwrite = vif.Pwrite;
+                        txn.Pselx = vif.Pselx;
+                        txn.Penable = vif.Penable;
+                        txn.Prdata = vif.Prdata;
+                        
+                        // Capture corresponding AHB signals
+                        txn.Haddr = vif.Haddr;
+                        txn.Hwdata = vif.Hwdata;
+                        txn.Hwrite = vif.Hwrite;
+                        txn.Htrans = vif.Htrans;
+                        txn.Hresp = vif.Hresp;
+                        txn.Hrdata = vif.Hrdata;
+                        txn.Hreadyout = vif.Hreadyout;
+                        
+                        mon2sb.put(txn);
+                    end
+                    
+                    last_paddr = vif.Paddr;
+                    last_pwrite = vif.Pwrite;
+                end
             end
+            
+            last_penable = vif.Penable;
         end
     endtask
 

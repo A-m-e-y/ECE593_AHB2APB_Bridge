@@ -5,6 +5,7 @@ class environment;
     driver drv;
     monitor mon;
     scoreboard sb;
+    apb_slave apb_slv;  // APB slave behavioral model
     
     mailbox #(transaction) gen2driv;
     mailbox #(transaction) driv2sb;
@@ -25,6 +26,7 @@ class environment;
         drv = new(gen2driv, driv2sb, vif.master);
         mon = new(mon2sb, vif.slave);
         sb = new(driv2sb, mon2sb);
+        apb_slv = new(vif.master);  // APB slave uses master modport to drive Prdata
         
         $display("[%0t] ENVIRONMENT: Build phase completed", $time);
     endtask
@@ -45,14 +47,19 @@ class environment;
             
             // Scoreboard continuously checks
             sb.check_data();
+            
+            // APB slave responds to transactions
+            apb_slv.run();
         join_any
         
         // Wait for all transactions to complete
-        repeat(100) @(posedge vif.clk);
+        repeat(50) @(posedge vif.Pclk);  // Wait on slower Pclk for APB completion
         disable fork;
         
+        $display("\n[%0t] ENVIRONMENT: All transactions completed\n", $time);
         sb.report();
-        $display("[%0t] ENVIRONMENT: Sanity test completed", $time);
+        apb_slv.display_stats();  // Display APB slave statistics
+        $display("\n[%0t] ENVIRONMENT: Sanity test completed\n", $time);
     endtask
 
 endclass

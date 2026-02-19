@@ -1,11 +1,13 @@
 // Bridge Top
 
-module Bridge_Top(Hclk,Pclk,Hresetn,Hwrite,Hreadyin,Hreadyout,Hwdata,Haddr,Htrans,Prdata,Penable,Pwrite,Pselx,Paddr,Pwdata,Hresp,Hrdata);
+module Bridge_Top(Hclk,Pclk,Hresetn,Hwrite,Hreadyin,Hreadyout,Hwdata,Haddr,Htrans,Hsize,Hburst,Prdata,Penable,Pwrite,Pselx,Paddr,Pwdata,Hresp,Hrdata);
 
 input Hclk,Pclk,Hresetn,Hwrite,Hreadyin;
 input [31:0] Hwdata,Haddr;
 input [31:0] Prdata;
 input[1:0] Htrans;
+input [2:0] Hsize;    // Added for coverage
+input [2:0] Hburst;   // Added for coverage
 output Penable,Pwrite,Hreadyout;
 output [1:0] Hresp; 
 output [2:0] Pselx;

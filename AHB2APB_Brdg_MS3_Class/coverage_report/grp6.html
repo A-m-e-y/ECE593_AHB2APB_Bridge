@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Author" content="<username>"> <meta name="GENERATOR" content="urg/version [en] (platform name) [urg]">
+<title>Unified Coverage Report :: Group :: ahb_apb_top.dut.cov_inst::cg_apb_protocol</title>
+<link type="text/css" rel="stylesheet" href="css/.urg.css">
+<link type="text/css" rel="stylesheet" href="css/.layout.css">
+<link type="text/css" rel="stylesheet" href="css/.breadcrumb.css">
+<script type="text/javascript" src="js/.jquery.js"></script>
+<script type="text/javascript" src="js/.jquery-ui.js"></script>
+<script type="text/javascript" src="js/.sortable.js"></script>
+<script type="text/javascript" src="js/.layout.js"></script>
+<script type="text/javascript" src="js/.breadcrumb.js"></script>
+<script type="text/javascript">
+var layout, westLayout, centerLayout;
+$(document).ready(function () {
+  if ($("#north-bread-crumb")) {
+    $("#north-bread-crumb").jBreadCrumb({easing:'swing'})
+  }
+  layout = $("body").layout({ 
+    resizable: true,
+    spacing_open: 4,
+    spacing_closed: 4,
+    north: {
+      size: 76
+    },
+    south: {
+      size: 45,
+      initClosed: true
+    },
+    west: {
+      size: 500,
+      resizable: true,
+      initClosed: false
+    }
+  });
+  centerLayout = $('div.ui-layout-center').layout({
+    north__paneSelector: ".ui-layout-center-inner-north",
+    center__paneSelector: ".ui-layout-center-inner-center", 
+    north__size: 50,
+    spacing_open: 4,
+    spacing_closed: 4
+  });
+});
+</script>
+</head>
+<body onLoad="initPage();"><div class="ui-layout-north">
+<div class="logo"></div>
+<center class="pagetitle">Group : ahb_apb_top.dut.cov_inst::cg_apb_protocol</center>
+<div align="center"><a href="dashboard.html" ><b>dashboard</b></a> | <a href="hierarchy.html" ><b>hierarchy</b></a> | <a href="modlist.html" ><b>modlist</b></a> | <a href="groups.html" ><b>groups</b></a> | <a href="tests.html" ><b>tests</b></a> | asserts</div>
+
+</div>
+<div class="ui-layout-west">
+<div>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Group : <a href="#"  onclick="showContent('ahb_apb_top.dut.cov_inst::cg_apb_protocol')">ahb_apb_top.dut.cov_inst::cg_apb_protocol</a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td><b>SCORE</b></td><td>INSTANCES</td><td>WEIGHT</td><td>GOAL</td><td>AT LEAST</td><td>PER INSTANCE</td><td>AUTO BIN MAX</td><td>PRINT MISSING</td></tr><tr>
+<td class="s10 cl rt">100.00</td>
+<td class="s10 cl rt">100.00</td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">100   </td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">64    </td>
+<td class="wht cl rt">64    </td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Source File(s) : </span>
+<br clear=all>
+<a href="file:///u/ameyk/ECE593_Codes/ECE593_AHB2APB_Bridge/AHB2APB_Brdg_MS2_Class/coverage.sv" >/u/ameyk/ECE593_Codes/ECE593_AHB2APB_Bridge/AHB2APB_Brdg_MS2_Class/coverage.sv</a><br clear=all>
+<br clear=all>
+<span class=repname>1 Instances:</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td><b>SCORE</b></td><td>WEIGHT</td><td>GOAL</td><td>AT LEAST</td><td>AUTO BIN MAX</td><td>PRINT MISSING</td></tr><tr>
+<td class="wht cl wordwrap"><a href="grp6.html#inst_tag_apb_protocol_cov"  onclick="showContent('apb_protocol_cov')">apb_protocol_cov</a></td>
+<td class="s10 cl rt">100.00</td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">100   </td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">64    </td>
+<td class="wht cl rt">64    </td>
+</tr></table><br clear=all>
+<br clear=all>
+</div>
+<hr>
+<br clear=all>
+<span class=repname>Summary for Group   ahb_apb_top.dut.cov_inst::cg_apb_protocol
+</span>
+<br clear=all>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td><a href="#var_tbl_ahb_apb_top.dut.cov_inst::cg_apb_protocol" >Variables</a></td>
+<td class="rt">11</td>
+<td class="rt">0</td>
+<td class="rt">11</td>
+<td class="rt">100.00</td>
+</tr><tr class="s10">
+<td><a href="#crs_tbl_ahb_apb_top.dut.cov_inst::cg_apb_protocol" >Crosses</a></td>
+<td class="rt">12</td>
+<td class="rt">0</td>
+<td class="rt">12</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class="repname" id="var_tbl_ahb_apb_top.dut.cov_inst::cg_apb_protocol">Variables for Group  ahb_apb_top.dut.cov_inst::cg_apb_protocol
+</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">VARIABLE</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>GOAL</td><td>WEIGHT</td><td>AT LEAST</td><td>AUTO BIN MAX</td><td>COMMENT</td></tr><tr class="s10">
+<td><a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_pselx"  onclick="checkLink(this)" target="detailFrame">cp_pselx</a></td>
+<td class="rt">4</td>
+<td class="rt">0</td>
+<td class="rt">4</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_penable"  onclick="checkLink(this)" target="detailFrame">cp_penable</a></td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_pwrite"  onclick="checkLink(this)" target="detailFrame">cp_pwrite</a></td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_apb_phase"  onclick="checkLink(this)" target="detailFrame">cp_apb_phase</a></td>
+<td class="rt">3</td>
+<td class="rt">0</td>
+<td class="rt">3</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class="repname" id="crs_tbl_ahb_apb_top.dut.cov_inst::cg_apb_protocol">Crosses for Group  ahb_apb_top.dut.cov_inst::cg_apb_protocol
+</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">CROSS</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>GOAL</td><td>WEIGHT</td><td>AT LEAST</td><td>PRINT MISSING</td><td>COMMENT</td></tr><tr class="s10">
+<td><a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cx_slave_rw"  onclick="checkLink(this)" target="detailFrame">cx_slave_rw</a></td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cx_slave_enable"  onclick="checkLink(this)" target="detailFrame">cx_slave_enable</a></td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr></table><br clear=all>
+</div>
+<div name='apb_protocol_cov'>
+<a name="inst_tag_apb_protocol_cov"></a>
+<hr>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Group Instance : <a href="groups.html#tag_apb_protocol_cov" >apb_protocol_cov</a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td><b>SCORE</b></td><td>WEIGHT</td><td>GOAL</td><td>AT LEAST</td><td>AUTO BIN MAX</td><td>PRINT MISSING</td></tr><tr>
+<td class="s10 cl rt">100.00</td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">100   </td>
+<td class="wht cl rt">1     </td>
+<td class="wht cl rt">64    </td>
+<td class="wht cl rt">64    </td>
+</tr></table><br clear=all>
+<br clear=all>
+</div>
+<hr>
+<br clear=all>
+<span class=repname>Summary for Group Instance   apb_protocol_cov
+</span>
+<br clear=all>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td><a href="#var_tbl_apb_protocol_cov" >Variables</a></td>
+<td class="rt">11</td>
+<td class="rt">0</td>
+<td class="rt">11</td>
+<td class="rt">100.00</td>
+</tr><tr class="s10">
+<td><a href="#crs_tbl_apb_protocol_cov" >Crosses</a></td>
+<td class="rt">12</td>
+<td class="rt">0</td>
+<td class="rt">12</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class="repname" id="var_tbl_apb_protocol_cov">Variables for Group Instance  apb_protocol_cov
+</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">VARIABLE</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>GOAL</td><td>WEIGHT</td><td>AT LEAST</td><td>AUTO BIN MAX</td><td>COMMENT</td></tr><tr class="s10">
+<td><a href="#inst_tag_apb_protocol_cov.cp_pselx"  onclick="checkLink(this)" target="detailFrame">cp_pselx</a></td>
+<td class="rt">4</td>
+<td class="rt">0</td>
+<td class="rt">4</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_apb_protocol_cov.cp_penable"  onclick="checkLink(this)" target="detailFrame">cp_penable</a></td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_apb_protocol_cov.cp_pwrite"  onclick="checkLink(this)" target="detailFrame">cp_pwrite</a></td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_apb_protocol_cov.cp_apb_phase"  onclick="checkLink(this)" target="detailFrame">cp_apb_phase</a></td>
+<td class="rt">3</td>
+<td class="rt">0</td>
+<td class="rt">3</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class="repname" id="crs_tbl_apb_protocol_cov">Crosses for Group Instance  apb_protocol_cov
+</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">CROSS</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>GOAL</td><td>WEIGHT</td><td>AT LEAST</td><td>PRINT MISSING</td><td>COMMENT</td></tr><tr class="s10">
+<td><a href="#inst_tag_apb_protocol_cov.cx_slave_rw"  onclick="checkLink(this)" target="detailFrame">cx_slave_rw</a></td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr><tr class="s10">
+<td><a href="#inst_tag_apb_protocol_cov.cx_slave_enable"  onclick="checkLink(this)" target="detailFrame">cx_slave_enable</a></td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td class="rt">100</td>
+<td class="rt">1</td>
+<td class="rt">1</td>
+<td class="rt">0</td>
+<td></td>
+</tr></table><br clear=all>
+</div>
+</div>
+<div class="ui-layout-center">
+<div class="ui-layout-center-inner-center">
+<div name='ahb_apb_top.dut.cov_inst::cg_apb_protocol'>
+<br clear=all>
+<a name="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_pselx"></a><span class="repname" id="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_pselx">Summary for Variable cp_pselx</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">4</td>
+<td class="rt">0</td>
+<td class="rt">4</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_pselx</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Excluded/Illegal bins</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td class="alfsrt">STATUS</td></tr><tr class="wht">
+<td>invalid</td>
+<td class="rt">1</td>
+<td>Excluded</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Covered bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>none</td>
+<td class="rt">15452</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave2</td>
+<td class="rt">2138</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave1</td>
+<td class="rt">2149</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave0</td>
+<td class="rt">2253</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_penable"></a><span class="repname" id="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_penable">Summary for Variable cp_penable</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_penable</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>access</td>
+<td class="rt">3203</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>setup</td>
+<td class="rt">18789</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_pwrite"></a><span class="repname" id="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_pwrite">Summary for Variable cp_pwrite</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_pwrite</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>write</td>
+<td class="rt">5277</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>read</td>
+<td class="rt">16709</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_apb_phase"></a><span class="repname" id="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_apb_phase">Summary for Variable cp_apb_phase</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">3</td>
+<td class="rt">0</td>
+<td class="rt">3</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_apb_phase</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>idle_phase</td>
+<td class="rt">15452</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>access_phase</td>
+<td class="rt">3203</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>setup_phase</td>
+<td class="rt">3337</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cx_slave_rw"></a><span class="repname" id="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cx_slave_rw">Summary for Cross cx_slave_rw</span>
+<br clear=all>
+<br clear=all>
+Samples crossed: cp_pselx cp_pwrite<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>MISSING</td></tr><tr class="s10">
+<td>TOTAL</td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td></td>
+</tr><tr class="s10">
+<td>Automatically Generated Cross Bins</td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td></td>
+</tr><tr class="wht">
+<td>User Defined Cross Bins</td>
+<td class="rt">0</td>
+<td class="rt">0</td>
+<td class="rt">0</td>
+<td></td>
+<td></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Automatically Generated Cross Bins for cx_slave_rw</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">cp_pselx</td><td class="alfsrt">cp_pwrite</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>slave1</td>
+<td>write</td>
+<td class="rt">1191</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave1</td>
+<td>read</td>
+<td class="rt">958</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave2</td>
+<td>write</td>
+<td class="rt">1206</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave2</td>
+<td>read</td>
+<td class="rt">932</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave0</td>
+<td>write</td>
+<td class="rt">1239</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave0</td>
+<td>read</td>
+<td class="rt">1014</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Cross Bins for cx_slave_rw</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Excluded/Illegal bins</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td class="alfsrt">STATUS</td></tr><tr class="wht">
+<td>no_slave</td>
+<td class="rt">0</td>
+<td>Excluded</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cx_slave_enable"></a><span class="repname" id="inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cx_slave_enable">Summary for Cross cx_slave_enable</span>
+<br clear=all>
+<br clear=all>
+Samples crossed: cp_pselx cp_penable<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>MISSING</td></tr><tr class="s10">
+<td>TOTAL</td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td></td>
+</tr><tr class="s10">
+<td>Automatically Generated Cross Bins</td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td></td>
+</tr><tr class="wht">
+<td>User Defined Cross Bins</td>
+<td class="rt">0</td>
+<td class="rt">0</td>
+<td class="rt">0</td>
+<td></td>
+<td></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Automatically Generated Cross Bins for cx_slave_enable</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">cp_pselx</td><td class="alfsrt">cp_penable</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>slave1</td>
+<td>setup</td>
+<td class="rt">1091</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave1</td>
+<td>access</td>
+<td class="rt">1058</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave2</td>
+<td>setup</td>
+<td class="rt">1097</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave2</td>
+<td>access</td>
+<td class="rt">1041</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave0</td>
+<td>setup</td>
+<td class="rt">1149</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave0</td>
+<td>access</td>
+<td class="rt">1104</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Cross Bins for cx_slave_enable</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Excluded/Illegal bins</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td class="alfsrt">STATUS</td></tr><tr class="wht">
+<td>no_slave</td>
+<td class="rt">0</td>
+<td>Excluded</td>
+</tr></table><br clear=all>
+</div>
+<div name='apb_protocol_cov'>
+<br clear=all>
+<a name="inst_tag_apb_protocol_cov.cp_pselx"></a><span class="repname" id="inst_tag_apb_protocol_cov.cp_pselx">Summary for Variable cp_pselx</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">4</td>
+<td class="rt">0</td>
+<td class="rt">4</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_pselx</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Excluded/Illegal bins</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td class="alfsrt">STATUS</td></tr><tr class="wht">
+<td>invalid</td>
+<td class="rt">1</td>
+<td>Excluded</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Covered bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>none</td>
+<td class="rt">15452</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave2</td>
+<td class="rt">2138</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave1</td>
+<td class="rt">2149</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave0</td>
+<td class="rt">2253</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_apb_protocol_cov.cp_penable"></a><span class="repname" id="inst_tag_apb_protocol_cov.cp_penable">Summary for Variable cp_penable</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_penable</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>access</td>
+<td class="rt">3203</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>setup</td>
+<td class="rt">18789</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_apb_protocol_cov.cp_pwrite"></a><span class="repname" id="inst_tag_apb_protocol_cov.cp_pwrite">Summary for Variable cp_pwrite</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">2</td>
+<td class="rt">0</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_pwrite</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>write</td>
+<td class="rt">5277</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>read</td>
+<td class="rt">16709</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_apb_protocol_cov.cp_apb_phase"></a><span class="repname" id="inst_tag_apb_protocol_cov.cp_apb_phase">Summary for Variable cp_apb_phase</span>
+<br clear=all>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td></tr><tr class="s10">
+<td>User Defined Bins</td>
+<td class="rt">3</td>
+<td class="rt">0</td>
+<td class="rt">3</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Bins for cp_apb_phase</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>idle_phase</td>
+<td class="rt">15452</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>access_phase</td>
+<td class="rt">3203</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>setup_phase</td>
+<td class="rt">3337</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_apb_protocol_cov.cx_slave_rw"></a><span class="repname" id="inst_tag_apb_protocol_cov.cx_slave_rw">Summary for Cross cx_slave_rw</span>
+<br clear=all>
+<br clear=all>
+Samples crossed: cp_pselx cp_pwrite<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>MISSING</td></tr><tr class="s10">
+<td>TOTAL</td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td></td>
+</tr><tr class="s10">
+<td>Automatically Generated Cross Bins</td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td></td>
+</tr><tr class="wht">
+<td>User Defined Cross Bins</td>
+<td class="rt">0</td>
+<td class="rt">0</td>
+<td class="rt">0</td>
+<td></td>
+<td></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Automatically Generated Cross Bins for cx_slave_rw</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">cp_pselx</td><td class="alfsrt">cp_pwrite</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>slave1</td>
+<td>write</td>
+<td class="rt">1191</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave1</td>
+<td>read</td>
+<td class="rt">958</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave2</td>
+<td>write</td>
+<td class="rt">1206</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave2</td>
+<td>read</td>
+<td class="rt">932</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave0</td>
+<td>write</td>
+<td class="rt">1239</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave0</td>
+<td>read</td>
+<td class="rt">1014</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Cross Bins for cx_slave_rw</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Excluded/Illegal bins</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td class="alfsrt">STATUS</td></tr><tr class="wht">
+<td>no_slave</td>
+<td class="rt">0</td>
+<td>Excluded</td>
+</tr></table><br clear=all>
+<hr>
+<br clear=all>
+<a name="inst_tag_apb_protocol_cov.cx_slave_enable"></a><span class="repname" id="inst_tag_apb_protocol_cov.cx_slave_enable">Summary for Cross cx_slave_enable</span>
+<br clear=all>
+<br clear=all>
+Samples crossed: cp_pselx cp_penable<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">CATEGORY</td><td>EXPECTED</td><td>UNCOVERED</td><td>COVERED</td><td>PERCENT</td><td>MISSING</td></tr><tr class="s10">
+<td>TOTAL</td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td></td>
+</tr><tr class="s10">
+<td>Automatically Generated Cross Bins</td>
+<td class="rt">6</td>
+<td class="rt">0</td>
+<td class="rt">6</td>
+<td class="rt">100.00</td>
+<td></td>
+</tr><tr class="wht">
+<td>User Defined Cross Bins</td>
+<td class="rt">0</td>
+<td class="rt">0</td>
+<td class="rt">0</td>
+<td></td>
+<td></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Automatically Generated Cross Bins for cx_slave_enable</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Bins</span>
+<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td class="alfsrt">cp_pselx</td><td class="alfsrt">cp_penable</td><td>COUNT</td><td>AT LEAST</td></tr><tr class="s10">
+<td>slave1</td>
+<td>setup</td>
+<td class="rt">1091</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave1</td>
+<td>access</td>
+<td class="rt">1058</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave2</td>
+<td>setup</td>
+<td class="rt">1097</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave2</td>
+<td>access</td>
+<td class="rt">1041</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave0</td>
+<td>setup</td>
+<td class="rt">1149</td>
+<td class="rt">1</td>
+</tr><tr class="s10">
+<td>slave0</td>
+<td>access</td>
+<td class="rt">1104</td>
+<td class="rt">1</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>User Defined Cross Bins for cx_slave_enable</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Excluded/Illegal bins</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>COUNT</td><td class="alfsrt">STATUS</td></tr><tr class="wht">
+<td>no_slave</td>
+<td class="rt">0</td>
+<td>Excluded</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<div class="ui-layout-center-inner-north">
+<div id="center-bread-crumb" class="breadCrumb module urg-margin-bottom">
+  <ul name="ahb_apb_top.dut.cov_inst::cg_apb_protocol">
+    <li>
+      <a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_pselx">Variable : cp_pselx</a>    </li>
+    <li>
+      <a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_penable">Variable : cp_penable</a>    </li>
+    <li>
+      <a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_pwrite">Variable : cp_pwrite</a>    </li>
+    <li>
+      <a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cp_apb_phase">Variable : cp_apb_phase</a>    </li>
+    <li>
+      <a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cx_slave_rw">Cross : cx_slave_rw</a>    </li>
+    <li>
+      <a href="#inst_tag_ahb_apb_top.dut.cov_inst::cg_apb_protocol.cx_slave_enable">Cross : cx_slave_enable</a>    </li>
+  </ul>
+  <ul name="apb_protocol_cov">
+    <li>
+      <a href="#inst_tag_apb_protocol_cov.cp_pselx">Variable : cp_pselx</a>    </li>
+    <li>
+      <a href="#inst_tag_apb_protocol_cov.cp_penable">Variable : cp_penable</a>    </li>
+    <li>
+      <a href="#inst_tag_apb_protocol_cov.cp_pwrite">Variable : cp_pwrite</a>    </li>
+    <li>
+      <a href="#inst_tag_apb_protocol_cov.cp_apb_phase">Variable : cp_apb_phase</a>    </li>
+    <li>
+      <a href="#inst_tag_apb_protocol_cov.cx_slave_rw">Cross : cx_slave_rw</a>    </li>
+    <li>
+      <a href="#inst_tag_apb_protocol_cov.cx_slave_enable">Cross : cx_slave_enable</a>    </li>
+  </ul>
+</div>
+</div>
+</div>
+<div class="ui-layout-south">
+<table align=center><tr><td class="s0 cl">0%</td>
+<td class="s1 cl">10%</td>
+<td class="s2 cl">20%</td>
+<td class="s3 cl">30%</td>
+<td class="s4 cl">40%</td>
+<td class="s5 cl">50%</td>
+<td class="s6 cl">60%</td>
+<td class="s7 cl">70%</td>
+<td class="s8 cl">80%</td>
+<td class="s9 cl">90%</td>
+<td class="s10 cl">100%</td></tr></table></div>
+</body>
+</html>

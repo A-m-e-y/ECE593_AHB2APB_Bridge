@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Author" content="<username>"> <meta name="GENERATOR" content="urg/version [en] (platform name) [urg]">
+<title>Unified Coverage Report :: Module :: APB_FSM_Controller</title>
+<link type="text/css" rel="stylesheet" href="css/.urg.css">
+<link type="text/css" rel="stylesheet" href="css/.layout.css">
+<link type="text/css" rel="stylesheet" href="css/.breadcrumb.css">
+<script type="text/javascript" src="js/.jquery.js"></script>
+<script type="text/javascript" src="js/.jquery-ui.js"></script>
+<script type="text/javascript" src="js/.sortable.js"></script>
+<script type="text/javascript" src="js/.layout.js"></script>
+<script type="text/javascript" src="js/.breadcrumb.js"></script>
+<script type="text/javascript">
+var layout, westLayout, centerLayout;
+$(document).ready(function () {
+  if ($("#north-bread-crumb")) {
+    $("#north-bread-crumb").jBreadCrumb({easing:'swing'})
+  }
+  layout = $("body").layout({ 
+    resizable: true,
+    spacing_open: 4,
+    spacing_closed: 4,
+    north: {
+      size: 76
+    },
+    south: {
+      size: 45,
+      initClosed: true
+    },
+    west: {
+      size: 500,
+      resizable: true,
+      initClosed: false
+    }
+  });
+  centerLayout = $('div.ui-layout-center').layout({
+    north__paneSelector: ".ui-layout-center-inner-north",
+    center__paneSelector: ".ui-layout-center-inner-center", 
+    north__size: 50,
+    spacing_open: 4,
+    spacing_closed: 4
+  });
+});
+</script>
+</head>
+<body onLoad="initPage();"><div class="ui-layout-north">
+<div class="logo"></div>
+<center class="pagetitle">Module Definition</center>
+<div align="center"><a href="dashboard.html" ><b>dashboard</b></a> | <a href="hierarchy.html" ><b>hierarchy</b></a> | <a href="modlist.html" ><b>modlist</b></a> | <a href="groups.html" ><b>groups</b></a> | <a href="tests.html" ><b>tests</b></a> | asserts</div>
+
+</div>
+<div class="ui-layout-west">
+<div name='tag_APB_FSM_Controller'>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module : <a href="#"  onclick="showContent('tag_APB_FSM_Controller')">APB_FSM_Controller</a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s7 cl rt"> 76.90</td>
+<td class="s8 cl rt"><a href="mod0.html#Line" > 87.83</a></td>
+<td class="s5 cl rt"><a href="mod0.html#Cond" > 54.55</a></td>
+<td class="s9 cl rt"><a href="mod0.html#Toggle" > 98.02</a></td>
+<td class="s5 cl rt"><a href="mod0.html#FSM" > 59.09</a></td>
+<td class="s8 cl rt"><a href="mod0.html#Branch" > 85.00</a></td>
+</tr></table><br clear=all>
+<span class=repname>Source File(s) : </span>
+<br clear=all>
+<a href="file:///u/ameyk/ECE593_Codes/ECE593_AHB2APB_Bridge/AHB2APB_Brdg_MS2_Class/APB_FSM_Controller.sv" >/u/ameyk/ECE593_Codes/ECE593_AHB2APB_Bridge/AHB2APB_Brdg_MS2_Class/APB_FSM_Controller.sv</a><br clear=all>
+<br clear=all>
+<span class=repname>Module self-instances :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="wht cl wordwrap"><a href="mod0.html#inst_tag_0"  onclick="showContent('inst_tag_0')">ahb_apb_top.dut.APBControl</a></td>
+<td class="s7 cl rt"> 76.90</td>
+<td class="s8 cl rt"><a href="mod0.html#Line" > 87.83</a></td>
+<td class="s5 cl rt"><a href="mod0.html#Cond" > 54.55</a></td>
+<td class="s9 cl rt"><a href="mod0.html#Toggle" > 98.02</a></td>
+<td class="s5 cl rt"><a href="mod0.html#FSM" > 59.09</a></td>
+<td class="s8 cl rt"><a href="mod0.html#Branch" > 85.00</a></td>
+</tr></table></div>
+</div>
+<br clear=all>
+<div name='tag_APB_FSM_Controller'>
+<hr>
+<a name="inst_tag_0"></a>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module Instance : <a href="hierarchy.html#tag_urg_inst_0" >ahb_apb_top.dut.APBControl</a></span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Instance :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s7 cl rt"> 76.90</td>
+<td class="s8 cl rt"><a href="mod0.html#Line" > 87.83</a></td>
+<td class="s5 cl rt"><a href="mod0.html#Cond" > 54.55</a></td>
+<td class="s9 cl rt"><a href="mod0.html#Toggle" > 98.02</a></td>
+<td class="s5 cl rt"><a href="mod0.html#FSM" > 59.09</a></td>
+<td class="s8 cl rt"><a href="mod0.html#Branch" > 85.00</a></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Instance's subtree :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s7 cl rt"> 76.90</td>
+<td class="s8 cl rt"> 87.83</td>
+<td class="s5 cl rt"> 54.55</td>
+<td class="s9 cl rt"> 98.02</td>
+<td class="s5 cl rt"> 59.09</td>
+<td class="s8 cl rt"> 85.00</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Parent : </span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td class="alfsrt">NAME</td></tr><tr>
+<td class="s9 cl rt"> 97.32</td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"> 97.32</td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td><a href="mod4.html#inst_tag_4" >dut</a></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Subtrees :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td colspan=7>no children</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<hr>
+Since this is the module's only instance, the coverage report is the same as for the module.</div>
+<div class="ui-layout-center">
+<div class="ui-layout-center-inner-center">
+<div name='tag_APB_FSM_Controller'>
+<a name="Line"></a>
+Line Coverage for Module : <a href="mod0.html" >APB_FSM_Controller</a><br clear=all>
+<table class="noborder">
+<col width="122">
+<col span="4" width="82">
+<tr><th></th><th>Line No.</th><th>Total</th><th>Covered</th><th>Percent</th></tr>
+<tr class="s8"><td class="lf">TOTAL</td><td></td><td>115</td><td>101</td><td>87.83</td></tr>
+<tr class="s10"><td class="lf">ALWAYS</td><td>31</td><td>3</td><td>3</td><td>100.00</td></tr>
+<tr class="s8"><td class="lf">ALWAYS</td><td>42</td><td>30</td><td>25</td><td>83.33</td></tr>
+<tr class="s8"><td class="lf">ALWAYS</td><td>123</td><td>69</td><td>60</td><td>86.96</td></tr>
+<tr class="s10"><td class="lf">ALWAYS</td><td>277</td><td>13</td><td>13</td><td>100.00</td></tr>
+</table>
+<pre class="code"><br clear=all>
+30                       begin:PRESENT_STATE_LOGIC
+31         1/1            if (~Hresetn)
+32         1/1              PRESENT_STATE&lt;=ST_IDLE;
+33                        else
+34         1/1              PRESENT_STATE&lt;=NEXT_STATE;
+35                       end
+36                      
+37                      
+38                      //////// NEXT STATE LOGIC
+39                      
+40                      always @(PRESENT_STATE,valid,Hwrite,Hwritereg)
+41                       begin:NEXT_STATE_LOGIC
+42         1/1            case (PRESENT_STATE)
+43                          
+44                       	ST_IDLE:begin
+45         1/1          		 if (~valid)
+46         1/1          		  NEXT_STATE=ST_IDLE;
+47         1/1          		 else if (valid &amp;&amp; Hwrite)
+48         1/1          		  NEXT_STATE=ST_WWAIT;
+49                      		 else 
+50         1/1          		  NEXT_STATE=ST_READ;
+51                      		end    
+52                      
+53                      	ST_WWAIT:begin
+54         1/1          		 if (~valid)
+55                      		  // synopsys coverage off
+56         <font color = "red">0/1     ==>  		  NEXT_STATE=ST_WRITE;  // Unreachable: Timing constraint prevents this transition</font>
+57                      		  // synopsys coverage on
+58                      		 else
+59         1/1          		  NEXT_STATE=ST_WRITEP;
+60                      		end
+61                      
+62                      	ST_READ: begin
+63         1/1          		   NEXT_STATE=ST_RENABLE;
+64                      		 end
+65                      
+66                      	ST_WRITE:begin
+67         1/1          		  if (~valid)
+68         1/1          		   NEXT_STATE=ST_WENABLE;
+69                      		  else
+70         1/1          		   NEXT_STATE=ST_WENABLEP;
+71                      		 end
+72                      
+73                      	ST_WRITEP:begin
+74         1/1          		   NEXT_STATE=ST_WENABLEP;
+75                      		  end
+76                      
+77                      	ST_RENABLE:begin
+78         1/1          		     if (~valid)
+79         1/1          		      NEXT_STATE=ST_IDLE;
+80         1/1          		     else if (valid &amp;&amp; Hwrite)
+81                      		      // synopsys coverage off
+82         <font color = "red">0/1     ==>  		      NEXT_STATE=ST_WWAIT;  // Unreachable: ENABLE state too short (1 Pclk)</font>
+83                      		      // synopsys coverage on
+84                      		     else
+85         1/1          		      NEXT_STATE=ST_READ;
+86                      		   end
+87                      
+88                      	ST_WENABLE:begin
+89                      		     // synopsys coverage off
+90         1/1          		     if (~valid)
+91         1/1          		      NEXT_STATE=ST_IDLE;  // Unreachable: ENABLE state too short
+92         <font color = "red">0/1     ==>  		     else if (valid &amp;&amp; Hwrite)</font>
+93         <font color = "red">0/1     ==>  		      NEXT_STATE=ST_WWAIT;  // Unreachable: ENABLE state too short</font>
+94                      		     else
+95         <font color = "red">0/1     ==>  		      NEXT_STATE=ST_READ;  // Unreachable: ENABLE state too short</font>
+96                      		     // synopsys coverage on
+97                      		   end
+98                      
+99                      	ST_WENABLEP:begin
+100        1/1          		      if (~valid &amp;&amp; Hwritereg)
+101        1/1          		       NEXT_STATE=ST_WRITE;
+102        1/1          		      else if (valid &amp;&amp; Hwritereg)
+103        1/1          		       NEXT_STATE=ST_WRITEP;
+104                     		      else
+105        1/1          		       NEXT_STATE=ST_READ;
+106                     		    end
+107                     
+108                     	default: begin
+109        1/1          		   NEXT_STATE=ST_IDLE;
+110                     		  end
+111                       endcase
+112                      end
+113                     
+114                     
+115                     ///////////OUTPUT LOGIC:COMBINATIONAL
+116                     
+117                     reg Penable_temp,Hreadyout_temp,Pwrite_temp;
+118                     reg [2:0] Pselx_temp;
+119                     reg [31:0] Paddr_temp, Pwdata_temp;
+120                     
+121                     always @(*)
+122                      begin:OUTPUT_COMBINATIONAL_LOGIC
+123        1/1             case(PRESENT_STATE)
+124                         
+125                     	ST_IDLE: begin
+126        1/1          			  if (valid &amp;&amp; ~Hwrite) 
+127                     			   begin:IDLE_TO_READ
+128        1/1          			        Paddr_temp=Haddr;
+129        1/1          				Pwrite_temp=Hwrite;
+130        1/1          				Pselx_temp=tempselx;
+131        1/1          				Penable_temp=0;
+132        1/1          				Hreadyout_temp=0;
+133                     			   end
+134                     			  
+135        1/1          			  else if (valid &amp;&amp; Hwrite)
+136                     			   begin:IDLE_TO_WWAIT
+137        1/1          			        Pselx_temp=0;
+138        1/1          				Penable_temp=0;
+139        1/1          				Hreadyout_temp=1;			   
+140                     			   end
+141                     			   
+142                     			  else
+143                                                 begin:IDLE_TO_IDLE
+144        1/1          			        Pselx_temp=0;
+145        1/1          				Penable_temp=0;
+146        1/1          				Hreadyout_temp=1;	
+147                     			   end
+148                     		     end    
+149                     
+150                     	ST_WWAIT:begin
+151        1/1          	          if (~valid) 
+152                     			   // synopsys coverage off
+153                     			   begin:WAIT_TO_WRITE  // Unreachable: Timing prevents this transition
+154        <font color = "red">0/1     ==>  			    Paddr_temp=Haddr1;</font>
+155        <font color = "red">0/1     ==>  				Pwrite_temp=1;</font>
+156        <font color = "red">0/1     ==>  				Pselx_temp=tempselx;</font>
+157        <font color = "red">0/1     ==>  				Penable_temp=0;</font>
+158        <font color = "red">0/1     ==>  				Pwdata_temp=Hwdata;</font>
+159        <font color = "red">0/1     ==>  				Hreadyout_temp=0;</font>
+160                     			   end
+161                     			   // synopsys coverage on
+162                     			  
+163                     			  else 
+164                     			   begin:WAIT_TO_WRITEP
+165        1/1          			    Paddr_temp=Haddr1;
+166        1/1          				Pwrite_temp=1;
+167        1/1          				Pselx_temp=tempselx;
+168        1/1          				Pwdata_temp=Hwdata;
+169        1/1          				Penable_temp=0;
+170        1/1          				Hreadyout_temp=0;		   
+171                     			   end
+172                     			   
+173                     		     end
+174                     
+175                     	ST_READ: begin:READ_TO_RENABLE
+176        1/1          			  Penable_temp=1;
+177        1/1          			  Hreadyout_temp=1;
+178                     		     end
+179                     
+180                     	ST_WRITE:begin
+181        1/1                        if (~valid) 
+182                     			   begin:WRITE_TO_WENABLE
+183        1/1          				Penable_temp=1;
+184        1/1          				Hreadyout_temp=1;
+185                     			   end
+186                     			  
+187                     			  else 
+188                     			   begin:WRITE_TO_WENABLEP ///DOUBT
+189        1/1          				Penable_temp=1;
+190        1/1          				Hreadyout_temp=1;		   
+191                     			   end
+192                     		     end
+193                     
+194                     	ST_WRITEP:begin:WRITEP_TO_WENABLEP
+195        1/1                         Penable_temp=1;
+196        1/1          			   Hreadyout_temp=1;
+197                     		      end
+198                     
+199                     	ST_RENABLE:begin
+200        1/1          	            if (valid &amp;&amp; ~Hwrite) 
+201                     				 begin:RENABLE_TO_READ
+202        1/1          					Paddr_temp=Haddr;
+203        1/1          					Pwrite_temp=Hwrite;
+204        1/1          					Pselx_temp=tempselx;
+205        1/1          					Penable_temp=0;
+206        1/1          					Hreadyout_temp=0;
+207                     				 end
+208                     			  
+209        1/1          			  else if (valid &amp;&amp; Hwrite)
+210                     			    // synopsys coverage off
+211                     			    begin:RENABLE_TO_WWAIT  // Unreachable: ENABLE state too short
+212        <font color = "red">0/1     ==>  			     Pselx_temp=0;</font>
+213        <font color = "red">0/1     ==>  				 Penable_temp=0;</font>
+214        <font color = "red">0/1     ==>  				 Hreadyout_temp=1;			   </font>
+215                     			    end
+216                     			    // synopsys coverage on
+217                     			   
+218                     			  else
+219                                     begin:RENABLE_TO_IDLE
+220        1/1          			     Pselx_temp=0;
+221        1/1          				 Penable_temp=0;
+222        1/1          				 Hreadyout_temp=1;	
+223                     			    end
+224                     
+225                     		       end
+226                     
+227                     	ST_WENABLEP:begin
+228        1/1                           if (~valid &amp;&amp; Hwritereg) 
+229                     			      begin:WENABLEP_TO_WRITEP
+230        1/1          			       Paddr_temp=Haddr2;
+231        1/1          				   Pwrite_temp=Hwrite;
+232        1/1          				   Pselx_temp=tempselx;
+233        1/1          				   Penable_temp=0;
+234        1/1          				   Pwdata_temp=Hwdata;
+235        1/1          				   Hreadyout_temp=0;
+236                     				  end
+237                     
+238                     			  
+239                     			    else 
+240                     			     begin:WENABLEP_TO_WRITE_OR_READ /////DOUBT
+241        1/1          			      Paddr_temp=Haddr2;
+242        1/1          				  Pwrite_temp=Hwrite;
+243        1/1          				  Pselx_temp=tempselx;
+244        1/1          				  Pwdata_temp=Hwdata;
+245        1/1          				  Penable_temp=0;
+246        1/1          				  Hreadyout_temp=0;		   
+247                     			     end
+248                     		        end
+249                     
+250                     	ST_WENABLE :begin
+251        1/1          	             if (~valid &amp;&amp; Hwritereg) 
+252                     			      begin:WENABLE_TO_IDLE
+253        1/1          				   Pselx_temp=0;
+254        1/1          				   Penable_temp=0;
+255        1/1          				   Hreadyout_temp=0;
+256                     				  end
+257                     
+258                     			  
+259                     			    else 
+260                     			     begin:WENABLE_TO_WAIT_OR_READ /////DOUBT
+261        1/1          				  Pselx_temp=0;
+262        1/1          				  Penable_temp=0;
+263        1/1          				  Hreadyout_temp=0;		   
+264                     			     end
+265                     
+266                     		        end
+                        MISSING_DEFAULT
+267                     
+268                      endcase
+269                     end
+270                     
+271                     
+272                     ////////////OUTPUT LOGIC:SEQUENTIAL
+273                     
+274                     always @(posedge Hclk)
+275                      begin
+276                       
+277        1/1            if (~Hresetn)
+278                        begin
+279        1/1              Paddr&lt;=0;
+280        1/1          	Pwrite&lt;=0;
+281        1/1          	Pselx&lt;=0;
+282        1/1          	Pwdata&lt;=0;
+283        1/1          	Penable&lt;=0;
+284        1/1          	Hreadyout&lt;=0;
+285                        end
+286                       
+287                       else
+288                        begin
+289        1/1                  Paddr&lt;=Paddr_temp;
+290        1/1          	Pwrite&lt;=Pwrite_temp;
+291        1/1          	Pselx&lt;=Pselx_temp;
+292        1/1          	Pwdata&lt;=Pwdata_temp;
+293        1/1          	Penable&lt;=Penable_temp;
+294        1/1          	Hreadyout&lt;=Hreadyout_temp;
+</pre>
+<hr>
+<a name="Cond"></a>
+Cond Coverage for Module : <a href="mod0.html" >APB_FSM_Controller</a><br clear=all>
+<table class="noborder">
+<col width="122">
+<col span="3" width="82">
+<tr><th></th><th>Total</th><th>Covered</th><th>Percent</th></tr>
+<tr class="s5"><td class="lf">Conditions</td><td>33</td><td>18</td><td>54.55</td></tr>
+<tr class="s5"><td class="lf">Logical</td><td>33</td><td>18</td><td>54.55</td></tr>
+<tr class="wht"><td class="lf">Non-Logical</td><td>0</td><td>0</td><td></td></tr>
+<tr class="wht"><td class="lf">Event</td><td>0</td><td>0</td><td></td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       47
+ EXPRESSION (valid &amp;&amp; Hwrite)
+             --1--    ---2--
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td>1</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       80
+ EXPRESSION (valid &amp;&amp; Hwrite)
+             --1--    ---2--
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td>1</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uRed"><td>1</td><td>1</td><td class="lf">Not Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       92
+ EXPRESSION (valid &amp;&amp; Hwrite)
+             --1--    ---2--
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td>1</td><td class="lf">Not Covered</td></tr>
+<tr class="uRed"><td>1</td><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uRed"><td>1</td><td>1</td><td class="lf">Not Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       100
+ EXPRESSION (((~valid)) &amp;&amp; Hwritereg)
+             -----1----    ----2----
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uRed"><td>1</td><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       102
+ EXPRESSION (valid &amp;&amp; Hwritereg)
+             --1--    ----2----
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td>1</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       126
+ EXPRESSION (valid &amp;&amp; ((~Hwrite)))
+             --1--    -----2-----
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       135
+ EXPRESSION (valid &amp;&amp; Hwrite)
+             --1--    ---2--
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uRed"><td>1</td><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       200
+ EXPRESSION (valid &amp;&amp; ((~Hwrite)))
+             --1--    -----2-----
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uRed"><td>1</td><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       209
+ EXPRESSION (valid &amp;&amp; Hwrite)
+             --1--    ---2--
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td>1</td><td class="lf">Not Covered</td></tr>
+<tr class="uRed"><td>1</td><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uRed"><td>1</td><td>1</td><td class="lf">Not Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       228
+ EXPRESSION (((~valid)) &amp;&amp; Hwritereg)
+             -----1----    ----2----
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uRed"><td>1</td><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       251
+ EXPRESSION (((~valid)) &amp;&amp; Hwritereg)
+             -----1----    ----2----
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td>1</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<hr>
+<a name="Toggle"></a>
+Toggle Coverage for Module : <a href="mod0.html" >APB_FSM_Controller</a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s9">
+<td>Totals</td>
+<td class="rt">27</td>
+<td class="rt">25</td>
+<td class="rt">92.59 </td>
+</tr><tr class="s9">
+<td>Total Bits</td>
+<td class="rt">756</td>
+<td class="rt">741</td>
+<td class="rt">98.02 </td>
+</tr><tr class="s9">
+<td nowrap>Total Bits 0->1</td>
+<td class="rt">378</td>
+<td class="rt">371</td>
+<td class="rt">98.15 </td>
+</tr><tr class="s9">
+<td nowrap>Total Bits 1->0</td>
+<td class="rt">378</td>
+<td class="rt">370</td>
+<td class="rt">97.88 </td>
+</tr></table><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80></th><th nowrap width=80></th><th nowrap width=80></th></tr><tr class="s9">
+<td>Ports</td>
+<td class="rt">19</td>
+<td class="rt">18</td>
+<td class="rt">94.74 </td>
+</tr><tr class="s9">
+<td>Port Bits</td>
+<td class="rt">604</td>
+<td class="rt">597</td>
+<td class="rt">98.84 </td>
+</tr><tr class="s9">
+<td nowrap>Port Bits 0->1</td>
+<td class="rt">302</td>
+<td class="rt">299</td>
+<td class="rt">99.01 </td>
+</tr><tr class="s9">
+<td nowrap>Port Bits 1->0</td>
+<td class="rt">302</td>
+<td class="rt">298</td>
+<td class="rt">98.68 </td>
+</tr></table><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80></th><th nowrap width=80></th><th nowrap width=80></th></tr><tr class="s8">
+<td>Signals</td>
+<td class="rt">8</td>
+<td class="rt">7</td>
+<td class="rt">87.50 </td>
+</tr><tr class="s9">
+<td>Signal Bits</td>
+<td class="rt">152</td>
+<td class="rt">144</td>
+<td class="rt">94.74 </td>
+</tr><tr class="s9">
+<td nowrap>Signal Bits 0->1</td>
+<td class="rt">76</td>
+<td class="rt">72</td>
+<td class="rt">94.74 </td>
+</tr><tr class="s9">
+<td nowrap>Signal Bits 1->0</td>
+<td class="rt">76</td>
+<td class="rt">72</td>
+<td class="rt">94.74 </td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Port Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td><td class="alfsrt">Direction</td></tr><tr>
+<td>Hclk</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Hresetn</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>valid</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Hwrite</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Hwritereg</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Hwdata[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Haddr[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Haddr1[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Haddr2[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Hwdata1[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Hwdata2[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Prdata[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>tempselx[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>Pwrite</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>Penable</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>Hreadyout</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>Pselx[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>Paddr[27:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>Paddr[30:28]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>Paddr[31]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>Pwdata[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Signal Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td></tr><tr>
+<td>PRESENT_STATE[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>NEXT_STATE[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>Penable_temp</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>Hreadyout_temp</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>Pwrite_temp</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>Pselx_temp[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>Paddr_temp[27:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>Paddr_temp[31:28]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>Pwdata_temp[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr></table><br clear=all>
+<hr>
+<a name="FSM"></a>
+FSM Coverage for Module : <a href="mod0.html" >APB_FSM_Controller</a><br clear=all>
+<table align=left class="noborder">
+<caption><b>Summary for FSM :: PRESENT_STATE</b></caption>
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th><th nowrap width=200></th></tr><tr class="wht">
+<td>States</td>
+<td class="rt">8</td>
+<td class="rt">8</td>
+<td class="rt">100.00</td>
+<td>(Not included in score)</td>
+</tr><tr class="s5">
+<td>Transitions</td>
+<td class="rt">22</td>
+<td class="rt">13</td>
+<td class="rt">59.09 </td>
+<td></td>
+</tr><tr class="wht">
+<td>Sequences</td>
+<td class="rt">0</td>
+<td class="rt">0</td>
+<td></td>
+<td></td>
+</tr></table><br clear=all>
+<b>State, Transition and Sequence Details for FSM :: PRESENT_STATE</b><hr>
+<table align=left class="sortable noborder">
+<tr class="sortablehead">
+<td class="alfsrt">states</td><td>Line No.</td><td class="alfsrt">Covered</td></tr><tr class="uGreen">
+<td nowrap>ST_IDLE</td>
+<td class="rt">32</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WWAIT</td>
+<td class="rt">48</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_READ</td>
+<td class="rt">50</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WRITE</td>
+<td class="rt">56</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WRITEP</td>
+<td class="rt">59</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_RENABLE</td>
+<td class="rt">63</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WENABLE</td>
+<td class="rt">68</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WENABLEP</td>
+<td class="rt">70</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+<br clear=all>
+<table align=left class="sortable noborder">
+<tr class="sortablehead">
+<td class="alfsrt">transitions</td><td>Line No.</td><td class="alfsrt">Covered</td></tr><tr class="uGreen">
+<td nowrap>ST_IDLE->ST_WWAIT</td>
+<td class="rt">48</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_IDLE->ST_READ</td>
+<td class="rt">50</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td nowrap>ST_WWAIT->ST_IDLE</td>
+<td class="rt">32</td>
+<td>Not&nbsp;Covered</td>
+</tr><tr class="uRed">
+<td nowrap>ST_WWAIT->ST_WRITE</td>
+<td class="rt">56</td>
+<td>Not&nbsp;Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WWAIT->ST_WRITEP</td>
+<td class="rt">59</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td nowrap>ST_READ->ST_IDLE</td>
+<td class="rt">32</td>
+<td>Not&nbsp;Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_READ->ST_RENABLE</td>
+<td class="rt">63</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td nowrap>ST_WRITE->ST_IDLE</td>
+<td class="rt">32</td>
+<td>Not&nbsp;Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WRITE->ST_WENABLE</td>
+<td class="rt">68</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WRITE->ST_WENABLEP</td>
+<td class="rt">70</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td nowrap>ST_WRITEP->ST_IDLE</td>
+<td class="rt">32</td>
+<td>Not&nbsp;Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WRITEP->ST_WENABLEP</td>
+<td class="rt">74</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_RENABLE->ST_IDLE</td>
+<td class="rt">32</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td nowrap>ST_RENABLE->ST_WWAIT</td>
+<td class="rt">82</td>
+<td>Not&nbsp;Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_RENABLE->ST_READ</td>
+<td class="rt">85</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WENABLE->ST_IDLE</td>
+<td class="rt">32</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td nowrap>ST_WENABLE->ST_WWAIT</td>
+<td class="rt">93</td>
+<td>Not&nbsp;Covered</td>
+</tr><tr class="uRed">
+<td nowrap>ST_WENABLE->ST_READ</td>
+<td class="rt">95</td>
+<td>Not&nbsp;Covered</td>
+</tr><tr class="uRed">
+<td nowrap>ST_WENABLEP->ST_IDLE</td>
+<td class="rt">32</td>
+<td>Not&nbsp;Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WENABLEP->ST_READ</td>
+<td class="rt">105</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WENABLEP->ST_WRITE</td>
+<td class="rt">101</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>ST_WENABLEP->ST_WRITEP</td>
+<td class="rt">103</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+<br clear=all>
+<table align=left class="noborder">
+<tr class="sortablehead">
+<td class="alfsrt">sequences</td><td class="alfsrt">Covered</td></tr></table><br clear=all>
+<br clear=all>
+<hr>
+<a name="Branch"></a>
+Branch Coverage for Module : <a href="mod0.html" >APB_FSM_Controller</a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Line No.</th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s8">
+<td>Branches</td>
+<td></td>
+<td class="rt">40</td>
+<td class="rt">34</td>
+<td class="rt">85.00 </td>
+</tr><tr class="s10">
+<td>IF</td>
+<td class="rt">31</td>
+<td class="rt">2</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+</tr><tr class="s7">
+<td>CASE</td>
+<td class="rt">42</td>
+<td class="rt">19</td>
+<td class="rt">15</td>
+<td class="rt">78.95 </td>
+</tr><tr class="s8">
+<td>CASE</td>
+<td class="rt">123</td>
+<td class="rt">17</td>
+<td class="rt">15</td>
+<td class="rt">88.24 </td>
+</tr><tr class="s10">
+<td>IF</td>
+<td class="rt">277</td>
+<td class="rt">2</td>
+<td class="rt">2</td>
+<td class="rt">100.00</td>
+</tr></table><br clear=all>
+<pre class="code"><br clear=all>
+31           if (~Hresetn)
+             <font color = "green">-1-</font>  
+32             PRESENT_STATE<=ST_IDLE;
+           <font color = "green">    ==></font>
+33           else
+34             PRESENT_STATE<=NEXT_STATE;
+           <font color = "green">    ==></font>
+</pre>
+<br clear=all>
+<span class=repname>Branches:</span>
+<br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=80>-1-</th><th nowrap width=80>Status</th></tr><tr class="uGreen">
+<td align=center>1</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+<pre class="code"><br clear=all>
+42           case (PRESENT_STATE)
+             <font color = "green">-1-</font>  
+43             
+44          	ST_IDLE:begin
+45         		 if (~valid)
+           		 <font color = "green">-2-</font>  
+46         		  NEXT_STATE=ST_IDLE;
+           <font color = "green">		  ==></font>
+47         		 else if (valid && Hwrite)
+           		      <font color = "green">-3-</font>  
+48         		  NEXT_STATE=ST_WWAIT;
+           <font color = "green">		  ==></font>
+49         		 else 
+50         		  NEXT_STATE=ST_READ;
+           <font color = "green">		  ==></font>
+51         		end    
+52         
+53         	ST_WWAIT:begin
+54         		 if (~valid)
+           		 <font color = "red">-4-</font>  
+55         		  // synopsys coverage off
+56         		  NEXT_STATE=ST_WRITE;  // Unreachable: Timing constraint prevents this transition
+           <font color = "red">		  ==></font>
+57         		  // synopsys coverage on
+58         		 else
+59         		  NEXT_STATE=ST_WRITEP;
+           <font color = "green">		  ==></font>
+60         		end
+61         
+62         	ST_READ: begin
+63         		   NEXT_STATE=ST_RENABLE;
+           <font color = "green">		   ==></font>
+64         		 end
+65         
+66         	ST_WRITE:begin
+67         		  if (~valid)
+           		  <font color = "green">-5-</font>  
+68         		   NEXT_STATE=ST_WENABLE;
+           <font color = "green">		   ==></font>
+69         		  else
+70         		   NEXT_STATE=ST_WENABLEP;
+           <font color = "green">		   ==></font>
+71         		 end
+72         
+73         	ST_WRITEP:begin
+74         		   NEXT_STATE=ST_WENABLEP;
+           <font color = "green">		   ==></font>
+75         		  end
+76         
+77         	ST_RENABLE:begin
+78         		     if (~valid)
+           		     <font color = "green">-6-</font>  
+79         		      NEXT_STATE=ST_IDLE;
+           <font color = "green">		      ==></font>
+80         		     else if (valid && Hwrite)
+           		          <font color = "red">-7-</font>  
+81         		      // synopsys coverage off
+82         		      NEXT_STATE=ST_WWAIT;  // Unreachable: ENABLE state too short (1 Pclk)
+           <font color = "red">		      ==></font>
+83         		      // synopsys coverage on
+84         		     else
+85         		      NEXT_STATE=ST_READ;
+           <font color = "green">		      ==></font>
+86         		   end
+87         
+88         	ST_WENABLE:begin
+89         		     // synopsys coverage off
+90         		     if (~valid)
+           		     <font color = "red">-8-</font>  
+91         		      NEXT_STATE=ST_IDLE;  // Unreachable: ENABLE state too short
+           <font color = "green">		      ==></font>
+92         		     else if (valid && Hwrite)
+           		          <font color = "red">-9-</font>  
+93         		      NEXT_STATE=ST_WWAIT;  // Unreachable: ENABLE state too short
+           <font color = "red">		      ==></font>
+94         		     else
+95         		      NEXT_STATE=ST_READ;  // Unreachable: ENABLE state too short
+           <font color = "red">		      ==></font>
+96         		     // synopsys coverage on
+97         		   end
+98         
+99         	ST_WENABLEP:begin
+100        		      if (~valid && Hwritereg)
+           		      <font color = "green">-10-</font>  
+101        		       NEXT_STATE=ST_WRITE;
+           <font color = "green">		       ==></font>
+102        		      else if (valid && Hwritereg)
+           		           <font color = "green">-11-</font>  
+103        		       NEXT_STATE=ST_WRITEP;
+           <font color = "green">		       ==></font>
+104        		      else
+105        		       NEXT_STATE=ST_READ;
+           <font color = "green">		       ==></font>
+106        		    end
+107        
+108        	default: begin
+109        		   NEXT_STATE=ST_IDLE;
+           <font color = "green">		   ==></font>
+</pre>
+<br clear=all>
+<span class=repname>Branches:</span>
+<br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=80>-1-</th><th nowrap width=80>-2-</th><th nowrap width=80>-3-</th><th nowrap width=80>-4-</th><th nowrap width=80>-5-</th><th nowrap width=80>-6-</th><th nowrap width=80>-7-</th><th nowrap width=80>-8-</th><th nowrap width=80>-9-</th><th nowrap width=80>-10-</th><th nowrap width=80>-11-</th><th nowrap width=80>Status</th></tr><tr class="uGreen">
+<td align=center>ST_IDLE </td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_IDLE </td>
+<td align=center>0</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_IDLE </td>
+<td align=center>0</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>ST_WWAIT </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WWAIT </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_READ </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WRITE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WRITE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WRITEP </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_RENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>ST_RENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_RENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>ST_WENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uRed">
+<td align=center>ST_WENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WENABLEP </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WENABLEP </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center>1</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WENABLEP </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center>0</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>default</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+<pre class="code"><br clear=all>
+123           case(PRESENT_STATE)
+              <font color = "green">-1-</font>  
+124            
+125        	ST_IDLE: begin
+126        			  if (valid && ~Hwrite) 
+           			  <font color = "green">-2-</font>  
+127        			   begin:IDLE_TO_READ
+128        			        Paddr_temp=Haddr;
+           <font color = "green">			        ==></font>
+129        				Pwrite_temp=Hwrite;
+130        				Pselx_temp=tempselx;
+131        				Penable_temp=0;
+132        				Hreadyout_temp=0;
+133        			   end
+134        			  
+135        			  else if (valid && Hwrite)
+           			       <font color = "green">-3-</font>  
+136        			   begin:IDLE_TO_WWAIT
+137        			        Pselx_temp=0;
+           <font color = "green">			        ==></font>
+138        				Penable_temp=0;
+139        				Hreadyout_temp=1;			   
+140        			   end
+141        			   
+142        			  else
+143                                    begin:IDLE_TO_IDLE
+144        			        Pselx_temp=0;
+           <font color = "green">			        ==></font>
+145        				Penable_temp=0;
+146        				Hreadyout_temp=1;	
+147        			   end
+148        		     end    
+149        
+150        	ST_WWAIT:begin
+151        	          if (~valid) 
+           	          <font color = "red">-4-</font>  
+152        			   // synopsys coverage off
+153        			   begin:WAIT_TO_WRITE  // Unreachable: Timing prevents this transition
+154        			    Paddr_temp=Haddr1;
+           <font color = "red">			    ==></font>
+155        				Pwrite_temp=1;
+156        				Pselx_temp=tempselx;
+157        				Penable_temp=0;
+158        				Pwdata_temp=Hwdata;
+159        				Hreadyout_temp=0;
+160        			   end
+161        			   // synopsys coverage on
+162        			  
+163        			  else 
+164        			   begin:WAIT_TO_WRITEP
+165        			    Paddr_temp=Haddr1;
+           <font color = "green">			    ==></font>
+166        				Pwrite_temp=1;
+167        				Pselx_temp=tempselx;
+168        				Pwdata_temp=Hwdata;
+169        				Penable_temp=0;
+170        				Hreadyout_temp=0;		   
+171        			   end
+172        			   
+173        		     end
+174        
+175        	ST_READ: begin:READ_TO_RENABLE
+176        			  Penable_temp=1;
+           <font color = "green">			  ==></font>
+177        			  Hreadyout_temp=1;
+178        		     end
+179        
+180        	ST_WRITE:begin
+181                      if (~valid) 
+                         <font color = "green">-5-</font>  
+182        			   begin:WRITE_TO_WENABLE
+183        				Penable_temp=1;
+           <font color = "green">				==></font>
+184        				Hreadyout_temp=1;
+185        			   end
+186        			  
+187        			  else 
+188        			   begin:WRITE_TO_WENABLEP ///DOUBT
+189        				Penable_temp=1;
+           <font color = "green">				==></font>
+190        				Hreadyout_temp=1;		   
+191        			   end
+192        		     end
+193        
+194        	ST_WRITEP:begin:WRITEP_TO_WENABLEP
+195                       Penable_temp=1;
+           <font color = "green">               ==></font>
+196        			   Hreadyout_temp=1;
+197        		      end
+198        
+199        	ST_RENABLE:begin
+200        	            if (valid && ~Hwrite) 
+           	            <font color = "green">-6-</font>  
+201        				 begin:RENABLE_TO_READ
+202        					Paddr_temp=Haddr;
+           <font color = "green">					==></font>
+203        					Pwrite_temp=Hwrite;
+204        					Pselx_temp=tempselx;
+205        					Penable_temp=0;
+206        					Hreadyout_temp=0;
+207        				 end
+208        			  
+209        			  else if (valid && Hwrite)
+           			       <font color = "red">-7-</font>  
+210        			    // synopsys coverage off
+211        			    begin:RENABLE_TO_WWAIT  // Unreachable: ENABLE state too short
+212        			     Pselx_temp=0;
+           <font color = "red">			     ==></font>
+213        				 Penable_temp=0;
+214        				 Hreadyout_temp=1;			   
+215        			    end
+216        			    // synopsys coverage on
+217        			   
+218        			  else
+219                        begin:RENABLE_TO_IDLE
+220        			     Pselx_temp=0;
+           <font color = "green">			     ==></font>
+221        				 Penable_temp=0;
+222        				 Hreadyout_temp=1;	
+223        			    end
+224        
+225        		       end
+226        
+227        	ST_WENABLEP:begin
+228                         if (~valid && Hwritereg) 
+                            <font color = "green">-8-</font>  
+229        			      begin:WENABLEP_TO_WRITEP
+230        			       Paddr_temp=Haddr2;
+           <font color = "green">			       ==></font>
+231        				   Pwrite_temp=Hwrite;
+232        				   Pselx_temp=tempselx;
+233        				   Penable_temp=0;
+234        				   Pwdata_temp=Hwdata;
+235        				   Hreadyout_temp=0;
+236        				  end
+237        
+238        			  
+239        			    else 
+240        			     begin:WENABLEP_TO_WRITE_OR_READ /////DOUBT
+241        			      Paddr_temp=Haddr2;
+           <font color = "green">			      ==></font>
+242        				  Pwrite_temp=Hwrite;
+243        				  Pselx_temp=tempselx;
+244        				  Pwdata_temp=Hwdata;
+245        				  Penable_temp=0;
+246        				  Hreadyout_temp=0;		   
+247        			     end
+248        		        end
+249        
+250        	ST_WENABLE :begin
+251        	             if (~valid && Hwritereg) 
+           	             <font color = "green">-9-</font>  
+252        			      begin:WENABLE_TO_IDLE
+253        				   Pselx_temp=0;
+           <font color = "green">				   ==></font>
+254        				   Penable_temp=0;
+255        				   Hreadyout_temp=0;
+256        				  end
+257        
+258        			  
+259        			    else 
+260        			     begin:WENABLE_TO_WAIT_OR_READ /////DOUBT
+261        				  Pselx_temp=0;
+           <font color = "green">				  ==></font>
+262        				  Penable_temp=0;
+263        				  Hreadyout_temp=0;		   
+264        			     end
+265        
+266        		        end
+           		        MISSING_DEFAULT
+           <font color = "green">		        ==></font>
+</pre>
+<br clear=all>
+<span class=repname>Branches:</span>
+<br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=80>-1-</th><th nowrap width=80>-2-</th><th nowrap width=80>-3-</th><th nowrap width=80>-4-</th><th nowrap width=80>-5-</th><th nowrap width=80>-6-</th><th nowrap width=80>-7-</th><th nowrap width=80>-8-</th><th nowrap width=80>-9-</th><th nowrap width=80>Status</th></tr><tr class="uGreen">
+<td align=center>ST_IDLE </td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_IDLE </td>
+<td align=center>0</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_IDLE </td>
+<td align=center>0</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>ST_WWAIT </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WWAIT </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_READ </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WRITE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WRITE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WRITEP </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_RENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>ST_RENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_RENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WENABLEP </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WENABLEP </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>ST_WENABLE </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>MISSING_DEFAULT</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+<pre class="code"><br clear=all>
+277          if (~Hresetn)
+             <font color = "green">-1-</font>  
+278           begin
+279            Paddr<=0;
+           <font color = "green">    ==></font>
+280        	Pwrite<=0;
+281        	Pselx<=0;
+282        	Pwdata<=0;
+283        	Penable<=0;
+284        	Hreadyout<=0;
+285           end
+286          
+287          else
+288           begin
+289                Paddr<=Paddr_temp;
+           <font color = "green">        ==></font>
+</pre>
+<br clear=all>
+<span class=repname>Branches:</span>
+<br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=80>-1-</th><th nowrap width=80>Status</th></tr><tr class="uGreen">
+<td align=center>1</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<div class="ui-layout-center-inner-north">
+<div id="center-bread-crumb" class="breadCrumb module urg-margin-bottom">
+  <ul name="inst_tag_0">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Cond">Cond</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+    <li>
+      <a href="#FSM">FSM</a>    </li>
+    <li>
+      <a href="#Branch">Branch</a>    </li>
+  </ul>
+  <ul name="tag_APB_FSM_Controller">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Cond">Cond</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+    <li>
+      <a href="#FSM">FSM</a>    </li>
+    <li>
+      <a href="#Branch">Branch</a>    </li>
+  </ul>
+</div>
+</div>
+</div>
+<div class="ui-layout-south">
+<table align=center><tr><td class="s0 cl">0%</td>
+<td class="s1 cl">10%</td>
+<td class="s2 cl">20%</td>
+<td class="s3 cl">30%</td>
+<td class="s4 cl">40%</td>
+<td class="s5 cl">50%</td>
+<td class="s6 cl">60%</td>
+<td class="s7 cl">70%</td>
+<td class="s8 cl">80%</td>
+<td class="s9 cl">90%</td>
+<td class="s10 cl">100%</td></tr></table></div>
+</body>
+</html>

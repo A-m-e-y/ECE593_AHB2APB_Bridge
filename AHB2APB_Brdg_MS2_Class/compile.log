@@ -1,0 +1,75 @@
+
+Warning-[LNX_OS_VERUN] Unsupported Linux version
+  Linux version 'CentOS Linux release 7.9.2009 (Core)' is not supported on 
+  'x86_64' officially, assuming linux compatibility by default. Set 
+  VCS_ARCH_OVERRIDE to linux or suse32 to override.
+  Please refer to release notes for information on supported platforms.
+
+Command: vcs -sverilog -full64 -timescale=1ns/1ps -debug_access+all +v2k -LDFLAGS \
+-Wl,--no-as-needed -cm line+cond+fsm+tgl+branch -cm_dir ./coverage.vdb -f filelist.f \
+-l compile.log
+                         Chronologic VCS (TM)
+       Version L-2016.06-SP2_Full64 -- Wed Feb 18 22:20:23 2026
+               Copyright (c) 1991-2016 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file 'AHB_Slave_Interface.sv'
+Parsing design file 'APB_FSM_Controller.sv'
+Parsing design file 'CDC_Handler.sv'
+Parsing design file 'Bridge_Top.sv'
+Parsing design file 'intf.sv'
+Parsing design file 'txn.sv'
+Parsing design file 'generator.sv'
+Parsing design file 'driver.sv'
+Parsing design file 'monitor.sv'
+Parsing design file 'apb_slave.sv'
+Parsing design file 'scoreboard.sv'
+Parsing design file 'environment.sv'
+Parsing design file 'test.sv'
+Parsing design file 'coverage.sv'
+Parsing design file 'coverage_bind.sv'
+Parsing design file 'class_top.sv'
+Top Level Modules:
+       ahb_apb_top
+TimeScale is 1 ns / 1 ps
+VCS Coverage Metrics Release L-2016.06-SP2_Full64 Copyright (c) 1991-2016 by Synopsys Inc.
+***** Warning: +memcbk/-debug_access will not enable toggle coverage on MDAs.  Please use -cm_tgl mda to enable it.
+
+Warning-[INTFDV] VCD dumping of interface/program/package
+  Selective VCD dumping of interface 'ahb_apb_if' is not supported.  Selective
+  VCD dumping for interfaces, packages and programs is not supported.   
+  Results are not guaranteed.
+  Use VPD or FSDB dumping, recompile with +vcsd, or use full VCD dumping 
+  '$dumpvars(0)'.
+
+Starting vcs inline pass...
+5 unique modules to generate
+	However, due to incremental compilation, no re-compilation is necessary.
+make[1]: Entering directory `/u/ameyk/ECE593_Codes/ECE593_AHB2APB_Bridge/AHB2APB_Brdg_MS2_Class/csrc' \
+
+rm -f _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+ld -shared  -o .//../simv.daidir//_csrc0.so objs/amcQw_d.o 
+rm -f _csrc0.so
+if [ -x ../simv ]; then chmod -x ../simv; fi
+chmod: ../simv: new permissions are rw-r-xr-x, not rw-r--r--
+make[1]: [product_timestamp] Error 1 (ignored)
+g++  -o ../simv   -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ \
+-Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -Wl,--no-as-needed -rdynamic     \
+_30121_archive_1.so _prev_archive_1.so _csrc0.so  SIM_l.o  _csrc0.so     rmapats_mop.o \
+rmapats.o rmar.o  rmar_llvm_0_1.o rmar_llvm_0_0.o          /pkgs/synopsys/2016/vcs-mx/linux64/lib/libzerosoft_rt_stubs.so \
+/pkgs/synopsys/2016/vcs-mx/linux64/lib/libvirsim.so /pkgs/synopsys/2016/vcs-mx/linux64/lib/liberrorinf.so \
+/pkgs/synopsys/2016/vcs-mx/linux64/lib/libsnpsmalloc.so    /pkgs/synopsys/2016/vcs-mx/linux64/lib/libvcsnew.so \
+/pkgs/synopsys/2016/vcs-mx/linux64/lib/libsimprofile.so /pkgs/synopsys/2016/vcs-mx/linux64/lib/libreader_common.so \
+/pkgs/synopsys/2016/vcs-mx/linux64/lib/libBA.a /pkgs/synopsys/2016/vcs-mx/linux64/lib/libuclinative.so \
+-Wl,-whole-archive /pkgs/synopsys/2016/vcs-mx/linux64/lib/libvcsucli.so -Wl,-no-whole-archive \
+_vcs_pli_stub_.o   /pkgs/synopsys/2016/vcs-mx/linux64/lib/vcs_save_restore_new.o \
+/pkgs/synopsys/current/verdi/share/PLI/VCS/LINUX64/pli.a -ldl  -lc -lm -lpthread \
+-ldl 
+../simv up to date
+make[1]: Leaving directory `/u/ameyk/ECE593_Codes/ECE593_AHB2APB_Bridge/AHB2APB_Brdg_MS2_Class/csrc' \
+
+CPU time: .958 seconds to compile + .589 seconds to elab + .636 seconds to link

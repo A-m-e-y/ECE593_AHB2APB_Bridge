@@ -12,7 +12,7 @@ class test;
         $display("\n========================================================================");
         $display("   AHB2APB Bridge Comprehensive Verification Suite");
         $display("========================================================================");
-        $display("   Running all tests sequentially to achieve maximum coverage");
+        $display("   Running all tests sequentially to achieve maximum coverage!");
         $display("========================================================================\n");
         
         env = new(vif);

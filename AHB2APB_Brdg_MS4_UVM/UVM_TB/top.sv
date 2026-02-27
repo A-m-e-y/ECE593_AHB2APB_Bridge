@@ -5,32 +5,32 @@ import uvm_pkg::*;
 int TRANSFER = 500;  // number of transactions to be generated
 
 // Including necessary sequence items, environment configurations, and components
-`include "ahb_sequence_item.sv" //COMBINE TO ONE
-`include "apb_sequence_item.sv" //COMBINE TO ONE
-`include "ahb_apb_env_config.sv"
+`include "sequence_item.sv" //COMBINE TO ONE
+//`include "apb_sequence_item.sv" //COMBINE TO ONE
+//`include "ahb_apb_env_config.sv"
 
 // Including AHB Components
-`include "ahb_sequencer.sv" 
-`include "ahb_driver.sv"
-`include "ahb_monitor.sv"
+`include "sequencer.sv" 
+`include "driver.sv"
+`include "monitor.sv"
 `include "ahb_agent.sv"
 
 // Including APB Components
-`include "apb_sequencer.sv"
-`include "apb_driver.sv"
-`include "apb_monitor.sv"
-`include "apb_agent.sv"
+//`include "apb_sequencer.sv"
+//`include "apb_driver.sv"
+//`include "apb_monitor.sv"
+//`include "apb_agent.sv"
 
 // Including scoreboard and environment
-`include "ahb_apb_scoreboard.sv"
-`include "ahb_apb_env.sv"
+`include "scoreboard.sv"
+`include "ahb2apb_env.sv"
 
 // Including sequences and tests
-`include "ahb_sequence.sv"
-`include "apb_sequence.sv"
-`include "ahb_apb_test.sv"
-`include "ahb_apb_single_test.sv"
-`include "ahb_apb_burst_test.sv"
+`include "sequence.sv"
+//`include "apb_sequence.sv"
+//`include "ahb_apb_test.sv"
+`include "base_test.sv"
+//`include "ahb_apb_burst_test.sv"
 
 module tb_top();
 
@@ -55,12 +55,13 @@ module tb_top();
 
 		// Only one APB interface implemented, this one interface
 		// will mimic different slaves connected to the bridge
+        /*
         .Prdata(APB_INF.PRDATA[0]),	
         .Pwdata(APB_INF.PWDATA),
         .Paddr(APB_INF.PADDR),
         .Pselx(APB_INF.PSELx[2:0]),
         .Pwrite(APB_INF.PWRITE),
-        .Penable(APB_INF.PENABLE)
+        .Penable(APB_INF.PENABLE) */
     );
     
     // Clock generation block

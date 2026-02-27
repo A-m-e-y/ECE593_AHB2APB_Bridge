@@ -1,0 +1,1 @@
+// This scoreboard validates the data flow between DUT and TB.

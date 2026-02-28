@@ -1,14 +1,10 @@
-class ahb_driver extends uvm_driver #(ahb_sequence_item);
+class ahb_driver extends uvm_driver #(sequence_item);
     `uvm_component_utils(ahb_driver)
 
-    // AHB Driver interface
     virtual intf.AHB_DRIVER vif;
 
     // Sequence item for driver to DUT communication
     sequence_item tx;
-
-    // Configuration handle for environment setup
-    //ahb_apb_env_config env_config_h;
 
     // Temporary storage for data during Write operations
     static bit [31:0] Hwdata_t; 
@@ -25,8 +21,7 @@ class ahb_driver extends uvm_driver #(ahb_sequence_item);
     // Build Phase: Fetch the configuration settings from the environment
     function void build_phase (uvm_phase phase);
         super.build_phase(phase);
-       // if(!uvm_config_db #(ahb_apb_env_config)::get (this,"","ahb_apb_env_config",env_config_h))
-       //     `uvm_fatal ("config", "can't get config from uvm_config_db")
+
        if(!uvm_config_db#(virtual intf.AHB_DRIVER)::get(this,"","vif",vif)) begin
 	        `uvm_error("CONFIG_DB","Not able to get virtual handle")
 	end
@@ -34,6 +29,8 @@ class ahb_driver extends uvm_driver #(ahb_sequence_item);
 
     // Run Phase: Get the sequence item from the sequencer and drive it onto the interface
     task run_phase (uvm_phase phase);
+	reset();
+
         forever
         begin
             seq_item_port.get_next_item(req);
@@ -42,8 +39,8 @@ class ahb_driver extends uvm_driver #(ahb_sequence_item);
         end
     endtask
 
-    // Send the transfers on the interface
-    virtual task drive_tx (ahb_sequence_item tx);
+    // Drive the transfers on the interface
+    virtual task drive_tx (sequence_item tx);
         @(posedge vif.clk)
         while(!(vif.ahb_driver_cb.HREADY))
              @(vif.ahb_driver_cb);
@@ -52,7 +49,6 @@ class ahb_driver extends uvm_driver #(ahb_sequence_item);
         if(tx.HTRANS != 2'b01)  //BUSY
         begin      
 
-            reset();
             vif.ahb_driver_cb.HSELAHB <=  tx.HSELAHB;
             vif.ahb_driver_cb.HADDR   <=  tx.HADDR;
             vif.ahb_driver_cb.HTRANS  <=  tx.HTRANS;

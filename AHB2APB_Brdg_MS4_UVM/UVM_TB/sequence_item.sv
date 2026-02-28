@@ -1,9 +1,17 @@
-// The sequence_item class represents a single AHB transaction item.
-// This class extends uvm_sequence_item and provides randomization, printing, and post-randomization capabilities.
+import uvm_pkg::*;
+`include "uvm_macros.svh"
+
 class sequence_item extends uvm_sequence_item;
 
-    // UVM object macro
-    `uvm_object_utils(sequence_item)
+    `uvm_object_utils_begin(sequence_item)
+        `uvm_field_int(HRESETn,  UVM_DEFAULT)
+        `uvm_field_int(HADDR,    UVM_HEX)
+        `uvm_field_int(HTRANS,   UVM_DEFAULT)
+        `uvm_field_int(HWRITE,   UVM_DEFAULT)
+        `uvm_field_int(HWDATA,   UVM_HEX)
+        `uvm_field_int(HSELAHB,  UVM_DEFAULT)
+        `uvm_field_int(HREADY,   UVM_DEFAULT)
+    `uvm_object_utils_end
 
     // Randomizable transaction fields
     rand bit                   HRESETn;    // Reset signal
@@ -20,16 +28,6 @@ class sequence_item extends uvm_sequence_item;
 
     // Tracks number of transactions
     static int ahb_no_of_transaction;
-
-    `uvm_object_utils_begin(ahb_sequence_item)
-        `uvm_field_int(HRESETn,  UVM_DEFAULT)
-        `uvm_field_int(HADDR,    UVM_HEX)
-        `uvm_field_int(HTRANS,   UVM_DEFAULT)
-        `uvm_field_int(HWRITE,   UVM_DEFAULT)
-        `uvm_field_int(HWDATA,   UVM_HEX)
-        `uvm_field_int(HSELAHB,  UVM_DEFAULT)
-        `uvm_field_int(HREADY,   UVM_DEFAULT)
-    `uvm_object_utils_end
 
     // Constructor: Initializes the uvm_sequence_item
     function new(string name = "sequence_item");

@@ -11,10 +11,6 @@ interface intf (input logic clk);
     logic         HREADY;
     logic         HRESP;
 
-    // MODPORTS 
-    modport AHB_DRIVER  (clocking ahb_driver_cb,  input clk);
-    modport AHB_MONITOR (clocking ahb_monitor_cb, input clk);
-
     // AHB Driver Clocking Block
     clocking ahb_driver_cb @(posedge clk);
         default input #1 output #1;
@@ -40,5 +36,9 @@ interface intf (input logic clk);
         input HREADY;
         input HRESP;
     endclocking
+
+    // MODPORTS 
+    modport AHB_DRIVER  (clocking ahb_driver_cb,  input clk);
+    modport AHB_MONITOR (clocking ahb_monitor_cb, input clk);
 
 endinterface

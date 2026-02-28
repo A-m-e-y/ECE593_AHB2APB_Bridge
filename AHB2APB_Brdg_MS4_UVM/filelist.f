@@ -1,25 +1,24 @@
 # VCS Filelist for AHB2APB Bridge Class-based Testbench
 
-# RTL Files (local rtl directory)
+# RTL Files
 ./rtl/AHB_Slave_Interface.sv
 ./rtl/APB_FSM_Controller.sv
 ./rtl/CDC_Handler.sv
 ./rtl/Bridge_Top.sv
 
-# Testbench Files (in order of dependency)
-./CLASS_TB/intf.sv
-./CLASS_TB/txn.sv
-./CLASS_TB/generator.sv
-./CLASS_TB/driver.sv
-./CLASS_TB/monitor.sv
-./CLASS_TB/apb_slave.sv
-./CLASS_TB/scoreboard.sv
-./CLASS_TB/environment.sv
-./CLASS_TB/test.sv
+# Interface
+./UVM_TB/intf.sv
 
-# Coverage Files
-./CLASS_TB/coverage.sv
-./CLASS_TB/coverage_bind.sv
+# Transaction + Sequences
+./UVM_TB/sequence_item.sv
+./UVM_TB/sequence.sv
 
-# Top-level
-./CLASS_TB/class_top.sv
+# Components
+./UVM_TB/sequencer.sv
+./UVM_TB/driver.sv
+./UVM_TB/monitor.sv
+./UVM_TB/scoreboard.sv
+./UVM_TB/ahb_agent.sv
+./UVM_TB/ahb2apb_env.sv
+./UVM_TB/base_test.sv
+./UVM_TB/top.sv

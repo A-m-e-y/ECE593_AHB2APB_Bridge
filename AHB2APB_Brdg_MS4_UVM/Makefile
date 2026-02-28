@@ -1,5 +1,4 @@
 # Makefile for AHB2APB Bridge Class-based Testbench
-# Use with VCS simulator
 
 # Compiler and flags
 VCS = vcs
@@ -9,13 +8,13 @@ UVM_HOME ?= $(VCS_HOME)/etc/uvm
 UVM_VER = uvm-1.2
 
 #VCS COMPILE FLAGS
-VCS_FLAGS = -sverilog -full64 -timescale=1ns/1ps -ntb_opts uvm -debug_access+all +v2k -l compile.log -LDFLAGS -Wl,--no-as-needed
+VCS_FLAGS = -sverilog -full64 -ntb_opts uvm -timescale=1ns/1ps -debug_access+all +v2k -l compile.log -LDFLAGS -Wl,--no-as-needed
 
 #COVERAGE FLAGS
 COV_FLAGS = -cm line+cond+fsm+tgl+branch -cm_dir ./coverage.vdb
 
 # Simulation Runtime Flags
-SIM_FLAGS = +UVM_VERBOSITY=UVM_LOW \
+SIM_FLAGS = +UVM_VERBOSITY=UVM_DEBUG \
             +ntb_random_seed_automatic \
             -l simulation.log
 
@@ -24,6 +23,7 @@ FILELIST = filelist.f
 
 # Executable
 SIM = simv
+TEST = ahb_apb_random_test
 
 # Targets
 .PHONY: all compile sim clean help cov

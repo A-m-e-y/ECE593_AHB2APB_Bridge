@@ -24,7 +24,7 @@ class sequence_item extends uvm_sequence_item;
     // Non-randomizable fields
     bit [31:0]                 HRDATA;     // Data read
     bit                        HREADY;     // Ready signal
-    bit                        HRESP;      // Response signal
+    bit [1:0]                  HRESP;      // Response signal (2-bit per AHB spec)
 
     // Tracks number of transactions
     static int ahb_no_of_transaction;

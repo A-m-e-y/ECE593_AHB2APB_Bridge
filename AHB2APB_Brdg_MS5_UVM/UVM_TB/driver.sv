@@ -41,7 +41,7 @@ class ahb_driver extends uvm_driver #(sequence_item);
 
     // Drive the transfers on the interface
     virtual task drive_tx (sequence_item tx);
-        @(posedge vif.clk)
+        @(posedge vif.hclk)
         while(!(vif.ahb_driver_cb.HREADY))
              @(vif.ahb_driver_cb);
             tx.HREADY = vif.ahb_driver_cb.HREADY;

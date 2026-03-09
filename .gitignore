@@ -9,6 +9,10 @@ simv
 ucli.key
 csrc/
 *.docx
+watch_scp.ps1
+files.list
+copilot-instructions.md
+.github/
 
 # Object files
 *.o

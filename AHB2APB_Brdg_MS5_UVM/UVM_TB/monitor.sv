@@ -28,7 +28,7 @@ class ahb_monitor extends uvm_monitor;
     // Run Phase: Continuously monitors the interface for transactions
     task run_phase(uvm_phase phase);
         `uvm_info(get_name(), "Inside build_phase", UVM_DEBUG)
-        @(posedge mon_intf.clk);
+        @(posedge mon_intf.hclk);
         forever
             monitor_txns();
     endtask
@@ -37,7 +37,7 @@ class ahb_monitor extends uvm_monitor;
     task monitor_txns();
         begin
             // Wait for clock edge
-            @(posedge mon_intf.clk);
+            @(posedge mon_intf.hclk);
             
             // Create a new transaction item
             tx = sequence_item::type_id::create("tx", this);

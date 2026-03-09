@@ -2,7 +2,7 @@ import uvm_pkg::*;
 `include "uvm_macros.svh"
 
 // Global settings
-int TRANSFER = 2;  // number of transactions to be generated
+int TRANSFER = 1;  // number of SEQ+IDLE repeats after the initial NONSEQ (1 = single burst)
 
 module tb_top();
 
@@ -52,8 +52,9 @@ module tb_top();
 
     // UVM setup
     initial begin
-        uvm_config_db#(virtual intf.AHB_DRIVER)::set(null, "*", "vif", vif);
-        uvm_config_db#(virtual intf.AHB_MONITOR)::set(null, "*", "vif", vif);
+        uvm_config_db#(virtual intf.AHB_DRIVER)::set(null, "*", "vif",     vif);
+        uvm_config_db#(virtual intf.AHB_MONITOR)::set(null, "*", "vif",    vif);
+        uvm_config_db#(virtual intf.APB_MONITOR)::set(null, "*", "apb_vif", vif);
 
         `uvm_info("TOPPP", "should run test after this", UVM_DEBUG)
         run_test("ahb_apb_random_test");

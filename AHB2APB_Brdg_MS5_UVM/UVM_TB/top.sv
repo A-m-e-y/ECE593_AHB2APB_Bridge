@@ -50,11 +50,20 @@ module tb_top();
     // PRDATA: no APB slave model yet; drive 0 so reads return cleanly
     assign vif.PRDATA = 32'h0;
 
+    // Tap HCLK-domain APB signals directly from Bridge_Top's internal wires.
+    // These are the registered outputs of APB_FSM_Controller *before* the 2-FF
+    // CDC synchronizer, so the APB monitor can observe them without CDC risk.
+    assign vif.PENABLE_HCLK = DUT.Penable_hclk;
+    assign vif.PWRITE_HCLK  = DUT.Pwrite_hclk;
+    assign vif.PSELX_HCLK   = DUT.Pselx_hclk;
+    assign vif.PADDR_HCLK   = DUT.Paddr_hclk;
+    assign vif.PWDATA_HCLK  = DUT.Pwdata_hclk;
+
     // UVM setup
     initial begin
         uvm_config_db#(virtual intf.AHB_DRIVER)::set(null, "*", "vif",     vif);
         uvm_config_db#(virtual intf.AHB_MONITOR)::set(null, "*", "vif",    vif);
-        uvm_config_db#(virtual intf.APB_MONITOR)::set(null, "*", "apb_vif", vif);
+        uvm_config_db#(virtual intf.APB_HCLK_MONITOR)::set(null, "*", "apb_vif", vif);
 
         `uvm_info("TOPPP", "should run test after this", UVM_DEBUG)
         run_test("ahb_apb_random_test");

@@ -12,6 +12,10 @@ class ahb_driver extends uvm_driver #(sequence_item);
     // for pending wr operation 
     static int wr_pending;
 
+    // Analysis port: sends every non-IDLE/non-BUSY transaction to the scoreboard.
+    // The driver is the ground truth for AHB transactions (correct HADDR/HWDATA).
+    uvm_analysis_port #(sequence_item) drv_ap;
+
     // Constructor
     function new (string name = "ahb_driver",uvm_component parent);
         super.new (name, parent);
@@ -21,6 +25,7 @@ class ahb_driver extends uvm_driver #(sequence_item);
     // Build Phase: Fetch the configuration settings from the environment
     function void build_phase (uvm_phase phase);
         super.build_phase(phase);
+        drv_ap = new("drv_ap", this);
 
        if(!uvm_config_db#(virtual intf.AHB_DRIVER)::get(this,"","vif",vif)) begin
 	        `uvm_error("CONFIG_DB","Not able to get virtual handle")
@@ -55,7 +60,19 @@ class ahb_driver extends uvm_driver #(sequence_item);
             vif.ahb_driver_cb.HWRITE  <=  tx.HWRITE;
 
             if(tx.HWRITE == 1'b0)  // READ
-                vif.ahb_driver_cb.HWDATA  <=  32'hxxxx_xxxx; 
+            begin
+                // AHB protocol: HWDATA at cycle N+1 carries the write data for
+                // a WRITE at cycle N, regardless of whether cycle N+1 is a read.
+                // If there is a pending NONSEQ write whose data hasn't been driven yet,
+                // flush it now before accepting this READ's (undefined) data.
+                if (wr_pending)
+                begin
+                    vif.ahb_driver_cb.HWDATA <= Hwdata_t;
+                    wr_pending <= 0;
+                end
+                else
+                    vif.ahb_driver_cb.HWDATA <= 32'hxxxx_xxxx;
+            end
             else
             begin //WRITE
                 if(tx.HTRANS == 2'b10)  // NONSEQ
@@ -82,6 +99,10 @@ class ahb_driver extends uvm_driver #(sequence_item);
             end 
         end
         `uvm_info(get_type_name,$sformatf("AHB driver Delivered Tx: \n%s" ,tx.sprint()),UVM_MEDIUM)
+
+        // Send non-IDLE/BUSY transactions to scoreboard as ground truth.
+        if (tx.HTRANS != 2'b00 && tx.HTRANS != 2'b01)
+            drv_ap.write(tx);
     endtask
 
     task reset();

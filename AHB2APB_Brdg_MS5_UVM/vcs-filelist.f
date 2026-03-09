@@ -11,12 +11,14 @@
 
 # Transaction + Sequences
 ./UVM_TB/sequence_item.sv
+./UVM_TB/apb_transaction.sv
 ./UVM_TB/sequence.sv
 
 # Components
 ./UVM_TB/sequencer.sv
 ./UVM_TB/driver.sv
 ./UVM_TB/monitor.sv
+./UVM_TB/apb_monitor.sv
 ./UVM_TB/scoreboard.sv
 ./UVM_TB/ahb_agent.sv
 ./UVM_TB/ahb2apb_env.sv

@@ -6,6 +6,10 @@ class ahb_agent extends uvm_agent;
     ahb_seqr       	 seqr;
     ahb_monitor          mon;
 
+    // Expose the driver's analysis port so the environment can connect it to
+    // the scoreboard without the environment needing to know the driver directly.
+    uvm_analysis_port #(sequence_item) drv_ap;
+
     // Constructor for the agent
     function new(string name = "ahb_agent", uvm_component parent=null);
         super.new(name, parent);
@@ -22,5 +26,7 @@ class ahb_agent extends uvm_agent;
     // Connect phase: Connect the driver to the sequencer  
    function void connect_phase(uvm_phase phase);
         drv.seq_item_port.connect(seqr.seq_item_export);
+        // Expose driver analysis port at agent boundary
+        drv_ap = drv.drv_ap;
     endfunction
 endclass

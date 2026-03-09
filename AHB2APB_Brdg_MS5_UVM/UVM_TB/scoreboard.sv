@@ -1,14 +1,16 @@
 // Two separate analysis imp tags — must be declared before the class.
-`uvm_analysis_imp_decl(_ahb)
+`uvm_analysis_imp_decl(_drv)
 `uvm_analysis_imp_decl(_apb)
 
-// Scoreboard: compares every AHB transaction (captured at address+data phases)
-// against the corresponding APB access-phase transaction captured after CDC.
+// Scoreboard: compares every AHB transaction (from the driver — the ground
+// truth) against the corresponding APB access captured pre-CDC via HCLK-domain
+// signals.
 //
 // MS3 insight: MS3 matches driver HADDR/HWDATA against APB monitor PADDR/PWDATA
-// via a queue — same pattern used here. The bridge pipeline means HADDR at the
-// PENABLE moment has already advanced (SEQ address), so we must correlate via
-// the queued HADDR from the AHB address phase, not the live bus value.
+// via a FIFO queue — same pattern here.  The driver fires after the AHB address
+// phase; the APB monitor fires after the PENABLE assertion; because the AHB
+// address phase always precedes PENABLE by several HCLK cycles, the queue is
+// always populated before the APB event arrives.
 //
 // Checks per transaction:
 //   PADDR  == HADDR  (address translation preserved)
@@ -16,17 +18,17 @@
 //   PWDATA == HWDATA (write-data preserved, writes only)
 //   HRESP  == 2'b00  (bridge always responds OKAY)
 //
-// PASS condition: no check failures and at most 1 AHB txn unmatched
-//   (the last txn in a pipelined burst may not complete through the CDC
-//    pipeline before the drain time expires — this is a sim artefact, not a bug)
+// PASS condition: no check failures AND zero unmatched driver transactions.
 class ahb_apb_scoreboard extends uvm_scoreboard;
     `uvm_component_utils(ahb_apb_scoreboard)
 
-    uvm_analysis_imp_ahb #(sequence_item,   ahb_apb_scoreboard) ahb_export;
+    // drv_export: fed by the driver (one item per non-IDLE/non-BUSY AHB txn)
+    // apb_export: fed by the APB monitor (one item per observed APB access)
+    uvm_analysis_imp_drv #(sequence_item,   ahb_apb_scoreboard) drv_export;
     uvm_analysis_imp_apb #(apb_transaction, ahb_apb_scoreboard) apb_export;
 
-    // FIFO of AHB transactions waiting to be matched by an APB event
-    sequence_item ahb_q[$];
+    // FIFO of driver transactions waiting to be matched by an APB event
+    sequence_item drv_q[$];
 
     int total_checked;
     int pass_count;
@@ -38,13 +40,13 @@ class ahb_apb_scoreboard extends uvm_scoreboard;
 
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        ahb_export = new("ahb_export", this);
+        drv_export = new("drv_export", this);
         apb_export = new("apb_export", this);
     endfunction
 
-    // Called by AHB monitor for each complete address+data transaction.
-    function void write_ahb(sequence_item tx);
-        // Check HRESP while the transaction is still fresh on the AHB side
+    // Called by the driver for each non-IDLE/non-BUSY AHB transaction.
+    function void write_drv(sequence_item tx);
+        // Check HRESP while the transaction is still fresh
         if (tx.HRESP !== 2'b00) begin
             fail_count++;
             `uvm_error("SCB", $sformatf(
@@ -52,28 +54,27 @@ class ahb_apb_scoreboard extends uvm_scoreboard;
                 tx.HRESP, tx.HADDR))
         end
 
-        // Queue for later matching with the APB event
-        ahb_q.push_back(tx);
+        drv_q.push_back(tx);
         `uvm_info("SCB", $sformatf(
-            "AHB queued [%0d pending]: HADDR=0x%08h HWRITE=%0b HWDATA=0x%08h",
-            ahb_q.size(), tx.HADDR, tx.HWRITE, tx.HWDATA), UVM_HIGH)
+            "DRV queued [%0d pending]: HADDR=0x%08h HWRITE=%0b HWDATA=0x%08h",
+            drv_q.size(), tx.HADDR, tx.HWRITE, tx.HWDATA), UVM_HIGH)
     endfunction
 
-    // Called by APB monitor for each access phase (PENABLE=1, PSELX!=0).
+    // Called by APB monitor for each observed APB access (PENABLE_HCLK=1 / PADDR change).
     function void write_apb(apb_transaction apb_tx);
-        sequence_item ahb_tx;
+        sequence_item drv_tx;
 
-        if (ahb_q.size() == 0) begin
+        if (drv_q.size() == 0) begin
             `uvm_error("SCB", $sformatf(
-                "Unexpected APB transaction — no queued AHB transaction to match: PADDR=0x%08h",
+                "Unexpected APB transaction — no queued driver transaction to match: PADDR=0x%08h",
                 apb_tx.PADDR))
             fail_count++;
             return;
         end
 
-        ahb_tx = ahb_q.pop_front();
+        drv_tx = drv_q.pop_front();
         total_checked++;
-        check_translation(ahb_tx, apb_tx);
+        check_translation(drv_tx, apb_tx);
     endfunction
 
     // Core check: verify AHB→APB signal translation is lossless.
@@ -117,21 +118,15 @@ class ahb_apb_scoreboard extends uvm_scoreboard;
     endfunction
 
     function void report_phase(uvm_phase phase);
-        int unmatched = ahb_q.size();
-        // PASS: no check failures AND at most 1 AHB txn left unmatched.
-        // The ≤1 tolerance covers two known simulation artefacts:
-        //   1. Pipelined burst (NONSEQ+SEQ) generates 2 AHB events but only
-        //      one PSELX rising edge, so the second burst member is never
-        //      matched by an APB event.
-        //   2. The last transaction may not drain through the CDC pipeline
-        //      before the simulation drain time expires.
-        string result = (fail_count == 0 && total_checked > 0 && unmatched <= 1) ?
+        int unmatched = drv_q.size();
+        // PASS: no check failures AND every driver transaction was matched.
+        string result = (fail_count == 0 && total_checked > 0 && unmatched == 0) ?
                         "** PASSED **" : "** FAILED **";
 
         if (unmatched > 0)
-            `uvm_info("SCB", $sformatf(
-                "%0d AHB txn(s) in queue at end of sim (pipeline/burst artefact — tolerated up to 1)",
-                unmatched), UVM_MEDIUM)
+            `uvm_warning("SCB", $sformatf(
+                "%0d driver txn(s) left unmatched in queue at end of sim",
+                unmatched))
 
         `uvm_info("SCB", $sformatf({
             "\n======================================\n",
@@ -140,7 +135,7 @@ class ahb_apb_scoreboard extends uvm_scoreboard;
             " AHB→APB pairs checked : %0d\n",
             " Passed                : %0d\n",
             " Failed                : %0d\n",
-            " Unmatched AHB txns    : %0d\n",
+            " Unmatched DRV txns    : %0d\n",
             "======================================\n",
             " Result: %s\n",
             "======================================"
@@ -148,8 +143,8 @@ class ahb_apb_scoreboard extends uvm_scoreboard;
             total_checked, pass_count, fail_count, unmatched, result),
             UVM_NONE)
 
-        if (fail_count > 0)
-            `uvm_error("SCB", $sformatf("%0d check(s) failed", fail_count))
+        if (fail_count > 0 || unmatched > 0)
+            `uvm_error("SCB", $sformatf("%0d check(s) failed, %0d unmatched", fail_count, unmatched))
     endfunction
 
 endclass

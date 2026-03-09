@@ -36,7 +36,9 @@ class sequence_item extends uvm_sequence_item;
 
     // Constraints to guide randomization
     constraint LOW_RESET        {HRESETn dist   {1:=9, 0:=1};}
-    constraint VALID_ADDRESS    {HADDR   inside {[32'h0:32'h7ff]}; }
+    // Address must fall in the bridge's valid APB range so `valid` asserts
+    // and the FSM actually generates APB transactions.
+    constraint VALID_ADDRESS    {HADDR inside {[32'h8000_0000:32'h8BFF_FFFF]}; }
     constraint SELECT_BRIDGE    {HSELAHB dist   {1:=99, 0:=1};}
 
     // Function called after each randomization to update transaction count and print details

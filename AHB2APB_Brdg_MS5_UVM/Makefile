@@ -23,7 +23,7 @@ FILELIST = vcs-filelist.f
 
 # Executable
 SIM = simv
-TEST = ahb_apb_random_test
+TEST = ahb_b2b_test
 
 # Targets
 .PHONY: all compile sim clean help cov

@@ -61,7 +61,41 @@ class ahb_apb_random_test extends ahb_apb_base_test;
     task run_phase (uvm_phase phase);
         phase.raise_objection(this);
         ahb_rand_seq.start(env.ahb_agent_h.seqr);
-	phase.phase_done.set_drain_time(this, 50);
+	phase.phase_done.set_drain_time(this, 200);
 	phase.drop_objection(this);
+    endtask
+endclass
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Back-to-Back Sequential Burst Test
+//
+// Uses ahb_b2b_seq_sequence: IDLE → NONSEQ → 4×SEQ → trailing IDLE.
+// All transactions are WRITEs so address+data are fully checkable.
+// Expected scoreboard result: 5 pairs checked, 0 failed, 0 unmatched.
+//
+// Drain time is 500 ns to give the bridge FSM plenty of time to flush the
+// entire pipelined burst (WWAIT + WRITEP + 4×WENABLEP→WRITEP cycles ≈ 110 ns;
+// 500 ns adds comfortable margin for any clock-domain latency).
+// ─────────────────────────────────────────────────────────────────────────────
+class ahb_b2b_test extends ahb_apb_base_test;
+    `uvm_component_utils(ahb_b2b_test)
+
+    ahb_b2b_seq_sequence b2b_seq;
+
+    function new(string name = "ahb_b2b_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction
+
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        `uvm_info("AHB_B2B_TEST", "Inside build_phase", UVM_DEBUG)
+        b2b_seq = ahb_b2b_seq_sequence::type_id::create("b2b_seq");
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        b2b_seq.start(env.ahb_agent_h.seqr);
+        phase.phase_done.set_drain_time(this, 500);
+        phase.drop_objection(this);
     endtask
 endclass

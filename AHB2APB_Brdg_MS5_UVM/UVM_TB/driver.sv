@@ -1,113 +1,97 @@
+// UVM AHB Driver — MS3-faithful 3-phase approach
+//
+// Each non-IDLE transaction follows the same 3-phase hand-shake as the MS3
+// class-based driver:
+//
+//   Phase 1 — ADDRESS:    wait HREADY, drive HADDR/HTRANS/HWRITE/HSELAHB
+//   Phase 2 — DATA:       wait HREADY, drive HWDATA (writes only)
+//   Phase 3 — COMPLETION: wait HREADY, then assert HTRANS=IDLE
+//
+// Because each transaction is self-contained the driver never needs to
+// carry state (Hwdata_t / wr_pending) between calls.  The sequence just
+// sends NONSEQ items; SEQ and IDLE interleaving is not required.
+//
+// The scoreboard is notified (drv_ap.write) right after the address phase —
+// well before the corresponding APB PENABLE asserts — so the queue is always
+// populated in time.
 class ahb_driver extends uvm_driver #(sequence_item);
     `uvm_component_utils(ahb_driver)
 
     virtual intf.AHB_DRIVER vif;
 
-    // Sequence item for driver to DUT communication
-    sequence_item tx;
-
-    // Temporary storage for data during Write operations
-    static bit [31:0] Hwdata_t; 
-
-    // for pending wr operation 
-    static int wr_pending;
-
-    // Analysis port: sends every non-IDLE/non-BUSY transaction to the scoreboard.
-    // The driver is the ground truth for AHB transactions (correct HADDR/HWDATA).
+    // Analysis port: one write per non-IDLE/non-BUSY transaction → scoreboard.
     uvm_analysis_port #(sequence_item) drv_ap;
 
-    // Constructor
-    function new (string name = "ahb_driver",uvm_component parent);
-        super.new (name, parent);
+    function new(string name = "ahb_driver", uvm_component parent);
+        super.new(name, parent);
     endfunction
 
-
-    // Build Phase: Fetch the configuration settings from the environment
-    function void build_phase (uvm_phase phase);
+    function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         drv_ap = new("drv_ap", this);
-
-       if(!uvm_config_db#(virtual intf.AHB_DRIVER)::get(this,"","vif",vif)) begin
-	        `uvm_error("CONFIG_DB","Not able to get virtual handle")
-	end
+        if (!uvm_config_db#(virtual intf.AHB_DRIVER)::get(this, "", "vif", vif))
+            `uvm_error("CONFIG_DB", "Not able to get virtual handle")
     endfunction
 
-    // Run Phase: Get the sequence item from the sequencer and drive it onto the interface
-    task run_phase (uvm_phase phase);
-	reset();
-
-        forever
-        begin
+    task run_phase(uvm_phase phase);
+        reset();
+        forever begin
             seq_item_port.get_next_item(req);
             drive_tx(req);
-            seq_item_port.item_done();    
+            seq_item_port.item_done();
         end
     endtask
 
-    // Drive the transfers on the interface
-    virtual task drive_tx (sequence_item tx);
-        @(posedge vif.hclk)
-        while(!(vif.ahb_driver_cb.HREADY))
-             @(vif.ahb_driver_cb);
-            tx.HREADY = vif.ahb_driver_cb.HREADY;
+    // ── drive_tx ────────────────────────────────────────────────────────────
+    // MS3-style: three explicit HREADY waits per active transaction.
+    // IDLE/BUSY items are driven but skip the data and completion phases.
+    virtual task drive_tx(sequence_item tx);
 
-        if(tx.HTRANS != 2'b01)  //BUSY
-        begin      
+        // ── PHASE 1: ADDRESS ──────────────────────────────────────────────
+        // Wait for bridge to be ready (Hreadyout=1) before placing address.
+        @(vif.ahb_driver_cb);
+        while (!vif.ahb_driver_cb.HREADY) @(vif.ahb_driver_cb);
 
-            vif.ahb_driver_cb.HSELAHB <=  tx.HSELAHB;
-            vif.ahb_driver_cb.HADDR   <=  tx.HADDR;
-            vif.ahb_driver_cb.HTRANS  <=  tx.HTRANS;
-            vif.ahb_driver_cb.HWRITE  <=  tx.HWRITE;
+        vif.ahb_driver_cb.HSELAHB <= tx.HSELAHB;
+        vif.ahb_driver_cb.HADDR   <= tx.HADDR;
+        vif.ahb_driver_cb.HTRANS  <= tx.HTRANS;
+        vif.ahb_driver_cb.HWRITE  <= tx.HWRITE;
 
-            if(tx.HWRITE == 1'b0)  // READ
-            begin
-                // AHB protocol: HWDATA at cycle N+1 carries the write data for
-                // a WRITE at cycle N, regardless of whether cycle N+1 is a read.
-                // If there is a pending NONSEQ write whose data hasn't been driven yet,
-                // flush it now before accepting this READ's (undefined) data.
-                if (wr_pending)
-                begin
-                    vif.ahb_driver_cb.HWDATA <= Hwdata_t;
-                    wr_pending <= 0;
-                end
-                else
-                    vif.ahb_driver_cb.HWDATA <= 32'hxxxx_xxxx;
-            end
-            else
-            begin //WRITE
-                if(tx.HTRANS == 2'b10)  // NONSEQ
-                begin
-                    Hwdata_t  <=  tx.HWDATA;
-                    wr_pending <= 1;
-                end
-
-                else if (tx.HTRANS == 2'b11)  // SEQ
-                begin
-                    Hwdata_t  <= tx.HWDATA;
-                    vif.ahb_driver_cb.HWDATA   <= Hwdata_t;
-                    wr_pending <= 1;
-                end
-                
-                else if (tx.HTRANS == 2'b00)  //T_IDLE
-                begin
-                    if(wr_pending == 1)
-                    begin
-                        vif.ahb_driver_cb.HWDATA   <= Hwdata_t;
-                        wr_pending   <= 0;
-                    end
-                end
-            end 
+        // IDLE / BUSY: address-only drive; no APB transaction generated.
+        if (tx.HTRANS == 2'b00 || tx.HTRANS == 2'b01) begin
+            `uvm_info(get_type_name(),
+                $sformatf("IDLE/BUSY driven (HTRANS=%2b)", tx.HTRANS), UVM_HIGH)
+            return;
         end
-        `uvm_info(get_type_name,$sformatf("AHB driver Delivered Tx: \n%s" ,tx.sprint()),UVM_MEDIUM)
 
-        // Send non-IDLE/BUSY transactions to scoreboard as ground truth.
-        if (tx.HTRANS != 2'b00 && tx.HTRANS != 2'b01)
-            drv_ap.write(tx);
+        // Tell the scoreboard about this transaction now.
+        // The APB PENABLE arrives several HCLK cycles later, so the queue
+        // will always be populated before write_apb() tries to pop it.
+        drv_ap.write(tx);
+
+        // ── PHASE 2: DATA ─────────────────────────────────────────────────
+        // Wait for bridge ready, then put write data on the bus.
+        @(vif.ahb_driver_cb);
+        while (!vif.ahb_driver_cb.HREADY) @(vif.ahb_driver_cb);
+
+        if (tx.HWRITE)
+            vif.ahb_driver_cb.HWDATA <= tx.HWDATA;
+
+        // ── PHASE 3: COMPLETION ───────────────────────────────────────────
+        // Wait for the bridge to finish the APB cycle (Hreadyout re-asserts),
+        // then return the bus to IDLE so the next item starts cleanly.
+        @(vif.ahb_driver_cb);
+        while (!vif.ahb_driver_cb.HREADY) @(vif.ahb_driver_cb);
+
+        vif.ahb_driver_cb.HTRANS <= 2'b00;
+
+        `uvm_info(get_type_name(),
+            $sformatf("Driven Tx:\n%s", tx.sprint()), UVM_MEDIUM)
     endtask
 
     task reset();
         vif.ahb_driver_cb.HRESETn <= 0;
-        @(vif.ahb_driver_cb); //add 5cycles if 1 doesn't work
+        @(vif.ahb_driver_cb);
         vif.ahb_driver_cb.HRESETn <= 1;
     endtask
 endclass

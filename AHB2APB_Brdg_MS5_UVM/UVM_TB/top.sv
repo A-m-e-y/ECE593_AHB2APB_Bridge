@@ -66,7 +66,15 @@ module tb_top();
         uvm_config_db#(virtual intf.APB_HCLK_MONITOR)::set(null, "*", "apb_vif", vif);
 
         `uvm_info("TOPPP", "should run test after this", UVM_DEBUG)
-        run_test("ahb_apb_random_test");
+        run_test("ahb_b2b_test");
+    end
+
+    
+    // waveforms
+    initial begin
+        $vcdplusfile("ahb2apb_uvm.vpd");
+        $vcdpluson(0, tb_top);
+        $vcdplusmemon(0, tb_top);
     end
 
 endmodule

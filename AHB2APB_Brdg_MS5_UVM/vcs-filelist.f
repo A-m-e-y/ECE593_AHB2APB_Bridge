@@ -20,6 +20,7 @@
 ./UVM_TB/monitor.sv
 ./UVM_TB/apb_monitor.sv
 ./UVM_TB/scoreboard.sv
+./UVM_TB/coverage.sv
 ./UVM_TB/ahb_agent.sv
 ./UVM_TB/ahb2apb_env.sv
 ./UVM_TB/base_test.sv

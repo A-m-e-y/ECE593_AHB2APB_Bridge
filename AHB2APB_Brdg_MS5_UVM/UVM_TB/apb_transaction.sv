@@ -1,4 +1,4 @@
-// APB Transaction: captures one APB access-phase event (PENABLE=1, PSELX!=0).
+// APB transaction item - one APB access (PENABLE=1, PSELX!=0)
 class apb_transaction extends uvm_sequence_item;
     `uvm_object_utils_begin(apb_transaction)
         `uvm_field_int(PWRITE,  UVM_DEFAULT)
@@ -18,4 +18,3 @@ class apb_transaction extends uvm_sequence_item;
         super.new(name);
     endfunction
 endclass
-

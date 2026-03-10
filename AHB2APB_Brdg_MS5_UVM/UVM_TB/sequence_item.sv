@@ -13,38 +13,33 @@ class sequence_item extends uvm_sequence_item;
         `uvm_field_int(HREADY,   UVM_DEFAULT)
     `uvm_object_utils_end
 
-    // Randomizable transaction fields
-    rand bit                   HRESETn;    // Reset signal
-    rand bit [31:0]            HADDR;      // Address
-    rand bit [1:0]             HTRANS;     // Transaction type
-    rand bit                   HWRITE;     // Write enable flag
-    rand bit [31:0]            HWDATA;     // Data to be written
-    rand bit                   HSELAHB;    // AHB bridge select signal
+    rand bit                   HRESETn;
+    rand bit [31:0]            HADDR;
+    rand bit [1:0]             HTRANS;
+    rand bit                   HWRITE;
+    rand bit [31:0]            HWDATA;
+    rand bit                   HSELAHB;
 
-    // Non-randomizable fields
-    bit [31:0]                 HRDATA;     // Data read
-    bit                        HREADY;     // Ready signal
-    bit [1:0]                  HRESP;      // Response signal (2-bit per AHB spec)
+    // not randomized - driven by DUT
+    bit [31:0]                 HRDATA;
+    bit                        HREADY;
+    bit [1:0]                  HRESP;
 
-    // Tracks number of transactions
     static int ahb_no_of_transaction;
 
-    // Constructor: Initializes the uvm_sequence_item
     function new(string name = "sequence_item");
         super.new(name);
     endfunction
 
-    // Constraints to guide randomization
-    constraint LOW_RESET        {HRESETn dist   {1:=9, 0:=1};}
-    // Address must fall in the bridge's valid APB range so `valid` asserts
-    // and the FSM actually generates APB transactions.
-    constraint VALID_ADDRESS    {HADDR inside {[32'h8000_0000:32'h8BFF_FFFF]}; }
-    constraint SELECT_BRIDGE    {HSELAHB dist   {1:=99, 0:=1};}
+    // keep reset mostly deasserted, address in valid APB range, bridge usually selected
+    constraint LOW_RESET     {HRESETn dist {1:=9, 0:=1};}
+    constraint VALID_ADDRESS {HADDR inside {[32'h8000_0000:32'h8BFF_FFFF]};}
+    constraint SELECT_BRIDGE {HSELAHB dist {1:=99, 0:=1};}
 
-    // Function called after each randomization to update transaction count and print details
     function void post_randomize();
         ahb_no_of_transaction++;
-        `uvm_info("AHB_SEQUENCE_ITEM", $sformatf("Transaction [%0d]: %s", ahb_no_of_transaction, this.sprint()), UVM_MEDIUM)
+        `uvm_info("AHB_SEQUENCE_ITEM", $sformatf("Transaction [%0d]: %s",
+            ahb_no_of_transaction, this.sprint()), UVM_MEDIUM)
     endfunction
 
 endclass

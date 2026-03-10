@@ -7,31 +7,28 @@ interface intf (input logic hclk, input logic pclk);
     logic [31:0]  HRDATA;
     logic [1:0]   HTRANS;
     logic         HWRITE;
-    logic         HSELAHB;   // TB-internal bridge select (not a DUT port)
+    logic         HSELAHB;
     logic         HREADY;    // Hreadyout from DUT
-    logic [1:0]   HRESP;     // 2-bit per AHB spec
+    logic [1:0]   HRESP;
     logic [2:0]   HSIZE;
     logic [2:0]   HBURST;
 
-    // APB signals — PCLK domain (post-CDC, from Bridge_Top output ports)
+    // post-CDC APB signals (PCLK domain)
     logic         PENABLE;
     logic         PWRITE;
     logic [2:0]   PSELX;
     logic [31:0]  PADDR;
     logic [31:0]  PWDATA;
-    logic [31:0]  PRDATA;    // driven into DUT as APB slave read-data
+    logic [31:0]  PRDATA;    // we drive this into DUT from slave model
 
-    // APB signals — HCLK domain (pre-CDC, tapped from Bridge_Top internal wires)
-    // These are the registered outputs of APB_FSM_Controller, before the 2-FF
-    // CDC synchronizer.  Because they live in the HCLK domain we can observe
-    // them reliably with an HCLK clocking block — no CDC timing risk.
+    // pre-CDC APB signals tapped from Bridge_Top internals (HCLK domain)
+    // safe to sample with HCLK clocking block - no CDC risk here
     logic         PENABLE_HCLK;
     logic         PWRITE_HCLK;
     logic [2:0]   PSELX_HCLK;
     logic [31:0]  PADDR_HCLK;
     logic [31:0]  PWDATA_HCLK;
 
-    // AHB Driver Clocking Block (HCLK domain)
     clocking ahb_driver_cb @(posedge hclk);
         default input #1 output #1;
         output HRESETn;
@@ -43,7 +40,6 @@ interface intf (input logic hclk, input logic pclk);
         input  HREADY;
     endclocking
 
-    // AHB Monitor Clocking Block (HCLK domain)
     clocking ahb_monitor_cb @(posedge hclk);
         default input #1 output #1;
         input HRESETn;
@@ -59,7 +55,6 @@ interface intf (input logic hclk, input logic pclk);
         input HBURST;
     endclocking
 
-    // APB Monitor Clocking Block (PCLK domain — kept for waveform visibility)
     clocking apb_monitor_cb @(posedge pclk);
         default input #1 output #1;
         input  PENABLE;
@@ -67,11 +62,10 @@ interface intf (input logic hclk, input logic pclk);
         input  PSELX;
         input  PADDR;
         input  PWDATA;
-        input  PRDATA;   // driven into DUT externally (assign in top.sv)
+        input  PRDATA;
     endclocking
 
-    // APB HCLK Monitor Clocking Block (HCLK domain, pre-CDC)
-    // Used by apb_monitor to observe each APB access without CDC timing risk.
+    // HCLK-domain APB monitor CB - avoids CDC timing issues
     clocking apb_hclk_cb @(posedge hclk);
         default input #1 output #1;
         input PENABLE_HCLK;
@@ -81,10 +75,17 @@ interface intf (input logic hclk, input logic pclk);
         input PWDATA_HCLK;
     endclocking
 
-    // MODPORTS
+    // APB slave modport - direct signal access, no CB
+    // slave model uses @(posedge pclk) #1 internally
+    modport APB_SLAVE (
+        input  pclk,
+        input  PSELX, PENABLE, PWRITE, PADDR, PWDATA,
+        output PRDATA
+    );
+
     modport AHB_DRIVER       (clocking ahb_driver_cb,  input hclk);
     modport AHB_MONITOR      (clocking ahb_monitor_cb, input hclk);
-    modport APB_MONITOR      (clocking apb_monitor_cb, input pclk);          // legacy/waveform
-    modport APB_HCLK_MONITOR (clocking apb_hclk_cb,   input hclk);          // used by apb_monitor
+    modport APB_MONITOR      (clocking apb_monitor_cb, input pclk);
+    modport APB_HCLK_MONITOR (clocking apb_hclk_cb,   input hclk);
 
 endinterface

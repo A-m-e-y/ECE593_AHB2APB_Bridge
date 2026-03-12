@@ -126,10 +126,13 @@ always @(*)
 			  if (valid && ~Hwrite) 
 			   begin:IDLE_TO_READ
 			        Paddr_temp=Haddr;
-				Pwrite_temp=Hwrite;
-				Pselx_temp=tempselx;
-				Penable_temp=0;
-				Hreadyout_temp=0;
+					`ifdef BUG2_Addr_Trans
+						Paddr_temp = Haddr + 32'h4;
+					`endif
+					Pwrite_temp=Hwrite;
+					Pselx_temp=tempselx;
+					Penable_temp=0;
+					Hreadyout_temp=0;
 			   end
 			  
 			  else if (valid && Hwrite)
@@ -156,6 +159,9 @@ always @(*)
 				Pselx_temp=tempselx;
 				Penable_temp=0;
 				Pwdata_temp=Hwdata;
+				`ifdef BUG3_Wr_Data_Corrupt
+					Pwdata_temp = Hwdata ^ 32'h1;
+				`endif
 				Hreadyout_temp=0;
 			   end
 			   // synopsys coverage on

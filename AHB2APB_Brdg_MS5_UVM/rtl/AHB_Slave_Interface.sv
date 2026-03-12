@@ -74,6 +74,9 @@ output  [1:0] Hresp;
 			tempselx=3'b000;
 			if (Hresetn && Haddr>=32'h8000_0000 && Haddr<32'h8400_0000)
 				tempselx=3'b001;
+				`ifdef BUG4_Slave_Err
+					tempselx = 3'bxxx;
+				`endif
 			else if (Hresetn && Haddr>=32'h8400_0000 && Haddr<32'h8800_0000)
 				tempselx=3'b010;
 			else if (Hresetn && Haddr>=32'h8800_0000 && Haddr<32'h8C00_0000)
@@ -83,6 +86,6 @@ output  [1:0] Hresp;
 	
 
 assign Hrdata = Prdata;
-assign Hresp=2'b00;
+assign Hresp = (tempselx == 3'b000) ? 2'b01 : 2'b00;
 
 endmodule

@@ -24,5 +24,5 @@
 ./UVM_TB/apb_slave_model.sv
 ./UVM_TB/ahb_agent.sv
 ./UVM_TB/ahb2apb_env.sv
-./UVM_TB/base_test.sv
+./UVM_TB/tests.sv
 ./UVM_TB/top.sv

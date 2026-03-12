@@ -23,7 +23,8 @@ FILELIST = vcs-filelist.f
 
 # Executable
 SIM = simv
-TEST = ahb_b2b_test
+TEST = ahb_apb_single_write_test
+#BUG=BUG_Slave_Err
 
 # Targets
 .PHONY: all compile sim clean help cov
@@ -34,7 +35,7 @@ compile:
 	@echo "========================================"
 	@echo "  Compiling AHB2APB Bridge UVM Testbench"
 	@echo "========================================"
-	$(VCS) $(VCS_FLAGS) $(COV_FLAGS) -f $(FILELIST) -l compile.log
+	$(VCS) $(VCS_FLAGS) $(COV_FLAGS) +define+$(BUG) -f $(FILELIST) -l compile.log
 	@echo "Compilation complete - check compile.log"
 	@echo ""
 

@@ -77,8 +77,8 @@ class apb_slave_model extends uvm_component;
                 end
             end
 
-            if (!penable && prev_penable)
-                full_vif.PRDATA = 32'h0;
+            // Keep PRDATA stable after access; zeroing immediately can hide read
+            // values at AHB monitor due CDC latency.
 
             prev_penable = penable;
         end

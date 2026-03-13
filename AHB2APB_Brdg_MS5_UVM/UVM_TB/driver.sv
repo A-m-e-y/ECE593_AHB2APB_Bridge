@@ -72,7 +72,9 @@ class ahb_driver extends uvm_driver #(sequence_item);
         vif.ahb_driver_cb.HWRITE  <= 0;
         vif.ahb_driver_cb.HADDR   <= 32'h0;
         vif.ahb_driver_cb.HWDATA  <= 32'h0;
-        @(vif.ahb_driver_cb);
+        // Hold reset for multiple HCLK cycles so both HCLK and slower PCLK-domain
+        // reset branches are exercised deterministically.
+        repeat (4) @(vif.ahb_driver_cb);
         vif.ahb_driver_cb.HRESETn <= 1;
     endtask
 

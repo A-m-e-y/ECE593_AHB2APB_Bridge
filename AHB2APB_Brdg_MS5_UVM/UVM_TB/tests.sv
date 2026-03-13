@@ -100,11 +100,12 @@ class ahb_apb_single_write_test extends ahb_apb_base_test;
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);
         ahb_seq_h.start(env.ahb_agent_h.seqr);
+        // wait a bit so APB side (after CDC) and slave model can flush
+        phase.phase_done.set_drain_time(this, 300);
         phase.drop_objection(this);
-        phase.phase_done.set_drain_time(this, 50);
     endtask
 endclass
-/*
+
 //  this test focuses on the burst write test sequence 
 class ahb_apb_burst_write_test extends ahb_apb_base_test;
     `uvm_component_utils(ahb_apb_burst_write_test)
@@ -123,10 +124,12 @@ class ahb_apb_burst_write_test extends ahb_apb_base_test;
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);
         ahb_seq_h.start(env.ahb_agent_h.seqr);
+        phase.phase_done.set_drain_time(this, 2000);
         phase.drop_objection(this);
-        phase.phase_done.set_drain_time(this, 50);
     endtask
 endclass
+
+/*
 
 // This class focuses on the burst read test sequence for the ahb_apb testbench
 class ahb_apb_burst_read_test extends ahb_apb_base_test;

@@ -1,6 +1,5 @@
-// AHB driver - ported from MS3 class-based TB
-// uses same 3-phase approach: address -> data -> completion
-// each phase waits for HREADY before proceeding
+// AHB driver - one beat per sequence item
+// sequence controls IDLE insertion explicitly
 class ahb_driver extends uvm_driver #(sequence_item);
     `uvm_component_utils(ahb_driver)
 
@@ -29,8 +28,10 @@ class ahb_driver extends uvm_driver #(sequence_item);
     endtask
 
     virtual task drive_tx(sequence_item tx);
+        bit valid_transfer;
+        valid_transfer = (tx.HTRANS == 2'b10 || tx.HTRANS == 2'b11);
 
-        // phase 1: put address on bus, wait for bridge ready
+        // address phase
         @(vif.ahb_driver_cb);
         while (!vif.ahb_driver_cb.HREADY) @(vif.ahb_driver_cb);
 
@@ -39,35 +40,32 @@ class ahb_driver extends uvm_driver #(sequence_item);
         vif.ahb_driver_cb.HTRANS  <= tx.HTRANS;
         vif.ahb_driver_cb.HWRITE  <= tx.HWRITE;
 
-        // skip data/completion for IDLE or BUSY
-        if (tx.HTRANS == 2'b00 || tx.HTRANS == 2'b01) begin
-            `uvm_info(get_type_name(),
-                $sformatf("IDLE/BUSY driven (HTRANS=%2b)", tx.HTRANS), UVM_HIGH)
-            return;
-        end
+        // only real transfers go to scoreboard stream
+        if (valid_transfer)
+            drv_ap.write(tx);
 
-        // notify scoreboard now - APB PENABLE comes a few cycles later so queue is ready
-        drv_ap.write(tx);
-
-        // phase 2: drive write data
+        // data phase
         @(vif.ahb_driver_cb);
         while (!vif.ahb_driver_cb.HREADY) @(vif.ahb_driver_cb);
 
-        if (tx.HWRITE)
+        if (valid_transfer && tx.HWRITE)
             vif.ahb_driver_cb.HWDATA <= tx.HWDATA;
 
-        // phase 3: wait for bridge to finish, return to IDLE
-        @(vif.ahb_driver_cb);
-        while (!vif.ahb_driver_cb.HREADY) @(vif.ahb_driver_cb);
-
-        vif.ahb_driver_cb.HTRANS <= 2'b00;
-
-        `uvm_info(get_type_name(),
-            $sformatf("Driven Tx:\n%s", tx.sprint()), UVM_MEDIUM)
+        if (valid_transfer)
+            `uvm_info(get_type_name(),
+                $sformatf("Driven Tx:\n%s", tx.sprint()), UVM_MEDIUM)
+        else
+            `uvm_info(get_type_name(),
+                $sformatf("IDLE/BUSY driven (HTRANS=%2b)", tx.HTRANS), UVM_HIGH)
     endtask
 
     task reset();
         vif.ahb_driver_cb.HRESETn <= 0;
+        vif.ahb_driver_cb.HSELAHB <= 0;
+        vif.ahb_driver_cb.HTRANS  <= 2'b00;
+        vif.ahb_driver_cb.HWRITE  <= 0;
+        vif.ahb_driver_cb.HADDR   <= 32'h0;
+        vif.ahb_driver_cb.HWDATA  <= 32'h0;
         @(vif.ahb_driver_cb);
         vif.ahb_driver_cb.HRESETn <= 1;
     endtask

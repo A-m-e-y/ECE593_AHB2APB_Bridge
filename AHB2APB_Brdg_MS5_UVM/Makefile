@@ -23,7 +23,7 @@ FILELIST = vcs-filelist.f
 
 # Executable
 SIM = simv
-TEST = ahb_apb_single_write_test
+TEST = ahb_apb_burst_write_test
 #BUG=BUG_Slave_Err
 
 # Targets

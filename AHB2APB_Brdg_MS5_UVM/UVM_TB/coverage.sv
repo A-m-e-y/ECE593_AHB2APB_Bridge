@@ -94,14 +94,14 @@ class ahb_apb_coverage extends uvm_subscriber#(sequence_item);
         cg_corner_cases          = new();
     endfunction
 
-    function void write(sequence_item tx);
-        m_hwrite  = tx.HWRITE;
-        m_htrans  = tx.HTRANS;
-        m_hresp   = tx.HRESP;
-        m_hready  = tx.HREADY;
-        m_haddr   = tx.HADDR;
-        m_hwdata  = tx.HWDATA;
-        m_hresetn = tx.HRESETn;
+    function void write(sequence_item t);
+        m_hwrite  = t.HWRITE;
+        m_htrans  = t.HTRANS;
+        m_hresp   = t.HRESP;
+        m_hready  = t.HREADY;
+        m_haddr   = t.HADDR;
+        m_hwdata  = t.HWDATA;
+        m_hresetn = t.HRESETn;
 
         cg_ahb_protocol.sample();
         cg_ahb_addr_mapping.sample();

@@ -22,8 +22,10 @@ class ahb_apb_env extends uvm_env;
 
     function void connect_phase(uvm_phase phase);
         uvm_top.print_topology();
-        // monitor feeds both scb and coverage
-        ahb_agent_h.mon_ap.connect(scb.ahb_export);
+        // expected stream comes from what driver actually sends
+        ahb_agent_h.drv_ap.connect(scb.ahb_export);
+        ahb_agent_h.drv_ap.connect(apb_slave.ahb_exp_fifo.analysis_export);
+        // coverage still samples monitor side behavior
         ahb_agent_h.mon_ap.connect(cov.analysis_export);
         // slave model broadcasts valid APB txns to scoreboard APB side
         apb_slave.ap_port.connect(scb.apb_export);

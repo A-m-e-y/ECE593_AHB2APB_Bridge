@@ -20,6 +20,7 @@ SIM_FLAGS = +UVM_VERBOSITY=UVM_MEDIUM \
 
 # File list
 FILELIST = vcs-filelist.f
+DPI_C_SRC = ./UVM_TB/dpi_ascii_banner.c
 
 # Executable
 SIM = simv
@@ -35,7 +36,7 @@ compile:
 	@echo "========================================"
 	@echo "  Compiling AHB2APB Bridge UVM Testbench"
 	@echo "========================================"
-	$(VCS) $(VCS_FLAGS) $(COV_FLAGS) +define+$(BUG) -f $(FILELIST) -l compile.log
+	$(VCS) $(VCS_FLAGS) $(COV_FLAGS) +define+$(BUG) -f $(FILELIST) $(DPI_C_SRC) -l compile.log
 	@echo "Compilation complete - check compile.log"
 	@echo ""
 

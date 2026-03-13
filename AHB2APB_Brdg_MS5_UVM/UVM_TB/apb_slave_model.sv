@@ -1,7 +1,7 @@
 class apb_slave_model extends uvm_component;
     `uvm_component_utils(apb_slave_model)
 
-    // sample APB intent in HCLK domain (before CDC)
+    // Sample APB intent in HCLK domain before CDC.
     virtual intf.APB_HCLK_MONITOR apb_vif;
     virtual intf                  full_vif;
 
@@ -25,7 +25,7 @@ class apb_slave_model extends uvm_component;
 
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        ap_port = new("ap_port", this);
+        ap_port      = new("ap_port", this);
         ahb_exp_fifo = new("ahb_exp_fifo", this);
 
         if (!uvm_config_db#(virtual intf.APB_HCLK_MONITOR)::get(this, "", "apb_vif", apb_vif))
@@ -42,7 +42,7 @@ class apb_slave_model extends uvm_component;
         bit [31:0] paddr;
         bit [31:0] pwdata;
         bit        prev_penable = 0;
-        bit        setup_seen = 0;
+        bit        setup_seen   = 0;
         bit [2:0]  setup_pselx;
         bit        setup_pwrite;
         bit [31:0] setup_paddr;
@@ -67,7 +67,8 @@ class apb_slave_model extends uvm_component;
                 setup_pwdata = pwdata;
             end
 
-            // one transfer per PENABLE rising edge; use setup payload for stability
+            // Accept one transfer per PENABLE rising edge.
+            // Use setup payload for stable address/data capture.
             if (penable && !prev_penable) begin
                 if (setup_seen) begin
                     process_candidate(setup_pselx, setup_pwrite, setup_paddr, setup_pwdata);
@@ -77,8 +78,8 @@ class apb_slave_model extends uvm_component;
                 end
             end
 
-            // Keep PRDATA stable after access; zeroing immediately can hide read
-            // values at AHB monitor due CDC latency.
+            // Keep PRDATA stable after access.
+            // Immediate zeroing can hide read data at AHB monitor due to CDC latency.
 
             prev_penable = penable;
         end
@@ -96,7 +97,7 @@ class apb_slave_model extends uvm_component;
                 (!pwrite || (ahb_exp.HWDATA === pwdata));
         end
 
-        // Drop stale duplicate APB samples unless they match the next expected AHB txn.
+        // Drop stale duplicate APB samples unless they match next expected AHB txn.
         if (last_apb_valid &&
             (last_apb_write === pwrite) &&
             (last_apb_addr  === paddr)  &&
@@ -140,7 +141,7 @@ class apb_slave_model extends uvm_component;
             return;
         end
 
-        tx = apb_transaction::type_id::create("tx", this);
+        tx       = apb_transaction::type_id::create("tx", this);
         tx.PWRITE = pwrite;
         tx.PSELX  = pselx;
         tx.PADDR  = paddr;
@@ -154,8 +155,8 @@ class apb_slave_model extends uvm_component;
                 $sformatf("WRITE PSELX=3'b%03b PADDR=0x%08h PWDATA=0x%08h",
                 pselx, paddr, pwdata), UVM_DEBUG)
         end else begin
-            mem[paddr] = ahb_exp.HRDATA;
-            tx.PRDATA = ahb_exp.HRDATA;
+            mem[paddr]     = ahb_exp.HRDATA;
+            tx.PRDATA      = ahb_exp.HRDATA;
             full_vif.PRDATA = tx.PRDATA;
             read_count++;
             `uvm_info("SLAVE",

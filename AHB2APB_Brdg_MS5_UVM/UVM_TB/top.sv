@@ -1,7 +1,7 @@
 import uvm_pkg::*;
 `include "uvm_macros.svh"
 
-// controls repeat count in ahb_random_sequence
+// Controls repeat count in ahb_random_sequence
 int TRANSFER = 1;
 
 module tb_top();
@@ -43,10 +43,10 @@ module tb_top();
     assign vif.HSIZE  = 3'b010;   // 32-bit transfers
     assign vif.HBURST = 3'b000;   // single burst
 
-    // use initial not assign - slave model drives PRDATA procedurally at runtime
+    // Keep PRDATA procedural since APB slave model drives it in runtime
     initial vif.PRDATA = 32'h0;
 
-    // tap internal HCLK-domain APB wires before CDC
+    // Tap internal APB intent in HCLK domain before CDC
     assign vif.PENABLE_HCLK = DUT.Penable_hclk;
     assign vif.PWRITE_HCLK  = DUT.Pwrite_hclk;
     assign vif.PSELX_HCLK   = DUT.Pselx_hclk;
@@ -54,13 +54,13 @@ module tb_top();
     assign vif.PWDATA_HCLK  = DUT.Pwdata_hclk;
 
     initial begin
-        uvm_config_db#(virtual intf.AHB_DRIVER)::set(null, "*", "vif",     vif);
-        uvm_config_db#(virtual intf.AHB_MONITOR)::set(null, "*", "vif",    vif);
-        uvm_config_db#(virtual intf.APB_HCLK_MONITOR)::set(null, "*", "apb_vif",       vif);
-        uvm_config_db#(virtual intf.APB_SLAVE)::set(       null, "*", "apb_slave_vif", vif);
-        uvm_config_db#(virtual intf)::set(             null, "*", "full_vif",       vif);
+        uvm_config_db#(virtual intf.AHB_DRIVER)::set(null, "*", "vif", vif);
+        uvm_config_db#(virtual intf.AHB_MONITOR)::set(null, "*", "vif", vif);
+        uvm_config_db#(virtual intf.APB_HCLK_MONITOR)::set(null, "*", "apb_vif", vif);
+        uvm_config_db#(virtual intf.APB_SLAVE)::set(null, "*", "apb_slave_vif", vif);
+        uvm_config_db#(virtual intf)::set(null, "*", "full_vif", vif);
 
-        `uvm_info("TOPPP", "should run test after this", UVM_DEBUG)
+        `uvm_info("TOP", "Starting configured UVM test", UVM_DEBUG)
         run_test("ahb_b2b_test");
     end
 

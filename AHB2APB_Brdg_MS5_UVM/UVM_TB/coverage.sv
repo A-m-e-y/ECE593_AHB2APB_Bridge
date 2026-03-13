@@ -1,5 +1,5 @@
-// functional coverage for AHB side
-// gets sequence_item from monitor via built-in analysis_export (uvm_subscriber)
+// Functional coverage on AHB-observed transactions.
+// Samples sequence_item via uvm_subscriber write().
 class ahb_apb_coverage extends uvm_subscriber#(sequence_item);
     `uvm_component_utils(ahb_apb_coverage)
 
@@ -26,7 +26,7 @@ class ahb_apb_coverage extends uvm_subscriber#(sequence_item);
             ignore_bins idle_busy = {2'b00, 2'b01};
         }
         cp_hresp: coverpoint m_hresp {
-            bins okay = {2'b00};
+            bins okay     = {2'b00};
             bins not_okay = default;
         }
         cp_hready: coverpoint m_hready {
@@ -127,7 +127,7 @@ class ahb_apb_coverage extends uvm_subscriber#(sequence_item);
         ahb_addr = cg_addr_decode.get_inst_coverage();
         tx_seq   = cg_transfer_sequences.get_inst_coverage();
         data_bound = cg_data_boundary.get_inst_coverage();
-        total    = (ahb_prot + ahb_addr + tx_seq + data_bound) / 4.0;
+        total      = (ahb_prot + ahb_addr + tx_seq + data_bound) / 4.0;
 
         `uvm_info("COV", $sformatf({
             "\n========================================\n",

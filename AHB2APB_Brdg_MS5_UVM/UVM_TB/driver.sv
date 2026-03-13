@@ -1,5 +1,5 @@
-// AHB driver - one beat per sequence item
-// sequence controls IDLE insertion explicitly
+// AHB driver processes one sequence item per beat.
+// The sequence controls IDLE/BUSY insertion.
 class ahb_driver extends uvm_driver #(sequence_item);
     `uvm_component_utils(ahb_driver)
 
@@ -33,7 +33,7 @@ class ahb_driver extends uvm_driver #(sequence_item);
         valid_transfer = (tx.HTRANS == 2'b10 || tx.HTRANS == 2'b11);
         expected_apb_transfer = valid_transfer && tx.HSELAHB && is_decodable_addr(tx.HADDR);
 
-        // address phase
+        // Address phase
         @(vif.ahb_driver_cb);
         while (!vif.ahb_driver_cb.HREADY) @(vif.ahb_driver_cb);
 
@@ -42,11 +42,11 @@ class ahb_driver extends uvm_driver #(sequence_item);
         vif.ahb_driver_cb.HTRANS  <= tx.HTRANS;
         vif.ahb_driver_cb.HWRITE  <= tx.HWRITE;
 
-        // expected APB stream: only transfers that hit DUT decode map
+        // Push only decodable transfers into expected APB stream.
         if (expected_apb_transfer)
             drv_ap.write(tx);
 
-        // data phase
+        // Data phase
         @(vif.ahb_driver_cb);
         while (!vif.ahb_driver_cb.HREADY) @(vif.ahb_driver_cb);
 
@@ -72,8 +72,8 @@ class ahb_driver extends uvm_driver #(sequence_item);
         vif.ahb_driver_cb.HWRITE  <= 0;
         vif.ahb_driver_cb.HADDR   <= 32'h0;
         vif.ahb_driver_cb.HWDATA  <= 32'h0;
-        // Hold reset for multiple HCLK cycles so both HCLK and slower PCLK-domain
-        // reset branches are exercised deterministically.
+        // Hold reset for multiple HCLK cycles to cover reset logic
+        // in both HCLK and slower PCLK domains.
         repeat (4) @(vif.ahb_driver_cb);
         vif.ahb_driver_cb.HRESETn <= 1;
     endtask

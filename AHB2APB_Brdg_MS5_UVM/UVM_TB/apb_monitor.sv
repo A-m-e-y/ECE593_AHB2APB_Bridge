@@ -1,6 +1,5 @@
-// APB monitor - samples pre-CDC signals in HCLK domain
-// avoids CDC timing risk since these signals are still on HCLK side
-// trigger logic same as MS3 monitor - fires once per unique APB access
+// APB monitor samples pre-CDC APB intent in HCLK domain.
+// Trigger fires once per unique APB access.
 class apb_monitor extends uvm_monitor;
     `uvm_component_utils(apb_monitor)
 
@@ -21,19 +20,19 @@ class apb_monitor extends uvm_monitor;
 
     task run_phase(uvm_phase phase);
         apb_transaction tx;
-        bit         last_penable = 0;
-        bit [31:0]  last_paddr   = '1;
+        bit        last_penable = 0;
+        bit [31:0] last_paddr   = '1;
 
         @(posedge apb_vif.hclk);
         forever begin
             @(posedge apb_vif.hclk);
             begin
-                bit         psel    = (apb_vif.apb_hclk_cb.PSELX_HCLK != 3'b000);
-                bit         penable = apb_vif.apb_hclk_cb.PENABLE_HCLK;
-                bit [31:0]  paddr   = apb_vif.apb_hclk_cb.PADDR_HCLK;
+                bit        psel    = (apb_vif.apb_hclk_cb.PSELX_HCLK != 3'b000);
+                bit        penable = apb_vif.apb_hclk_cb.PENABLE_HCLK;
+                bit [31:0] paddr   = apb_vif.apb_hclk_cb.PADDR_HCLK;
 
                 if (psel && penable) begin
-                    // new access = first PENABLE or address changed (pipelined burst)
+                    // New access when PENABLE rises or address changes in a burst.
                     if (!last_penable || paddr !== last_paddr) begin
                         tx        = apb_transaction::type_id::create("tx", this);
                         tx.PWRITE = apb_vif.apb_hclk_cb.PWRITE_HCLK;

@@ -7,7 +7,7 @@ class ahb_apb_scoreboard extends uvm_component;
     uvm_analysis_imp_ahb #(sequence_item,   ahb_apb_scoreboard) ahb_export;
     uvm_analysis_imp_apb #(apb_transaction, ahb_apb_scoreboard) apb_export;
 
-    // expected stream from driver, kept in order
+    // Expected stream from driver, preserved in-order.
     sequence_item ahb_queue[$];
 
     int total_ahb_txns;
@@ -59,7 +59,7 @@ class ahb_apb_scoreboard extends uvm_component;
                 (!apb_tx.PWRITE || (ahb_queue[0].HWDATA === apb_tx.PWDATA));
         end
 
-        // ignore consecutive duplicate APB samples unless next expected AHB is same
+        // Ignore duplicate APB samples unless queue head matches the duplicate.
         if (last_apb_valid &&
             last_apb_write === apb_tx.PWRITE &&
             last_apb_addr  === apb_tx.PADDR  &&
@@ -71,8 +71,10 @@ class ahb_apb_scoreboard extends uvm_component;
             return;
         end
 
-        if (apb_tx.PWRITE) total_apb_writes++;
-        else                total_apb_reads++;
+        if (apb_tx.PWRITE)
+            total_apb_writes++;
+        else
+            total_apb_reads++;
 
         if (ahb_queue.size() == 0) begin
             unmatched_apb_txns++;
@@ -136,15 +138,15 @@ class ahb_apb_scoreboard extends uvm_component;
     endfunction
 
     function void report_phase(uvm_phase phase);
-        int total_apb = total_apb_writes + total_apb_reads;
+        int total_apb     = total_apb_writes + total_apb_reads;
         int unmatched_ahb = ahb_queue.size();
-        bit passed = (total_ahb_txns > 0 &&
-                      total_apb == total_ahb_txns &&
-                      unmatched_ahb == 0 &&
-                      unmatched_apb_txns == 0 &&
-                      type_mismatches == 0 &&
-                      addr_mismatches == 0 &&
-                      data_mismatches == 0);
+        bit passed        = (total_ahb_txns > 0 &&
+                             total_apb == total_ahb_txns &&
+                             unmatched_ahb == 0 &&
+                             unmatched_apb_txns == 0 &&
+                             type_mismatches == 0 &&
+                             addr_mismatches == 0 &&
+                             data_mismatches == 0);
         string result = passed ? "** PASSED **" : "** FAILED **";
 
         `uvm_info("SCB", $sformatf({

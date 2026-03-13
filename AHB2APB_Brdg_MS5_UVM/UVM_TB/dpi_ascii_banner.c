@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stddef.h>
 
-#define KEY(ch, row) ((((unsigned int)(unsigned char)(ch)) << 3) | ((unsigned int)(row) & 0x7u))
+#define KEY(ch, row) \
+    ((((unsigned int)(unsigned char)(ch)) << 3) | ((unsigned int)(row) & 0x7u))
 
 static const char *char_art_row(unsigned char c, unsigned int row) {
     unsigned char uc = (c >= 'a' && c <= 'z') ? (unsigned char)(c - 32) : c;

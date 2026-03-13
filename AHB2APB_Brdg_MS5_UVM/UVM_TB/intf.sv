@@ -8,21 +8,21 @@ interface intf (input logic hclk, input logic pclk);
     logic [1:0]   HTRANS;
     logic         HWRITE;
     logic         HSELAHB;
-    logic         HREADY;    // Hreadyout from DUT
+    logic         HREADY;    // DUT HREADYOUT
     logic [1:0]   HRESP;
     logic [2:0]   HSIZE;
     logic [2:0]   HBURST;
 
-    // post-CDC APB signals (PCLK domain)
+    // APB signals after CDC synchronization (PCLK domain)
     logic         PENABLE;
     logic         PWRITE;
     logic [2:0]   PSELX;
     logic [31:0]  PADDR;
     logic [31:0]  PWDATA;
-    logic [31:0]  PRDATA;    // we drive this into DUT from slave model
+    logic [31:0]  PRDATA;    // Driven into DUT by APB slave model
 
-    // pre-CDC APB signals tapped from Bridge_Top internals (HCLK domain)
-    // safe to sample with HCLK clocking block - no CDC risk here
+    // APB intent tapped before CDC (HCLK domain)
+    // Sample with HCLK CB to avoid CDC sampling ambiguity
     logic         PENABLE_HCLK;
     logic         PWRITE_HCLK;
     logic [2:0]   PSELX_HCLK;
@@ -65,7 +65,7 @@ interface intf (input logic hclk, input logic pclk);
         input  PRDATA;
     endclocking
 
-    // HCLK-domain APB monitor CB - avoids CDC timing issues
+    // HCLK-domain APB monitor CB
     clocking apb_hclk_cb @(posedge hclk);
         default input #1 output #1;
         input PENABLE_HCLK;
@@ -75,8 +75,8 @@ interface intf (input logic hclk, input logic pclk);
         input PWDATA_HCLK;
     endclocking
 
-    // APB slave modport - direct signal access, no CB
-    // slave model uses @(posedge pclk) #1 internally
+    // APB slave modport uses direct signals (no clocking block)
+    // Slave model samples with @(posedge pclk) #1
     modport APB_SLAVE (
         input  pclk,
         input  PSELX, PENABLE, PWRITE, PADDR, PWDATA,

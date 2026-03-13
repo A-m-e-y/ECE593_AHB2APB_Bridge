@@ -14,17 +14,17 @@ class sequence_item extends uvm_sequence_item;
         `uvm_field_int(HRDATA,   UVM_HEX)
     `uvm_object_utils_end
 
-    rand bit                   HRESETn;
-    rand bit [31:0]            HADDR;
-    rand bit [1:0]             HTRANS;
-    rand bit                   HWRITE;
-    rand bit [31:0]            HWDATA;
-    rand bit                   HSELAHB;
+    rand bit        HRESETn;
+    rand bit [31:0] HADDR;
+    rand bit [1:0]  HTRANS;
+    rand bit        HWRITE;
+    rand bit [31:0] HWDATA;
+    rand bit        HSELAHB;
 
-    // not randomized - driven by DUT
-    bit [31:0]                 HRDATA;
-    bit                        HREADY;
-    bit [1:0]                  HRESP;
+    // Not randomized, observed from DUT response path.
+    bit [31:0] HRDATA;
+    bit        HREADY;
+    bit [1:0]  HRESP;
 
     static int ahb_no_of_transaction;
 
@@ -32,15 +32,17 @@ class sequence_item extends uvm_sequence_item;
         super.new(name);
     endfunction
 
-    // keep reset mostly deasserted, APB-decodable addr range, bridge usually selected
-    constraint LOW_RESET     {HRESETn dist {1:=9, 0:=1};}
-    constraint WORD_ALIGN    {HADDR[1:0] == 2'b00;}
+    // Bias randomization toward active traffic in valid decode windows.
+    constraint LOW_RESET     { HRESETn dist {1 := 9, 0 := 1}; }
+    constraint WORD_ALIGN    { HADDR[1:0] == 2'b00; }
     constraint VALID_ADDRESS {
-        HADDR inside {[32'h8000_0000:32'h83FF_FFFF],
-                      [32'h8400_0000:32'h87FF_FFFF],
-                      [32'h8800_0000:32'h8BFF_FFFF]};
+        HADDR inside {
+            [32'h8000_0000:32'h83FF_FFFF],
+            [32'h8400_0000:32'h87FF_FFFF],
+            [32'h8800_0000:32'h8BFF_FFFF]
+        };
     }
-    constraint SELECT_BRIDGE {HSELAHB dist {1:=99, 0:=1};}
+    constraint SELECT_BRIDGE { HSELAHB dist {1 := 99, 0 := 1}; }
 
     function void post_randomize();
         ahb_no_of_transaction++;

@@ -14,7 +14,7 @@ VCS_FLAGS = -sverilog -full64 -ntb_opts uvm -timescale=1ns/1ps -debug_access+all
 COV_FLAGS = -cm line+cond+fsm+tgl+branch -cm_dir ./coverage.vdb
 
 # Simulation Runtime Flags
-SIM_FLAGS = +UVM_VERBOSITY=UVM_DEBUG \
+SIM_FLAGS = +UVM_VERBOSITY=UVM_MEDIUM \
             +ntb_random_seed_automatic \
             -l simulation.log
 

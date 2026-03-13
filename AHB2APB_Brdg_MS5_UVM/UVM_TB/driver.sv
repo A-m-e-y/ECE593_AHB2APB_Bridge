@@ -29,7 +29,9 @@ class ahb_driver extends uvm_driver #(sequence_item);
 
     virtual task drive_tx(sequence_item tx);
         bit valid_transfer;
+        bit expected_apb_transfer;
         valid_transfer = (tx.HTRANS == 2'b10 || tx.HTRANS == 2'b11);
+        expected_apb_transfer = valid_transfer && tx.HSELAHB && is_decodable_addr(tx.HADDR);
 
         // address phase
         @(vif.ahb_driver_cb);
@@ -40,23 +42,27 @@ class ahb_driver extends uvm_driver #(sequence_item);
         vif.ahb_driver_cb.HTRANS  <= tx.HTRANS;
         vif.ahb_driver_cb.HWRITE  <= tx.HWRITE;
 
-        // only real transfers go to scoreboard stream
-        if (valid_transfer)
+        // expected APB stream: only transfers that hit DUT decode map
+        if (expected_apb_transfer)
             drv_ap.write(tx);
 
         // data phase
         @(vif.ahb_driver_cb);
         while (!vif.ahb_driver_cb.HREADY) @(vif.ahb_driver_cb);
 
-        if (valid_transfer && tx.HWRITE)
-            vif.ahb_driver_cb.HWDATA <= tx.HWDATA;
+        if (valid_transfer) begin
+            if (tx.HWRITE)
+                vif.ahb_driver_cb.HWDATA <= tx.HWDATA;
+            else
+                vif.ahb_driver_cb.HWDATA <= 32'h0;
+        end
 
         if (valid_transfer)
             `uvm_info(get_type_name(),
-                $sformatf("Driven Tx:\n%s", tx.sprint()), UVM_MEDIUM)
+                $sformatf("Driven Tx:\n%s", tx.sprint()), UVM_DEBUG)
         else
             `uvm_info(get_type_name(),
-                $sformatf("IDLE/BUSY driven (HTRANS=%2b)", tx.HTRANS), UVM_HIGH)
+                $sformatf("IDLE/BUSY driven (HTRANS=%2b)", tx.HTRANS), UVM_DEBUG)
     endtask
 
     task reset();
@@ -69,4 +75,10 @@ class ahb_driver extends uvm_driver #(sequence_item);
         @(vif.ahb_driver_cb);
         vif.ahb_driver_cb.HRESETn <= 1;
     endtask
+
+    function bit is_decodable_addr(bit [31:0] addr);
+        return ((addr >= 32'h8000_0000 && addr <= 32'h83FF_FFFF) ||
+                (addr >= 32'h8400_0000 && addr <= 32'h87FF_FFFF) ||
+                (addr >= 32'h8800_0000 && addr <= 32'h8BFF_FFFF));
+    endfunction
 endclass

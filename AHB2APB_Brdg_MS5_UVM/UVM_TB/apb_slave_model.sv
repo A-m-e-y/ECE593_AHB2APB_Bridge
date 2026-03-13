@@ -115,7 +115,7 @@ class apb_slave_model extends uvm_component;
 
         if (!ahb_exp_fifo.try_get(ahb_exp))
             return;
-        handle_txn(pselx, pwrite, paddr, pwdata);
+        handle_txn(pselx, pwrite, paddr, pwdata, ahb_exp);
 
         last_apb_valid = 1;
         last_apb_write = pwrite;
@@ -123,7 +123,7 @@ class apb_slave_model extends uvm_component;
         last_apb_wdata = pwdata;
     endtask
 
-    task handle_txn(bit [2:0] pselx, bit pwrite, bit [31:0] paddr, bit [31:0] pwdata);
+    task handle_txn(bit [2:0] pselx, bit pwrite, bit [31:0] paddr, bit [31:0] pwdata, sequence_item ahb_exp);
         apb_transaction tx;
 
         if (!valid_addr(paddr)) begin
@@ -152,21 +152,24 @@ class apb_slave_model extends uvm_component;
             tx.PRDATA = 32'h0;
             `uvm_info("SLAVE",
                 $sformatf("WRITE PSELX=3'b%03b PADDR=0x%08h PWDATA=0x%08h",
-                pselx, paddr, pwdata), UVM_MEDIUM)
+                pselx, paddr, pwdata), UVM_DEBUG)
         end else begin
-            tx.PRDATA = mem.exists(paddr) ? mem[paddr] : 32'hDEAD_BEEF;
+            mem[paddr] = ahb_exp.HRDATA;
+            tx.PRDATA = ahb_exp.HRDATA;
             full_vif.PRDATA = tx.PRDATA;
             read_count++;
             `uvm_info("SLAVE",
-                $sformatf("READ  PSELX=3'b%03b PADDR=0x%08h PRDATA=0x%08h",
-                pselx, paddr, tx.PRDATA), UVM_MEDIUM)
+                $sformatf("READ  PSELX=3'b%03b PADDR=0x%08h PRDATA=0x%08h EXP=0x%08h",
+                pselx, paddr, tx.PRDATA, ahb_exp.HRDATA), UVM_DEBUG)
         end
 
         ap_port.write(tx);
     endtask
 
     function bit valid_addr(bit [31:0] addr);
-        return (addr >= 32'h8000_0000 && addr <= 32'h8BFF_FFFF);
+        return ((addr >= 32'h8000_0000 && addr <= 32'h83FF_FFFF) ||
+                (addr >= 32'h8400_0000 && addr <= 32'h87FF_FFFF) ||
+                (addr >= 32'h8800_0000 && addr <= 32'h8BFF_FFFF));
     endfunction
 
     function bit is_onehot(bit [2:0] pselx);

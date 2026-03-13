@@ -37,6 +37,7 @@ class ahb_apb_scoreboard extends uvm_component;
         copy = sequence_item::type_id::create("ahb_copy");
         copy.HADDR  = tx.HADDR;
         copy.HWDATA = tx.HWDATA;
+        copy.HRDATA = tx.HRDATA;
         copy.HWRITE = tx.HWRITE;
         copy.HTRANS = tx.HTRANS;
         ahb_queue.push_back(copy);
@@ -107,10 +108,17 @@ class ahb_apb_scoreboard extends uvm_component;
                 "DATA MISMATCH: AHB HWDATA=0x%08h APB PWDATA=0x%08h (PADDR=0x%08h)",
                 ahb_tx.HWDATA, apb_tx.PWDATA, apb_tx.PADDR))
         end
+        if (!apb_tx.PWRITE && (ahb_tx.HRDATA !== apb_tx.PRDATA)) begin
+            data_mismatches++;
+            `uvm_error("SCB", $sformatf(
+                "READ DATA MISMATCH: EXP HRDATA=0x%08h APB PRDATA=0x%08h (PADDR=0x%08h)",
+                ahb_tx.HRDATA, apb_tx.PRDATA, apb_tx.PADDR))
+        end
 
         if (ahb_tx.HADDR === apb_tx.PADDR &&
             ahb_tx.HWRITE === apb_tx.PWRITE &&
-            (!apb_tx.PWRITE || (ahb_tx.HWDATA === apb_tx.PWDATA))) begin
+            (apb_tx.PWRITE ? (ahb_tx.HWDATA === apb_tx.PWDATA)
+                           : (ahb_tx.HRDATA === apb_tx.PRDATA))) begin
             if (apb_tx.PWRITE)
                 `uvm_info("SCB", $sformatf(
                     "[APB write] PADDR=0x%08h PWDATA=0x%08h - addr/data OK",

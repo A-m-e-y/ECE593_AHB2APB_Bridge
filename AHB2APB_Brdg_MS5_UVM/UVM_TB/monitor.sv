@@ -54,11 +54,15 @@ class ahb_monitor extends uvm_monitor;
             end else begin
                 // waiting for data phase - fires when bridge re-asserts HREADY
                 if (mon_intf.ahb_monitor_cb.HREADY) begin
+                    tx.HREADY = mon_intf.ahb_monitor_cb.HREADY;
+                    tx.HRESP  = mon_intf.ahb_monitor_cb.HRESP;
                     if (tx.HWRITE)
                         tx.HWDATA = mon_intf.ahb_monitor_cb.HWDATA;
+                    else
+                        tx.HRDATA = mon_intf.ahb_monitor_cb.HRDATA;
 
                     `uvm_info(get_type_name(),
-                        $sformatf("AHB monitor captured TX:\n%s", tx.sprint()), UVM_MEDIUM)
+                        $sformatf("AHB monitor captured TX:\n%s", tx.sprint()), UVM_DEBUG)
                     ap_port.write(tx);
                     awaiting_data = 0;
                 end

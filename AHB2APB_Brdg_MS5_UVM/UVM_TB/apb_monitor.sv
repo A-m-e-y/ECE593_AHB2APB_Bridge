@@ -43,7 +43,7 @@ class apb_monitor extends uvm_monitor;
                         tx.PRDATA = 32'h0;
                         `uvm_info(get_type_name(),
                             $sformatf("APB monitor captured TX:\n%s", tx.sprint()),
-                            UVM_MEDIUM)
+                            UVM_DEBUG)
                         ap_port.write(tx);
                         last_paddr = paddr;
                     end

@@ -11,6 +11,7 @@ class sequence_item extends uvm_sequence_item;
         `uvm_field_int(HWDATA,   UVM_HEX)
         `uvm_field_int(HSELAHB,  UVM_DEFAULT)
         `uvm_field_int(HREADY,   UVM_DEFAULT)
+        `uvm_field_int(HRDATA,   UVM_HEX)
     `uvm_object_utils_end
 
     rand bit                   HRESETn;
@@ -31,15 +32,20 @@ class sequence_item extends uvm_sequence_item;
         super.new(name);
     endfunction
 
-    // keep reset mostly deasserted, address in valid APB range, bridge usually selected
+    // keep reset mostly deasserted, APB-decodable addr range, bridge usually selected
     constraint LOW_RESET     {HRESETn dist {1:=9, 0:=1};}
-    constraint VALID_ADDRESS {HADDR inside {[32'h8000_0000:32'h8BFF_FFFF]};}
+    constraint WORD_ALIGN    {HADDR[1:0] == 2'b00;}
+    constraint VALID_ADDRESS {
+        HADDR inside {[32'h8000_0000:32'h83FF_FFFF],
+                      [32'h8400_0000:32'h87FF_FFFF],
+                      [32'h8800_0000:32'h8BFF_FFFF]};
+    }
     constraint SELECT_BRIDGE {HSELAHB dist {1:=99, 0:=1};}
 
     function void post_randomize();
         ahb_no_of_transaction++;
         `uvm_info("AHB_SEQUENCE_ITEM", $sformatf("Transaction [%0d]: %s",
-            ahb_no_of_transaction, this.sprint()), UVM_MEDIUM)
+            ahb_no_of_transaction, this.sprint()), UVM_DEBUG)
     endfunction
 
 endclass

@@ -23,8 +23,8 @@ FILELIST = vcs-filelist.f
 
 # Executable
 SIM = simv
-TEST = ahb_apb_burst_write_test
-#BUG=BUG_Slave_Err
+TEST = ahb_apb_full_final_test
+# BUG=BUG_Slave_Err
 
 # Targets
 .PHONY: all compile sim clean help cov

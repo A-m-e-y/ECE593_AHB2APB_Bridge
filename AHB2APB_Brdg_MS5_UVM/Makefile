@@ -30,19 +30,30 @@ TEST = ahb_apb_full_final_test
 # Targets
 .PHONY: all compile sim clean help cov
 
+
+# Bug Injection 
+data_bug:
+	$(MAKE) clean
+	$(MAKE) BUG=BUG_Wr_Data_Corrupt all
+
+slave_err:
+	$(MAKE) clean
+	$(MAKE) BUG=BUG_Slave_Err all
+
 all: compile sim
 
 compile:
 	@echo "========================================"
 	@echo "  Compiling AHB2APB Bridge UVM Testbench"
+	@echo "  Injected BUG: $(BUG)"
 	@echo "========================================"
-	$(VCS) $(VCS_FLAGS) $(COV_FLAGS) +define+$(BUG) -f $(FILELIST) $(DPI_C_SRC) -l compile.log
+	$(VCS) $(VCS_FLAGS) $(COV_FLAGS) $(if $(BUG),+define+$(BUG),) -f $(FILELIST) $(DPI_C_SRC) -l compile.log
 	@echo "Compilation complete - check compile.log"
 	@echo ""
 
 sim:
 	@echo "========================================"
-	@echo "  Running UVM Tests"
+	@echo "  Running UVM $(TEST)"
 	@echo "========================================"
 	./$(SIM) +UVM_TESTNAME=$(TEST) $(SIM_FLAGS) $(COV_FLAGS)
 	@echo ""

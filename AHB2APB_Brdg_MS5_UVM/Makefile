@@ -4,8 +4,8 @@
 VCS = vcs
 
 #UVM Settings
-UVM_HOME ?= $(VCS_HOME)/etc/uvm
-UVM_VER = uvm-1.2
+#UVM_HOME ?= $(VCS_HOME)/etc/uvm
+#UVM_VER = uvm-1.2
 
 #VCS COMPILE FLAGS
 VCS_FLAGS = -sverilog -full64 -ntb_opts uvm -timescale=1ns/1ps -debug_access+all +v2k -l compile.log -LDFLAGS -Wl,--no-as-needed
@@ -24,21 +24,21 @@ DPI_C_SRC = ./UVM_TB/dpi_ascii_banner.c
 
 # Executable
 SIM = simv
-TEST = ahb_apb_full_final_test
-# BUG=BUG_Slave_Err
+TEST = ahb_apb_single_write_test
+#BUG=BUG_Slave_Err
 
 # Targets
-.PHONY: all compile sim clean help cov
+.PHONY: all compile sim clean help cov data_bug slave_err
 
 
 # Bug Injection 
 data_bug:
 	$(MAKE) clean
-	$(MAKE) BUG=BUG_Wr_Data_Corrupt all
+	$(MAKE) all BUG=BUG_Wr_Data_Corrupt
 
 slave_err:
 	$(MAKE) clean
-	$(MAKE) BUG=BUG_Slave_Err all
+	$(MAKE) all BUG=BUG_Slave_Err
 
 all: compile sim
 

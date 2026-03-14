@@ -227,7 +227,9 @@ always @(*)
 				 Penable_temp=0;
 				 Hreadyout_temp=1;	
 			    end
-
+				`ifdef BUG_Slave_Err
+					tempselx = 3'bxxx;
+				`endif
 		       end
 
 	ST_WENABLEP:begin

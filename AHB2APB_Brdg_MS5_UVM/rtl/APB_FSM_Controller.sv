@@ -175,7 +175,9 @@ always @(*)
 				Penable_temp=0;
 				Hreadyout_temp=0;		   
 			   end
-			   
+			   `ifdef BUG_Wr_Data_Corrupt
+					Pwdata_temp = 32'hDEAD_BEEF;
+			   `endif
 		     end
 
 	ST_READ: begin:READ_TO_RENABLE

@@ -75,7 +75,7 @@ cov:
 
 clean:
 	@echo "Cleaning up..."
-	rm -rf csrc $(SIM)* *.log *.vcd *.vpd ucli.key DVEfiles coverage.vdb coverage_report AN.DB
+	rm -rf csrc $(SIM)* *.log *.vcd *.vpd ucli.key coverage.vdb AN.DB
 
 help:
 	@echo "============================================================"

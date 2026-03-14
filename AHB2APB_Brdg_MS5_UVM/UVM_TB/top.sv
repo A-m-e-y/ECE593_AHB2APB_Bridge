@@ -52,6 +52,8 @@ module tb_top();
     assign vif.PSELX_HCLK   = DUT.Pselx_hclk;
     assign vif.PADDR_HCLK   = DUT.Paddr_hclk;
     assign vif.PWDATA_HCLK  = DUT.Pwdata_hclk;
+    assign vif.FSM_STATE_HCLK = DUT.APBControl.PRESENT_STATE;
+    assign vif.VALID_HCLK     = DUT.valid;
 
     initial begin
         uvm_config_db#(virtual intf.AHB_DRIVER)::set(null, "*", "vif", vif);

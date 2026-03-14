@@ -28,6 +28,8 @@ interface intf (input logic hclk, input logic pclk);
     logic [2:0]   PSELX_HCLK;
     logic [31:0]  PADDR_HCLK;
     logic [31:0]  PWDATA_HCLK;
+    logic [2:0]   FSM_STATE_HCLK;
+    logic         VALID_HCLK;
 
     clocking ahb_driver_cb @(posedge hclk);
         default input #1 output #1;

@@ -55,6 +55,10 @@ class ahb_apb_base_test extends uvm_test;
         print_ascii_art("ECE - 593");
     endfunction
 
+    function void end_of_elaboration_phase (uvm_phase phase);
+         uvm_top.print_topology();
+    endfunction
+
     function void final_phase(uvm_phase phase);
         super.final_phase(phase);
         if (info_log_fd)

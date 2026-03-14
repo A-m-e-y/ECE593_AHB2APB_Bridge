@@ -21,7 +21,6 @@ class ahb_apb_env extends uvm_env;
     endfunction
 
     function void connect_phase(uvm_phase phase);
-        uvm_top.print_topology();
         // Expected stream comes from driver output.
         ahb_agent_h.drv_ap.connect(scb.ahb_export);
         ahb_agent_h.drv_ap.connect(apb_slave.ahb_exp_fifo.analysis_export);

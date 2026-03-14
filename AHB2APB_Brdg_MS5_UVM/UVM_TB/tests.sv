@@ -5,7 +5,9 @@ class ahb_apb_base_test extends uvm_test;
 
     bit agent_enabled;
     bit scoreboard_enabled;
-    int log_fd;
+    UVM_FILE info_log_fd;
+    UVM_FILE warn_log_fd;
+    UVM_FILE error_log_fd;
     ahb_apb_env env;
 
     function new(string name = "ahb_apb_base_test", uvm_component parent = null);
@@ -13,6 +15,8 @@ class ahb_apb_base_test extends uvm_test;
     endfunction
 
     function void build_phase(uvm_phase phase);
+        uvm_root root;
+
         super.build_phase(phase);
         `uvm_info("BASE_TEST", "Inside build_phase", UVM_DEBUG)
 
@@ -21,13 +25,24 @@ class ahb_apb_base_test extends uvm_test;
 
         env = ahb_apb_env::type_id::create("env", this);
 
-        // Mirror UVM reports to a file for post-run debug.
-        log_fd = $fopen("uvm_log.txt", "w");
+        // Use built-in UVM report routing with one file per severity.
+        info_log_fd  = $fopen("uvm_info.log", "w");
+        warn_log_fd  = $fopen("uvm_warning.log", "w");
+        error_log_fd = $fopen("uvm_error.log", "w");
 
-        if (log_fd == 0)
-            `uvm_fatal("LOGFILE", "Failed to open log file!")
+        if ((info_log_fd == 0) || (warn_log_fd == 0) || (error_log_fd == 0))
+            `uvm_fatal("LOGFILE", "Failed to open one or more UVM log files")
 
-        uvm_root::get().set_report_default_file(log_fd);
+        root = uvm_root::get();
+        root.set_report_severity_action_hier(UVM_INFO,    UVM_DISPLAY | UVM_LOG);
+        root.set_report_severity_action_hier(UVM_WARNING, UVM_DISPLAY | UVM_LOG | UVM_COUNT);
+        root.set_report_severity_action_hier(UVM_ERROR,   UVM_DISPLAY | UVM_LOG | UVM_COUNT);
+        root.set_report_severity_action_hier(UVM_FATAL,   UVM_DISPLAY | UVM_LOG | UVM_EXIT);
+
+        root.set_report_severity_file_hier(UVM_INFO,    info_log_fd);
+        root.set_report_severity_file_hier(UVM_WARNING, warn_log_fd);
+        root.set_report_severity_file_hier(UVM_ERROR,   error_log_fd);
+        root.set_report_severity_file_hier(UVM_FATAL,   error_log_fd);
     endfunction
 
     function void print_ascii_art(string msg);
@@ -42,8 +57,12 @@ class ahb_apb_base_test extends uvm_test;
 
     function void final_phase(uvm_phase phase);
         super.final_phase(phase);
-        if (log_fd)
-            $fclose(log_fd);
+        if (info_log_fd)
+            $fclose(info_log_fd);
+        if (warn_log_fd)
+            $fclose(warn_log_fd);
+        if (error_log_fd)
+            $fclose(error_log_fd);
     endfunction
 endclass
 

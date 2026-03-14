@@ -159,8 +159,8 @@ always @(*)
 				Pselx_temp=tempselx;
 				Penable_temp=0;
 				Pwdata_temp=Hwdata;
-				`ifdef BUG3_Wr_Data_Corrupt
-					Pwdata_temp = Hwdata ^ 32'h1;
+				`ifdef BUG_Wr_Data_Corrupt
+					Pwdata_temp = 32'hDEAD_BEEF;
 				`endif
 				Hreadyout_temp=0;
 			   end
